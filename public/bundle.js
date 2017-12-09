@@ -18315,7 +18315,7 @@ var App = function (_Component) {
           _react2.default.createElement(
             "h1",
             { className: "App-title" },
-            "Test test"
+            "CryptoTracker Whatup"
           )
         ),
         _react2.default.createElement(
