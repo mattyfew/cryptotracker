@@ -18324,6 +18324,8 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = __webpack_require__(82);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18342,23 +18344,62 @@ var App = function (_Component) {
     }
 
     _createClass(App, [{
-        key: "render",
+        key: 'render',
         value: function render() {
             var children = _react2.default.cloneElement(this.props.children);
 
             return _react2.default.createElement(
-                "div",
-                { className: "App" },
+                'div',
+                { className: 'app-container' },
                 _react2.default.createElement(
-                    "header",
-                    { className: "App-header" },
+                    'header',
+                    { id: 'nav-container' },
                     _react2.default.createElement(
-                        "h1",
-                        { className: "App-title" },
-                        "CryptoTracker Whatup"
+                        'nav',
+                        { className: 'bar' },
+                        _react2.default.createElement(
+                            _reactRouter.Link,
+                            { to: '/' },
+                            _react2.default.createElement('img', { id: 'nav-logo', src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/500px-Bitcoin.svg.png', alt: 'logo' })
+                        ),
+                        _react2.default.createElement(
+                            'ul',
+                            null,
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/login' },
+                                    'Login w/ MetaMask'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/accounts' },
+                                    'Accounts'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/prices' },
+                                    'Prices'
+                                )
+                            )
+                        )
                     )
                 ),
-                children
+                _react2.default.createElement(
+                    'main',
+                    null,
+                    children
+                )
             );
         }
     }]);
