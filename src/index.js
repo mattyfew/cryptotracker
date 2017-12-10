@@ -11,8 +11,7 @@ import App from './App'
 import Welcome from './Welcome'
 import Login from './Login'
 import Accounts from './Accounts'
-
-
+import Prices from './Prices'
 
 const router = (
     <Router history={ browserHistory }>
@@ -20,6 +19,7 @@ const router = (
             <IndexRoute component={Welcome} />
             <Route path="login" component={Login} />
             <Route path="accounts" component={Accounts} />
+            <Route path="prices" component={Prices} />
          </Route>
     </Router>
 
