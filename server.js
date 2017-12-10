@@ -5,6 +5,9 @@ const path = require('path')
 
 app.use(express.static('public'))
 
+app.use(require('./routers/login'))
+app.use(require('./routers/exchanges'))
+
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 })
