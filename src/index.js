@@ -9,12 +9,17 @@ import reducers from './reducers'
 
 import App from './App'
 import Welcome from './Welcome'
+import Login from './Login'
+import Accounts from './Accounts'
+
 
 
 const router = (
     <Router history={ browserHistory }>
         <Route path="/" component={App}>
             <IndexRoute component={Welcome} />
+            <Route path="login" component={Login} />
+            <Route path="accounts" component={Accounts} />
          </Route>
     </Router>
 

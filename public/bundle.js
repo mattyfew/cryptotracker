@@ -970,6 +970,14 @@ var _Welcome = __webpack_require__(106);
 
 var _Welcome2 = _interopRequireDefault(_Welcome);
 
+var _Login = __webpack_require__(156);
+
+var _Login2 = _interopRequireDefault(_Login);
+
+var _Accounts = __webpack_require__(157);
+
+var _Accounts2 = _interopRequireDefault(_Accounts);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _react2.default.createElement(
@@ -978,7 +986,9 @@ var router = _react2.default.createElement(
     _react2.default.createElement(
         _reactRouter.Route,
         { path: '/', component: _App2.default },
-        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Welcome2.default })
+        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Welcome2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'accounts', component: _Accounts2.default })
     )
 );
 
@@ -27730,6 +27740,114 @@ var replaceLocation = exports.replaceLocation = function replaceLocation(locatio
   });
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Login = function (_Component) {
+    _inherits(Login, _Component);
+
+    function Login() {
+        _classCallCheck(this, Login);
+
+        return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).apply(this, arguments));
+    }
+
+    _createClass(Login, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'MetaMask logic will probably go in this component'
+                )
+            );
+        }
+    }]);
+
+    return Login;
+}(_react.Component);
+
+exports.default = Login;
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Accounts = function (_Component) {
+    _inherits(Accounts, _Component);
+
+    function Accounts() {
+        _classCallCheck(this, Accounts);
+
+        return _possibleConstructorReturn(this, (Accounts.__proto__ || Object.getPrototypeOf(Accounts)).apply(this, arguments));
+    }
+
+    _createClass(Accounts, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Linking up exchanges to accounts will go here'
+                )
+            );
+        }
+    }]);
+
+    return Accounts;
+}(_react.Component);
+
+exports.default = Accounts;
 
 /***/ })
 /******/ ]);
