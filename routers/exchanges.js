@@ -13,12 +13,10 @@ router.post('/add-new-exchange', (req, res) => {
         customerId: req.body.customerId
     })
 
-    console.log("new exchange: ", exchange)
-
     exchange.save(( err, newExchange ) => {
         if (err) console.error(err)
 
-        console.log("it worked????", newExchange)
+        console.log("New exchange added to DB", newExchange)
 
         res.json({
             success: true,
