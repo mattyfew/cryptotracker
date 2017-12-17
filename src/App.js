@@ -6,7 +6,6 @@ class App extends Component {
         super(props)
     }
 
-
     render() {
         const children = React.cloneElement(this.props.children)
 

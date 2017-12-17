@@ -2,11 +2,14 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const path = require('path')
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
 mongoose.connect('mongodb://localhost:27017/cryptotracker')
 
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: false}))
+app.use(bodyParser.json())
 
 app.use(require('./routers/login'))
 app.use(require('./routers/exchanges'))
