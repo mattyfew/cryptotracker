@@ -952,7 +952,7 @@ var _App = __webpack_require__(27);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _registerServiceWorker = __webpack_require__(28);
+var _registerServiceWorker = __webpack_require__(29);
 
 var _registerServiceWorker2 = _interopRequireDefault(_registerServiceWorker);
 
@@ -18286,6 +18286,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Login = __webpack_require__(28);
+
+var _Login2 = _interopRequireDefault(_Login);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18304,31 +18308,32 @@ var App = function (_Component) {
   }
 
   _createClass(App, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { className: "App" },
+        'div',
+        { className: 'App' },
         _react2.default.createElement(
-          "header",
-          { className: "App-header" },
+          'header',
+          { className: 'App-header' },
           _react2.default.createElement(
-            "h1",
-            { className: "App-title" },
-            "CryptoTracker Whatup"
+            'h1',
+            { className: 'App-title' },
+            'CryptoTracker Whatup'
           )
         ),
         _react2.default.createElement(
-          "p",
-          { className: "App-intro" },
-          "To get started, edit ",
+          'p',
+          { className: 'App-intro' },
+          'To get started, edit ',
           _react2.default.createElement(
-            "code",
+            'code',
             null,
-            "src/App.js"
+            'src/App.js'
           ),
-          " and save to reload."
-        )
+          ' and save to reload.'
+        ),
+        _react2.default.createElement(_Login2.default, null)
       );
     }
   }]);
@@ -18340,6 +18345,80 @@ exports.default = App;
 
 /***/ }),
 /* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Login = function (_Component) {
+  _inherits(Login, _Component);
+
+  function Login() {
+    _classCallCheck(this, Login);
+
+    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).apply(this, arguments));
+  }
+
+  _createClass(Login, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      console.log('COMPONENT DID MOUNT');
+      console.log(window.web3);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      // var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+      var content = void 0;
+      // check for web3 provider
+      if (typeof window.web3 !== 'undefined') {
+        var ethereumProvider = web3.currentProvider;
+        content = _react2.default.createElement(
+          'div',
+          null,
+          'You have Metamask as a web3 provider!'
+        );
+      } else {
+        content = _react2.default.createElement(
+          'div',
+          null,
+          'Please install Metamask or another web3 enabled browser'
+        );
+      }
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        content
+      );
+    }
+  }]);
+
+  return Login;
+}(_react.Component);
+
+exports.default = Login;
+
+/***/ }),
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
