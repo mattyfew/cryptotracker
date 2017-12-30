@@ -1,9 +1,8 @@
 import React, {Component } from 'react'
 
-export default class Login extends Component {
+export default class LoginScreen extends Component {
 
   componentDidMount() {
-    console.log('COMPONENT DID MOUNT')
     console.log(window.web3)
   }
   render () {
