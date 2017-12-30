@@ -1,7 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import reduxPromise from 'redux-promise'
+import reducers from './reducers'
+
+import App from './App'
+import Welcome from './Welcome'
+import Login from './Login'
+import Accounts from './Accounts'
+import Prices from './Prices'
+
+const router = (
+    <Router history={ browserHistory }>
+        <Route path="/" component={App}>
+            <IndexRoute component={Welcome} />
+            <Route path="login" component={Login} />
+            <Route path="accounts" component={Accounts} />
+            <Route path="prices" component={Prices} />
+         </Route>
+    </Router>
+
+)
+
+ReactDOM.render(router, document.getElementById('root'));
