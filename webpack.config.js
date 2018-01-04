@@ -4,7 +4,7 @@ const DIST_DIR = path.resolve(__dirname, 'dist')
 const SRC_DIR = path.resolve(__dirname, 'src')
 
 const config = {
-    entry: './src/index.js',
+    entry: ['babel-polyfill', './src/index.js'],
 
     output: {
         filename: 'bundle.js',

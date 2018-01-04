@@ -1,9 +1,24 @@
 import * as type from '../actions/types';
 
-export default (state = {}, action) => {
+const initialState = {
+  user: null
+}
+
+export default (state = initialState, action) => {
+
+  let updated = Object.assign({}, state)
+
     switch (action.type) {
-    case type.AUTH_USER:
+
+      case type.AUTH_USER:
         return { ...state, error: '', authenticated: true }
 
-    return state;
+      case type.LOGIN:
+        console.log('REDUCER LOGIN')
+        updated['user'] = action.user
+        return updated
+
+      default:
+        return state
+    }
 }

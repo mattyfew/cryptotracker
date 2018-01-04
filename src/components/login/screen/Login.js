@@ -1,11 +1,15 @@
 import React, {Component } from 'react'
+import { connect } from 'react-redux'
+import actions from '../../../actions'
 
-export default class LoginScreen extends Component {
 
+class LoginScreen extends Component {
   componentDidMount() {
-    console.log(window.web3)
+    this.props.login()
   }
+
   render () {
+    console.log(this.props)
     // var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
     let content
     // check for web3 provider
@@ -23,3 +27,17 @@ export default class LoginScreen extends Component {
     )
   }
 }
+
+const stateToProps = (state) => {
+  return {
+    user: state.auth
+  }
+}
+
+const dispatchToProps = (dispatch) => {
+  return {
+    login: () => dispatch(actions.login())
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(LoginScreen)
