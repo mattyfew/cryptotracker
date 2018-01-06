@@ -26,7 +26,7 @@ router.post('/add-new-exchange', (req, res) => {
     })
 })
 
-router.get('/exchange-info', (req, res) => {
+router.get('/get-exchange-info', (req, res) => {
     Exchange.findOne({ _id: '5a510180803346867f41a836' }, (err, exchangeInfo) => {
         if (err) console.log(err)
 

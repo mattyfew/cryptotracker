@@ -20,7 +20,7 @@ class Accounts extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(getExchangeInfo)
+        this.props.getExchangeInfo()
     }
 
     handleChange(e) {
@@ -100,7 +100,9 @@ const styles = {
 }
 
 function mapStateToProps(state) {
-    return {}
+    return {
+        exchangeInfo: 'just a test'
+    }
 }
 
-export default connect(mapStateToProps)(Accounts)
+export default connect(mapStateToProps, { getExchangeInfo })(Accounts)

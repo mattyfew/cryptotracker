@@ -7,16 +7,13 @@ export function getExchangeInfo() {
     //will need to add logged in user credentials
     console.log("running action getExchangeInfo")
 
-    // axios.get('/get-exchange-info')
-    // .then( res => {
-    //     console.log("results: ", res);
-    //
-    //     return {
-    //         type: GET_EXCHANGE_INFO,
-    //         payload: res
-    //     }
-    // })
+    return axios.get('/get-exchange-info')
+        .then( res => {
+            console.log("results: ", res);
 
-    return {} 
-
+            return {
+                type: GET_EXCHANGE_INFO,
+                payload: res
+            }
+        })
 }
