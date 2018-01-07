@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { getExchangeInfo } from './actions'
+import { getExchangeInfo } from './actions';
+import Exchange from './Exchange'
 
 
 class Accounts extends Component {
@@ -39,7 +40,17 @@ class Accounts extends Component {
             .catch(err => console.log("there was an error in POST /add-new-exchange", err) )
     }
 
-
+    renderExchanges() {
+        // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
+        if (!this.props.exchangeInfo) {
+            return null
+        }
+        return this.props.exchanges.map(exchangeInfo => {
+            return (
+                <Exchange exchange={ exchangeInfo } />
+            )
+        })
+    }
 
     render() {
         return (
@@ -49,6 +60,8 @@ class Accounts extends Component {
 
                     <div>
                         Exchanges will be rendered here
+
+                        { this.renderExchanges() }
                     </div>
                 </section>
 
@@ -78,10 +91,14 @@ class Accounts extends Component {
 const styles = {
     showExchanges: {
         border: '2px solid red',
-        margin: '25px 0'
+        margin: '25px',
+        padding: '30px'
+
     },
     linkExchanges: {
-        border: '2px solid blue'
+        border: '2px solid blue',
+        margin: '0 25px',
+        padding: '30px'
     },
     formStyles: {
         display: 'flex',
