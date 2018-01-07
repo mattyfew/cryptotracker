@@ -27,17 +27,44 @@ router.post('/add-new-exchange', (req, res) => {
 })
 
 router.get('/get-exchange-info', (req, res) => {
+    // CODE DEBT: need to change this to read from the logged in userId
     Exchange.findOne({ _id: '5a510180803346867f41a836' }, (err, exchangeInfo) => {
         if (err) console.log(err)
 
-        console.log("the exchange info i got back is: ", exchangeInfo)
+        // console.log("Results from /get-exchange-info mongo query: ", exchangeInfo)
 
-        res.json({
-            success: true,
-            exchangeInfo
+
+        // CODE DEBT: Need to organize how to query each API. Should it be client-side?
+        getBinanceInfo(exchangeInfo.key, exchangeInfo.secret)
+            .then( binanceBalances => {
+                console.log(binanceBalances);
+                res.json({
+                    success: true,
+                    exchangeInfo: {
+                        binance: binanceBalances
+                    }
+                })
+            })
+    })
+})
+
+function getBinanceInfo(apiKey, apiSecret){
+    return new Promise((resolve, reject) => {
+        binance.options({
+            'APIKEY': apiKey,
+            'APISECRET': apiSecret,
+            'recvWindow': 60000
         })
 
+        binance.balance( balances => resolve(balances))
     })
+}
+
+
+router.get('/get-binance-info', (req, res) => {
+    console.log("GET /get-binance-info")
+
+
 })
 
 module.exports = router

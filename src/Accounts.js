@@ -100,8 +100,9 @@ const styles = {
 }
 
 function mapStateToProps(state) {
+    // CODE DEBT: Might need to refactor this exchanges.exchanges (also in reducer index)
     return {
-        exchangeInfo: 'just a test'
+        exchanges: state.exchanges.exchanges
     }
 }
 
