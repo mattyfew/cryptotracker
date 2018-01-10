@@ -4,7 +4,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "server.js",
     "build": "webpack --config webpack.config.js --watch"
   },
   "dependencies": {

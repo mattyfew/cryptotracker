@@ -4,35 +4,44 @@ import { web3Manager } from '../utils'
 
 const ROOT_URL = 'http://localhost:8080'
 
-// export function getAccounts() {
-//     return {
-//         type: type.GET_ACCOUNTS
-//     }
-// }
-
-export default{
-  getAccounts: () => {
-
-  },
-
-  login: async () => {
-    console.log('IN ACTION LOGIN')
+const login = () => {
+  return (dispatch, getState) => {
     web3Manager.getWeb3()
     .then((web3) => {
       web3Manager.signString('hello test test', web3)
-    })
-    .then((result) => {
-      // console.log('RESULT SIGN STRING: ', result)
-    })
-
-    // const test = await web3Manager.getWeb3()
-    return (dispatch) => {
-      //sign random string login here
-      dispatch({
-        type: type.LOGIN,
-        user: 'test natascha user'
+      .then((response) => {
+        dispatch({
+          type: type.LOGIN,
+          address: response.account
+        })
+        return dispatch(verifySignature(response.sig))
       })
-    }
+    })
+    .catch((err) => {
+      console.log('ERROR ACTION LOGIN: ', err)
+    })
   }
+}
 
+const verifySignature = (signature) => {
+  return (dispatch, getState) => {
+    web3Manager.getWeb3()
+    .then((web3) => {
+      return web3Manager.verifySignature(signature, 'hello test test')
+    })
+    .then((res) => {
+      dispatch({
+        type: type.VERIFY_SIGNATURE,
+        addressSignature: res
+      })
+    })
+    .catch((err) => {
+      console.log('ERROR IN VERIY SIGNATURE: ', err)
+    })
+  }
+}
+
+export default {
+  login,
+  verifySignature
 }

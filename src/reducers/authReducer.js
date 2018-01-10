@@ -1,7 +1,8 @@
 import * as type from '../actions/types';
 
 const initialState = {
-  user: null
+  addressUser: '',
+  addressSignature: ''
 }
 
 export default (state = initialState, action) => {
@@ -14,8 +15,11 @@ export default (state = initialState, action) => {
         return { ...state, error: '', authenticated: true }
 
       case type.LOGIN:
-        console.log('REDUCER LOGIN')
-        updated['user'] = action.user
+        updated['addressUser'] = action.address
+        return updated
+
+      case type.VERIFY_SIGNATURE:
+        updated['addressSignature'] = action.addressSignature
         return updated
 
       default:

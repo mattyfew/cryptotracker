@@ -8,21 +8,29 @@ class LoginScreen extends Component {
     this.props.login()
   }
 
+  checkAuthentication() {
+    const auth = this.props.auth
+    if(auth.addressUser !== '' && auth.addressUser.toUpperCase() === auth.addressSignature.toUpperCase()) {
+      return `You are authenticated as ${auth.addressUser}`
+    } else {
+      return `you are not authenticated. Please check your credentials.`
+    }
+  }
+
   render () {
-    console.log(this.props)
-    // var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+    const {auth} = this.props
     let content
-    // check for web3 provider
     if (typeof window.web3 !== 'undefined') {
       const ethereumProvider = web3.currentProvider
       content = <div>You have Metamask as a web3 provider!</div>
     } else {
       content = <div>Please install Metamask or another web3 enabled browser</div>
     }
-
+    const authenticated = this.checkAuthentication()
     return (
       <div>
-        {content}
+        <div>{content}</div>
+        <div>{authenticated}</div>
       </div>
     )
   }
@@ -30,13 +38,14 @@ class LoginScreen extends Component {
 
 const stateToProps = (state) => {
   return {
-    user: state.auth
+    auth: state.auth
   }
 }
 
 const dispatchToProps = (dispatch) => {
   return {
-    login: () => dispatch(actions.login())
+    login: () => dispatch(actions.login()),
+    verifySignature: () => dispatch(actions.verifySignature())
   }
 }
 
