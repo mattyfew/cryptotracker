@@ -4,7 +4,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "server": "server.js",
+    "server": "nodemon server.js",
     "build": "webpack --config webpack.config.js --watch"
   },
   "dependencies": {
@@ -12,6 +12,7 @@
     "body-parser": "^1.18.2",
     "ethereumjs-util": "^5.1.2",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.13.6",
     "morgan": "^1.9.0",
     "npm-run-all": "^4.1.2",
