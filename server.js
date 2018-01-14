@@ -41,7 +41,7 @@ app.post('/authenticate', (req, res) => {
   } else {
     res.json({
       success: false,
-      message: 'Athentication failed'
+      message: 'Authentication failed'
     })
   }
 })

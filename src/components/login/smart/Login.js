@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import actions from '../../../actions'
 
 
+
 class LoginScreen extends Component {
   componentDidMount() {
     this.props.login()
@@ -36,17 +37,17 @@ class LoginScreen extends Component {
   }
 }
 
-const stateToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     auth: state.auth
   }
 }
 
-const dispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     login: () => dispatch(actions.login()),
     verifySignature: () => dispatch(actions.verifySignature())
   }
 }
 
-export default connect(stateToProps, dispatchToProps)(LoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

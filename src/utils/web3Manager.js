@@ -24,7 +24,7 @@ export default {
       web3.eth.getAccounts()
       .then((res) => {
         web3.currentProvider.send({
-          id: 1,
+          id: 1, // what is this?
           method: 'personal_sign',
           params: [res[0], data]
         }, function(err, result) {

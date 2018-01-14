@@ -1,13 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { authReducer } from '../reducers'
+import { authReducer, exchangeReducer } from '../reducers'
 
 var store
 
 export default {
   configureStore: () => {
     const reducers = combineReducers({
-      auth: authReducer
+      auth: authReducer,
+      exchanges: exchangeReducer
     })
 
     store = createStore(
