@@ -4,7 +4,7 @@ import axios from 'axios'
 // TODO: turn into redux thunk
 const ROOT_URL = 'http://localhost:8080'
 
-export function getExchangeInfo() {
+function getExchangeInfo() {
     //will need to add logged in user credentials
 
     return axios.get('/get-exchange-info')
@@ -14,4 +14,8 @@ export function getExchangeInfo() {
                 exchangeInfo: res.data.exchangeInfo
             }
         })
+}
+
+export default {
+  getExchangeInfo
 }

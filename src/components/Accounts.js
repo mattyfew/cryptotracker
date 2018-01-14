@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { getExchangeInfo } from './actions';
+import { ExchangeActions } from '../actions'
 import Exchange from './Exchange'
 
 
@@ -21,7 +21,7 @@ class Accounts extends Component {
     }
 
     componentDidMount() {
-        this.props.getExchangeInfo()
+        // this.props.getExchangeInfo()
     }
 
     handleChange(e) {
@@ -123,4 +123,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getExchangeInfo })(Accounts)
+export default connect(mapStateToProps)(Accounts)
+// export default connect(mapStateToProps, { getExchangeInfo })(Accounts)

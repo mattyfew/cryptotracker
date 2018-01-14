@@ -1,6 +1,6 @@
 import React, {Component } from 'react'
 import { connect } from 'react-redux'
-import actions from '../../../actions'
+import {AuthActions} from '../../../actions'
 
 
 
@@ -45,8 +45,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: () => dispatch(actions.login()),
-    verifySignature: () => dispatch(actions.verifySignature())
+    login: () => dispatch(AuthActions.login()),
+    verifySignature: () => dispatch(AuthActions.verifySignature())
   }
 }
 
