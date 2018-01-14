@@ -1,17 +1,14 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const exchangeScema = new Schema({
-    type: { type: String },
-    key: { type: String },
-    secret: { type: String },
-    customerId: { type: String }
-    // author: {
-    //     id: { type: Schema.Types.ObjectId, ref: 'User' },
-    //     username: { type: String }
-    // }
-}, { timestamps: true });
+const exchangeSchema = new Schema({
+  name: { type: String },
+  APIkey: { type: String },
+  APIsecret: { type: String },
+  customerId: { type: String },
+  referenceMongoID: { type: Schema.Types.ObjectId, ref: 'User' }
+}, { timestamps: true })
 
-const ModelClass = mongoose.model('Exchange', exchangeScema);
+const ModelClass = mongoose.model('Exchange', exchangeSchema)
 
-module.exports = ModelClass;
+module.exports = ModelClass
