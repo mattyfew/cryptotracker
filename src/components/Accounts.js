@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ExchangeActions } from '../actions'
 import Exchange from './Exchange'
 
+const { getExchangeInfo } = ExchangeActions
 
 class Accounts extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class Accounts extends Component {
     }
 
     componentDidMount() {
-        // this.props.getExchangeInfo()
+        this.props.getExchangeInfo()
     }
 
     handleChange(e) {
@@ -33,6 +34,8 @@ class Accounts extends Component {
     handleSubmit(e) {
         e.preventDefault()
 
+
+        // TODO: Need to reduxify this
         axios.post('/add-new-exchange', this.state)
             .then(res => {
                 console.log("we got something back", res)
@@ -123,5 +126,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(Accounts)
-// export default connect(mapStateToProps, { getExchangeInfo })(Accounts)
+// export default connect(mapStateToProps)(Accounts)
+export default connect(mapStateToProps, { getExchangeInfo })(Accounts)

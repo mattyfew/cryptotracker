@@ -8,14 +8,16 @@ router.post('/add-new-exchange', (req, res) => {
     console.log("about to add new exchange", req.body);
 
     let exchange = new Exchange({
-        type: req.body.exchange,
-        key: req.body.key,
-        secret: req.body.secret,
+        name: req.body.exchange,
+        APIkey: req.body.key,
+        APIsecret: req.body.secret,
         customerId: req.body.customerId || null
     })
 
+    console.log("ABOUT THOOO OOOO", exchange);
+
     exchange.save(( err, newExchange ) => {
-        if (err) console.error(err)
+        if (err) console.log("Error with saving the new exchange: ", err)
 
         console.log("New exchange added to DB", newExchange)
 
@@ -28,14 +30,11 @@ router.post('/add-new-exchange', (req, res) => {
 
 router.get('/get-exchange-info', (req, res) => {
     // CODE DEBT: need to change this to read from the logged in userId
-    Exchange.findOne({ _id: '5a510180803346867f41a836' }, (err, exchangeInfo) => {
-        if (err) console.log(err)
-
-        // console.log("Results from /get-exchange-info mongo query: ", exchangeInfo)
-
+    Exchange.findOne({ _id: '5a5e68ed5ce167091a518fa2' }, (err, exchangeInfo) => {
+        if (err) console.log("error in Exchange.findOne: ", err)
 
         // CODE DEBT: Need to organize how to query each API. Should it be client-side?
-        getBinanceInfo(exchangeInfo.key, exchangeInfo.secret)
+        getBinanceInfo(exchangeInfo.APIkey, exchangeInfo.APIsecret)
             .then( binanceBalances => {
                 console.log(binanceBalances);
                 res.json({
@@ -45,6 +44,7 @@ router.get('/get-exchange-info', (req, res) => {
                     }
                 })
             })
+            .catch(e => console.log("Error while getting Binance info: ", e))
     })
 })
 
