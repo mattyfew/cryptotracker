@@ -1,7 +1,7 @@
 import React, {Component } from 'react'
 import { connect } from 'react-redux'
 import {AuthActions} from '../../../actions'
-
+import Presentation from '../dumb/Login'
 
 
 class LoginScreen extends Component {
@@ -11,28 +11,23 @@ class LoginScreen extends Component {
 
   checkAuthentication() {
     const auth = this.props.auth
-    if(auth.addressUser !== '' && auth.addressUser.toUpperCase() === auth.addressSignature.toUpperCase()) {
-      return `You are authenticated as ${auth.addressUser}`
+    const checkRule = auth.addressUser !== undefined && auth.addressUser.length > 0 &&
+      auth.addressUser.toUpperCase() === auth.addressSignature.toUpperCase()
+    if(checkRule) {
+      this.props.saveUserAddress()
+      return `You are authenticated as ${auth.addressUser}. Please proceed to you dashboard >> LINK.`
     } else {
-      return `you are not authenticated. Please check your credentials.`
+      return `you are not logged in.`
     }
   }
 
   render () {
     const {auth} = this.props
-    let content
-    if (typeof window.web3 !== 'undefined') {
-      const ethereumProvider = web3.currentProvider
-      content = <div>You have Metamask as a web3 provider!</div>
-    } else {
-      content = <div>Please install Metamask or another web3 enabled browser</div>
-    }
     const authenticated = this.checkAuthentication()
     return (
-      <div>
-        <div>{content}</div>
-        <div>{authenticated}</div>
-      </div>
+      <Presentation
+        authenticated={authenticated}
+      />
     )
   }
 }
@@ -46,7 +41,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     login: () => dispatch(AuthActions.login()),
-    verifySignature: () => dispatch(AuthActions.verifySignature())
+    verifySignature: () => dispatch(AuthActions.verifySignature()),
+    saveUserAddress: () => dispatch(AuthActions.saveUserAddress())
   }
 }
 

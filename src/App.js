@@ -24,35 +24,32 @@ const STYLES = {
 
 
 class App extends Component {
-    constructor(props) {
-        super(props)
-    }
+  constructor(props) {
+    super(props)
+  }
 
-    render() {
-        const children = React.cloneElement(this.props.children)
-
-        return (
-            <div>
-              <div className="navbar navbar-default navbar-fixed-top navbar-inverse" style={STYLES.nav}>
-                <div className="container-fluid">
-                  <ul className="nav nav-pills navbar-right">
-                    <li style={STYLES.signIn}><Link to="/login"><span style={STYLES.navText}>Sign In</span></Link></li>
-                  </ul>
-                  <ul className="nav navbar-nav navbar-right">
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/accounts">Accounts</Link></li>
-                    <li><Link to="/prices">Prices</Link></li>
-                  </ul>
-                </div>
-
-              </div>
-
-                <main>
-                    { children }
-                </main>
-            </div>
-        )
-    }
+  render() {
+    const children = React.cloneElement(this.props.children)
+    return (
+      <div>
+        <div className="navbar navbar-default navbar-fixed-top navbar-inverse" style={STYLES.nav}>
+          <div className="container-fluid">
+            <ul className="nav nav-pills navbar-right">
+              <li style={STYLES.signIn}><Link to="/login"><span style={STYLES.navText}>Sign In</span></Link></li>
+            </ul>
+            <ul className="nav navbar-nav navbar-right">
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/accounts">Accounts</Link></li>
+              <li><Link to="/prices">Prices</Link></li>
+            </ul>
+          </div>
+        </div>
+        <main>
+          { children }
+        </main>
+      </div>
+    )
+  }
 }
 
 export default Radium(App)

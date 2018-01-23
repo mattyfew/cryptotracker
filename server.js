@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 
 app.set('superSecret', config.secret)
-
+app.use(require('./routers/login'))
 app.post('/authenticate', (req, res) => {
   if(req.body.password === nick.password) {
     // TODO check db for valid credentials and replace placeholder nick
@@ -72,7 +72,7 @@ app.use((req, res, next) => {
   }
 })
 
-app.use(require('./routers/login'))
+
 app.use(require('./routers/exchanges'))
 
 

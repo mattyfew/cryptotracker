@@ -22,6 +22,10 @@ export default (state = initialState, action) => {
         updated['addressSignature'] = action.addressSignature
         return updated
 
+      case type.SAVE_USER_ADDRESS:
+        console.log('REDUCER SAVE USER ADDRESS')
+        return state
+
       default:
         return state
     }

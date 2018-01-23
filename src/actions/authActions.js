@@ -41,7 +41,18 @@ const verifySignature = (signature) => {
   }
 }
 
+const saveUserAddress = () => {
+  return (dispatch, getState) => {
+    const userAddress = getState().auth.addressSignature
+    console.log('SAVE USER ACTION: ', userAddress)
+    dispatch({
+      type: type.SAVE_USER_ADDRESS,
+      addressSignature: 'blah'
+    })
+  }
+}
 export default {
   login,
-  verifySignature
+  verifySignature,
+  saveUserAddress
 }
