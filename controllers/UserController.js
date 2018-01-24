@@ -1,6 +1,6 @@
-import User from '../db/models/user'
+const User = require('../db/models/user')
 
-export default = {
+module.exports = {
   get: (params) => {
     return new Promise((resolve, reject) => {
       User.find(params, (err, users) => {

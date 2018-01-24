@@ -1,10 +1,10 @@
 const express = require('express')
   router = express.Router()
-import controllers from '../controllers'
+const controllers = require('../controllers')
 
 router.get('/:resource', (req, res) => {
   const resource = req.params.resource
-  const controller = controllers[controller]
+  const controller = controllers[resource]
 
   if(controller == null) {
     res.json({
@@ -32,7 +32,7 @@ router.get('/:resource', (req, res) => {
 router.get('/:resource/:id', (req, res) => {
   const resource = req.params.resource
   const id = req.params.id
-  const controller = controllers[controller]
+  const controller = controllers[resource]
   if(controller == null) {
     res.json({
       confirmation: "fail",
@@ -59,7 +59,7 @@ router.get('/:resource/:id', (req, res) => {
 
 router.post('/:resource', (req, res) => {
   const resource = req.params.resource
-  const controller = controllers[controller]
+  const controller = controllers[resource]
   if(controller == null) {
     res.json({
       confirmation: "fail",
