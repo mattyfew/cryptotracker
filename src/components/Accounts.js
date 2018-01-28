@@ -47,14 +47,17 @@ class Accounts extends Component {
 
     renderExchanges() {
         // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
-        if (!this.props.exchangeInfo) {
-            return null
-        }
-        return this.props.exchanges.map(exchangeInfo => {
+        const { exchanges } = this.props
+        
+        if (!exchanges) {
             return (
-                <Exchange exchange={ exchangeInfo } />
+                <div>renderiing bros</div>
             )
-        })
+        }
+
+        return Object.keys(exchanges).map(key => {
+            return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
+        } )
     }
 
     render() {
@@ -98,7 +101,6 @@ const styles = {
         border: '2px solid red',
         margin: '25px',
         padding: '30px'
-
     },
     linkExchanges: {
         border: '2px solid blue',
