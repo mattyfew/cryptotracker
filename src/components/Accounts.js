@@ -48,7 +48,7 @@ class Accounts extends Component {
     renderExchanges() {
         // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
         const { exchanges } = this.props
-        
+
         if (!exchanges) {
             return (
                 <div>renderiing bros</div>
@@ -66,9 +66,7 @@ class Accounts extends Component {
                 <section style={styles.showExchanges}id="show-exchanges">
                     <h2>Your Linked Exchanges</h2>
 
-                    <div>
-                        Exchanges will be rendered here
-
+                    <div className="exchanges-container">
                         { this.renderExchanges() }
                     </div>
                 </section>
@@ -87,7 +85,7 @@ class Accounts extends Component {
 
                         <input style={styles.formInput} type="text" name="key" value={this.state.key} onChange={this.handleChange} placeholder="API Key" />
                         <input style={styles.formInput} type="text" name="secret" value={this.state.secret} onChange={this.handleChange} placeholder="API Secret" />
-                        { /* <input style={styles.formInput} type="text" name="customerId" value={this.state.customerId} onChange={this.handleChange} placeholder="Customer ID" /> */ }
+                        { this.state.exchange === "bitstamp" && <input style={styles.formInput} type="text" name="customerId" value={this.state.customerId} onChange={this.handleChange} placeholder="Customer ID" /> }
                         <button style={styles.formButton} >Add Exchange API Access</button>
                     </form>
                 </section>
