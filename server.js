@@ -11,7 +11,17 @@ const index = require('./routers/index')
 const api = require('./routers/api')
 const exchanges = require('./routers/exchanges')
 
-mongoose.connect('mongodb://localhost:27017/cryptotracker')
+// mongoose.createConnection('mongodb://localhost:27017/cryptotracker')
+mongoose.connect('mongodb://localhost:27017/cryptotracker', function(err, res) {
+  if(err) {
+    console.log("DB Connection fail", err)
+  } else {
+    console.log("DB Connection Success")
+  }
+})
+
+
+
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))

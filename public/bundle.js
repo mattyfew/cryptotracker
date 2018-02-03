@@ -60768,7 +60768,7 @@ exports.default = function () {
       return updated;
 
     case type.SAVE_USER_ADDRESS:
-      console.log('REDUCER SAVE USER ADDRESS');
+      console.log('REDUCER SAVE USER ADDRESS: ', action);
       return state;
 
     default:
@@ -65282,10 +65282,19 @@ var verifySignature = function verifySignature(signature) {
 var saveUserAddress = function saveUserAddress() {
   return function (dispatch, getState) {
     var userAddress = getState().auth.addressSignature;
-    console.log('SAVE USER ACTION: ', userAddress);
-    dispatch({
-      type: type.SAVE_USER_ADDRESS,
-      addressSignature: 'blah'
+
+    return _axios2.default.post('/api/user', {
+      userID: userAddress
+    }).then(function (res) {
+      dispatch({
+        type: type.SAVE_USER_ADDRESS,
+        response: res
+      });
+    }).catch(function (err) {
+      dispatch({
+        type: type.SAVE_USER_ADDRESS,
+        response: err
+      });
     });
   };
 };

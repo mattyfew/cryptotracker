@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
         return updated
 
       case type.SAVE_USER_ADDRESS:
-        console.log('REDUCER SAVE USER ADDRESS')
+        console.log('REDUCER SAVE USER ADDRESS: ', action)
         return state
 
       default:
