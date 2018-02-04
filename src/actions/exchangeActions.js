@@ -6,7 +6,7 @@ const ROOT_URL = 'http://localhost:8080'
 function getExchangeInfo() {
     // TODO: will need to add logged in user credentials
     return (dispatch) => {
-        return axios.get('/get-exchange-info')
+        return axios.get('/exchanges/get-exchange-info')
             .then( res => {
                 console.log("we here");
                 dispatch({
@@ -19,7 +19,7 @@ function getExchangeInfo() {
 
 function addNewExchange(exchangeInfo) {
     return (dispatch) => {
-        axios.post('/add-new-exchange', exchangeInfo)
+        axios.post('/exchanges/add-new-exchange', exchangeInfo)
             .then(res => {
                 console.log("we got something back", res)
                 dispatch({

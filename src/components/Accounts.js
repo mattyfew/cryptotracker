@@ -35,14 +35,6 @@ class Accounts extends Component {
         e.preventDefault()
 
         this.props.addNewExchange(this.state)
-
-
-        // TODO: Need to reduxify this
-        // axios.post('/add-new-exchange', this.state)
-        //     .then(res => {
-        //         console.log("we got something back", res)
-        //     })
-        //     .catch(err => console.log("there was an error in POST /add-new-exchange", err) )
     }
 
     renderExchanges() {

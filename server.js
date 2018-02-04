@@ -14,7 +14,7 @@ const api = require('./routers/api')
 const exchanges = require('./routers/exchanges')
 
 // mongoose.createConnection('mongodb://localhost:27017/cryptotracker')
-mongoose.connect('mongodb://localhost:27017/cryptotracker', function(err, res) {
+mongoose.connect('mongodb://localhost:27017/cryptotracker', {useMongoClient: true}, function(err, res) {
   if(err) {
     console.log("DB Connection fail", err)
   } else {
@@ -62,6 +62,10 @@ app.use((req, res, next) => {
       message: 'No token provided'
     })
   }
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html')
 })
 
 const PORT = process.env.PORT || 8080
