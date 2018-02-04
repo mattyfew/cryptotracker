@@ -13213,7 +13213,9 @@ var AUTH_USER = exports.AUTH_USER = 'auth_user';
 var GET_ACCOUNTS = exports.GET_ACCOUNTS = 'get_accounts';
 var LOGIN = exports.LOGIN = 'login_user';
 var VERIFY_SIGNATURE = exports.VERIFY_SIGNATURE = 'verify_signature';
+
 var GET_EXCHANGE_INFO = exports.GET_EXCHANGE_INFO = 'get_exchange_info';
+var ADD_NEW_EXCHANGE = exports.ADD_NEW_EXCHANGE = 'add_new_exchange';
 var SAVE_USER_ADDRESS = exports.SAVE_USER_ADDRESS = 'save_user_address';
 
 /***/ }),
@@ -60808,6 +60810,9 @@ exports.default = function () {
         case _types.GET_EXCHANGE_INFO:
             console.log("inside reducer, case: GET_EXCHANGE_INFO", action);
             return _extends({}, state, { exchanges: action.exchangeInfo });
+        case _types.ADD_NEW_EXCHANGE:
+            console.log("inside reducer, case: ADD_NEW_EXCHANGE", action);
+            return state;
         default:
             return state;
 
@@ -111036,22 +111041,37 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// TODO: turn into redux thunk
 var ROOT_URL = 'http://localhost:8080';
 
 function getExchangeInfo() {
-    //will need to add logged in user credentials
+    // TODO: will need to add logged in user credentials
+    return function (dispatch) {
+        return _axios2.default.get('/get-exchange-info').then(function (res) {
+            console.log("we here");
+            dispatch({
+                type: _types.GET_EXCHANGE_INFO,
+                exchangeInfo: res.data.exchangeInfo
+            });
+        });
+    };
+}
 
-    return _axios2.default.get('/get-exchange-info').then(function (res) {
-        return {
-            type: _types.GET_EXCHANGE_INFO,
-            exchangeInfo: res.data.exchangeInfo
-        };
-    });
+function addNewExchange(exchangeInfo) {
+    return function (dispatch) {
+        _axios2.default.post('/add-new-exchange', exchangeInfo).then(function (res) {
+            console.log("we got something back", res);
+            dispatch({
+                type: _types.ADD_NEW_EXCHANGE
+            });
+        }).catch(function (err) {
+            return console.log("there was an error in POST /add-new-exchange", err);
+        });
+    };
 }
 
 exports.default = {
-    getExchangeInfo: getExchangeInfo
+    getExchangeInfo: getExchangeInfo,
+    addNewExchange: addNewExchange
 };
 
 /***/ }),
@@ -111194,6 +111214,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var getExchangeInfo = _actions.ExchangeActions.getExchangeInfo,
+    addNewExchange = _actions.ExchangeActions.addNewExchange;
+
 var Accounts = function (_Component) {
     _inherits(Accounts, _Component);
 
@@ -111217,7 +111240,7 @@ var Accounts = function (_Component) {
     _createClass(Accounts, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            // this.props.getExchangeInfo()
+            this.props.getExchangeInfo();
         }
     }, {
         key: 'handleChange',
@@ -111233,21 +111256,32 @@ var Accounts = function (_Component) {
         value: function handleSubmit(e) {
             e.preventDefault();
 
-            _axios2.default.post('/add-new-exchange', this.state).then(function (res) {
-                console.log("we got something back", res);
-            }).catch(function (err) {
-                return console.log("there was an error in POST /add-new-exchange", err);
-            });
+            this.props.addNewExchange(this.state);
+
+            // TODO: Need to reduxify this
+            // axios.post('/add-new-exchange', this.state)
+            //     .then(res => {
+            //         console.log("we got something back", res)
+            //     })
+            //     .catch(err => console.log("there was an error in POST /add-new-exchange", err) )
         }
     }, {
         key: 'renderExchanges',
         value: function renderExchanges() {
             // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
-            if (!this.props.exchangeInfo) {
-                return null;
+            var exchanges = this.props.exchanges;
+
+
+            if (!exchanges) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    'renderiing bros'
+                );
             }
-            return this.props.exchanges.map(function (exchangeInfo) {
-                return _react2.default.createElement(_Exchange2.default, { exchange: exchangeInfo });
+
+            return Object.keys(exchanges).map(function (key) {
+                return _react2.default.createElement(_Exchange2.default, { key: key, exchangeName: key, exchangeInfo: exchanges[key] });
             });
         }
     }, {
@@ -111266,8 +111300,7 @@ var Accounts = function (_Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        null,
-                        'Exchanges will be rendered here',
+                        { className: 'exchanges-container' },
                         this.renderExchanges()
                     )
                 ),
@@ -111308,6 +111341,7 @@ var Accounts = function (_Component) {
                         ),
                         _react2.default.createElement('input', { style: styles.formInput, type: 'text', name: 'key', value: this.state.key, onChange: this.handleChange, placeholder: 'API Key' }),
                         _react2.default.createElement('input', { style: styles.formInput, type: 'text', name: 'secret', value: this.state.secret, onChange: this.handleChange, placeholder: 'API Secret' }),
+                        this.state.exchange === "bitstamp" && _react2.default.createElement('input', { style: styles.formInput, type: 'text', name: 'customerId', value: this.state.customerId, onChange: this.handleChange, placeholder: 'Customer ID' }),
                         _react2.default.createElement(
                             'button',
                             { style: styles.formButton },
@@ -111327,7 +111361,6 @@ var styles = {
         border: '2px solid red',
         margin: '25px',
         padding: '30px'
-
     },
     linkExchanges: {
         border: '2px solid blue',
@@ -111357,8 +111390,8 @@ function mapStateToProps(state) {
     };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Accounts);
-// export default connect(mapStateToProps, { getExchangeInfo })(Accounts)
+// export default connect(mapStateToProps)(Accounts)
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { getExchangeInfo: getExchangeInfo, addNewExchange: addNewExchange })(Accounts);
 
 /***/ }),
 /* 837 */
@@ -111378,13 +111411,42 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function Exchange(exchangeInfo) {
-    console.log("rendering exchange: ", exchangeInfo);
+function Exchange(_ref) {
+    var exchangeName = _ref.exchangeName,
+        exchangeInfo = _ref.exchangeInfo;
+
     return _react2.default.createElement(
         "div",
-        null,
-        "Woah an exchange will be here eventually"
+        { className: "exchange" },
+        _react2.default.createElement(
+            "h3",
+            null,
+            exchangeName
+        ),
+        _react2.default.createElement(
+            "div",
+            { className: "balances-container" },
+            renderBalances(exchangeInfo)
+        )
     );
+}
+
+function renderBalances(balances) {
+    return Object.keys(balances).map(function (tickerName) {
+        if (balances[tickerName].available > 0) {
+            return _react2.default.createElement(
+                "div",
+                { key: tickerName, className: "balance-row" },
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    tickerName,
+                    ": Available: ",
+                    balances[tickerName].available
+                )
+            );
+        }
+    });
 }
 
 /***/ }),

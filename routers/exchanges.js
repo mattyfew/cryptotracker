@@ -30,6 +30,7 @@ router.post('/add-new-exchange', (req, res) => {
 })
 
 router.get('/get-exchange-info', (req, res) => {
+  console.log('SESSION INFO: ', req.session)
     // CODE DEBT: need to change this to read from the logged in userId
     // also need to rewrite the flow of this router,
     // I need to have mongoose query for the userId of the metaMask ID,
@@ -102,3 +103,61 @@ router.get('/get-binance-info', (req, res) => {
 })
 
 module.exports = router
+
+
+
+// userSchema.methods.getExchangeInfo = function() {
+//
+//     this.models.exchanges.forEach((exchange, i) => {
+//         const name = exchange.name
+//         const apiKey = exchange.apiKey
+//         const apiSecret = exchange.apiSecret
+//         let promises
+//         let promise
+//
+//         if (name === 'bitstamp') {
+//             const customerId = exchange.customerId
+//             promise = exchangeGetters[name](apiKey, apiSecret, customerId)
+//         } else {
+//             promise = exchangeGetters[name](apiKey, apiSecret)
+//         }
+//         promises.push(promise)
+//     })
+//
+//     return Promise.all(promises)
+//            .then(results => {
+//                console.log(results);
+//                return results
+//            })
+//            .catch(e => console.log("There was an error in getExchangeInfo", e))
+// }
+//
+//
+//
+// const exchangeGetters = {
+//     binance: function(apiKey, apiSecret){
+//         return new Promise((resolve, reject) => {
+//             binance.options({
+//                 'APIKEY': apiKey,
+//                 'APISECRET': apiSecret,
+//                 'recvWindow': 60000
+//             })
+//
+//             binance.balance( balances => resolve(balances))
+//         })
+//     },
+//
+//     bitstamp: function(apiKey, apiSecret, clientId) {
+//         return new Promise((resolve, reject) => {
+//             const bitstamp = new Bitstamp({
+//                 apiKey,
+//                 apiSecret,
+//                 clientId,
+//                 timeout: 5000,
+//                 rateLimit: true //turned on by default
+//             })
+//
+//             console.log(bitstamp.getStats())
+//         })
+//     }
+// }
