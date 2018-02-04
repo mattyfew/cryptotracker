@@ -6,78 +6,62 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 const config = require('./config')
+const cookieSession = require("cookie-session")
 
-mongoose.connect('mongodb://localhost:27017/cryptotracker', { useMongoClient: true })
+const index = require('./routers/index')
+const authenticate = require('./routers/auth')
+const api = require('./routers/api')
+const exchanges = require('./routers/exchanges')
+
+// mongoose.createConnection('mongodb://localhost:27017/cryptotracker')
+mongoose.connect('mongodb://localhost:27017/cryptotracker', function(err, res) {
+  if(err) {
+    console.log("DB Connection fail", err)
+  } else {
+    console.log("DB Connection Success")
+  }
+})
+
 
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
+app.use(cookieSession({
+    secret: "ferferfef",
+    maxAge: 1000 * 60 * 20
+}))
 
-// const nick = {
-//     name :'nick szabo',
-//     password: 'password',
-//     admin: true
-// }
-// app.set('superSecret', config.secret)
-//
-// app.post('/authenticate', (req, res) => {
-//   if(req.body.password === nick.password) {
-//     // TODO check db for valid credentials and replace placeholder nick
-//     const payload = {
-//       name: nick.name
-//     }
-//
-//     const token = jwt.sign(
-//       payload,
-//       app.get('superSecret'),
-//       {expiresIn: 1440}
-//     )
-//     res.json({
-//       success: true,
-//       message: 'Authenticated!',
-//       token: token
-//     })
-//   } else {
-//     res.json({
-//       success: false,
-//       message: 'Authentication failed'
-//     })
-//   }
-// })
+app.set('superSecret', config.secret)
 
-// middleware to check for authenticated user
-// app.use((req, res, next) => {
-//   const token = req.body.token || req.query.token || req.headers['x-access-token']
-//
-//   // decode the token:
-//   if(token) {
-//     jwt.verify(token, app.get('superSecret'), (err, decoded) => {
-//         if(err) {
-//           return res.json({
-//             success: false,
-//             message: 'Failed to authenticate token'
-//           })
-//         } else {
-//           req.decoded = decoded
-//           next()
-//         }
-//       }
-//     )
-//   } else {
-//     return res.status(403).send({
-//       success: false,
-//       message: 'No token provided'
-//     })
-//   }
-// })
-
-// app.use(require('./routers/login'))
-app.use(require('./routers/exchanges'))
+app.use('/', index)
+app.use('/authenticate', authenticate)
+app.use('/api', api)
+app.use('/exchanges', exchanges)
 
 
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+app.use((req, res, next) => {
+  const token = req.session.token || req.body.token || req.headers['x-access-token']
+
+  if(token) {
+    jwt.verify(token, app.get('superSecret'), (err, decoded) => {
+        if(err) {
+          return res.json({
+            success: false,
+            message: 'Failed to authenticate token'
+          })
+        } else {
+          req.decoded = decoded
+          next()
+        }
+      }
+    )
+  } else {
+    return res.status(403).send({
+      success: false,
+      message: 'No token provided'
+    })
+  }
 })
 
 const PORT = process.env.PORT || 8080
