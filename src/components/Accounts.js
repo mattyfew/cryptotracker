@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { ExchangeActions } from '../actions'
+const { getExchangeInfo, addNewExchange } = ExchangeActions
 import Exchange from './Exchange'
 
 
@@ -21,7 +22,7 @@ class Accounts extends Component {
     }
 
     componentDidMount() {
-        // this.props.getExchangeInfo()
+        this.props.getExchangeInfo()
     }
 
     handleChange(e) {
@@ -33,23 +34,30 @@ class Accounts extends Component {
     handleSubmit(e) {
         e.preventDefault()
 
-        axios.post('/add-new-exchange', this.state)
-            .then(res => {
-                console.log("we got something back", res)
-            })
-            .catch(err => console.log("there was an error in POST /add-new-exchange", err) )
+        this.props.addNewExchange(this.state)
+
+
+        // TODO: Need to reduxify this
+        // axios.post('/add-new-exchange', this.state)
+        //     .then(res => {
+        //         console.log("we got something back", res)
+        //     })
+        //     .catch(err => console.log("there was an error in POST /add-new-exchange", err) )
     }
 
     renderExchanges() {
         // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
-        if (!this.props.exchangeInfo) {
-            return null
-        }
-        return this.props.exchanges.map(exchangeInfo => {
+        const { exchanges } = this.props
+
+        if (!exchanges) {
             return (
-                <Exchange exchange={ exchangeInfo } />
+                <div>renderiing bros</div>
             )
-        })
+        }
+
+        return Object.keys(exchanges).map(key => {
+            return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
+        } )
     }
 
     render() {
@@ -58,9 +66,7 @@ class Accounts extends Component {
                 <section style={styles.showExchanges}id="show-exchanges">
                     <h2>Your Linked Exchanges</h2>
 
-                    <div>
-                        Exchanges will be rendered here
-
+                    <div className="exchanges-container">
                         { this.renderExchanges() }
                     </div>
                 </section>
@@ -79,7 +85,7 @@ class Accounts extends Component {
 
                         <input style={styles.formInput} type="text" name="key" value={this.state.key} onChange={this.handleChange} placeholder="API Key" />
                         <input style={styles.formInput} type="text" name="secret" value={this.state.secret} onChange={this.handleChange} placeholder="API Secret" />
-                        { /* <input style={styles.formInput} type="text" name="customerId" value={this.state.customerId} onChange={this.handleChange} placeholder="Customer ID" /> */ }
+                        { this.state.exchange === "bitstamp" && <input style={styles.formInput} type="text" name="customerId" value={this.state.customerId} onChange={this.handleChange} placeholder="Customer ID" /> }
                         <button style={styles.formButton} >Add Exchange API Access</button>
                     </form>
                 </section>
@@ -93,7 +99,6 @@ const styles = {
         border: '2px solid red',
         margin: '25px',
         padding: '30px'
-
     },
     linkExchanges: {
         border: '2px solid blue',
@@ -123,5 +128,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(Accounts)
-// export default connect(mapStateToProps, { getExchangeInfo })(Accounts)
+// export default connect(mapStateToProps)(Accounts)
+export default connect(mapStateToProps, { getExchangeInfo, addNewExchange })(Accounts)

@@ -17,6 +17,7 @@
     "mongoose": "^4.13.6",
     "morgan": "^1.9.0",
     "node-binance-api": "^0.3.0",
+    "node-bitstamp": "^1.7.0",
     "npm-run-all": "^4.1.2",
     "radium": "^0.21.1",
     "react": "^16.2.0",

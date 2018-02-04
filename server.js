@@ -24,7 +24,6 @@ mongoose.connect('mongodb://localhost:27017/cryptotracker', function(err, res) {
 
 
 
-
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
