@@ -21,7 +21,9 @@ const STYLES = {
     }
   }
 }
-
+// TODO: adapt nav bar to bootstrap 4
+// check mobile version
+// log in status -> should display more menu items
 
 class App extends Component {
   constructor(props) {
