@@ -25,6 +25,34 @@ module.exports = {
     })
   },
 
+  findAndUpdate: (attribute, value) => {
+    return new Promise((resolve, reject) => {
+      User.findOneAndUpdate(
+        {[attribute]: value},
+        {[attribute]: value},
+        {upsert: true, new: true},
+        (err, model) => {
+        if(err) {
+          reject(err)
+        } else {
+          resolve(model)
+        }
+      })
+    })
+  },
+
+  find: (attribute, value) => {
+    return new Promise((resolve, reject) => {
+      User.findOne({[attribute]: value}, (err, model) => {
+        if(err) {
+          reject(err)
+        } else {
+          resolve(model)
+        }
+      })
+    })
+  },
+
   post: (params) => {
     return new Promise((resolve, reject) => {
       // TODO logic to hash important info

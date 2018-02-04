@@ -5,20 +5,20 @@ import { Provider } from 'react-redux'
 import store from './stores'
 
 import App from './App'
-import { LoginScreen, Accounts, Prices, Welcome } from './routes'
+import { LoginScreen, Accounts, Prices, WelcomeScreen } from './routes'
 
 
 const router = (
-    <Provider store={store.configureStore()}>
-      <Router history={ browserHistory }>
-        <Route path="/" component={App}>
-          <IndexRoute component={Welcome} />
-          <Route path="login" component={LoginScreen} />
-          <Route path="accounts" component={Accounts} />
-          <Route path="prices" component={Prices} />
-        </Route>
-      </Router>
-    </Provider>
+  <Provider store={store.configureStore()}>
+    <Router history={ browserHistory }>
+      <Route path="/" component={App}>
+        <IndexRoute component={WelcomeScreen} />
+        <Route path="login" component={LoginScreen} />
+        <Route path="accounts" component={Accounts} />
+        <Route path="prices" component={Prices} />
+      </Route>
+    </Router>
+  </Provider>
 )
 
 ReactDOM.render(router, document.getElementById('root'));
