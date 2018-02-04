@@ -20,7 +20,7 @@ userSchema.methods.getExchangeInfo = function() {
         let promises
         let promise
 
-        if (name === 'bistamp') {
+        if (name === 'bitstamp') {
             const customerId = exchange.customerId
             promise = exchangeGetters[name](apiKey, apiSecret, customerId)
         } else {
