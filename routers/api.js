@@ -2,6 +2,7 @@ const express = require('express')
   router = express.Router()
 const controllers = require('../controllers')
 
+
 router.get('/:resource', (req, res) => {
   const resource = req.params.resource
   const controller = controllers[resource]
@@ -79,6 +80,65 @@ router.post('/:resource', (req, res) => {
     res.json({
       confirmation: 'fail',
       message: err
+    })
+  })
+})
+
+router.get('/search/:resource/:attribute/:value', (req, res) => {
+  const resource = req.params.resource
+  const attribute = req.params.attribute
+  const value = req.params.value
+  const controller = controllers[resource]
+
+  if(controller == null) {
+    res.json({
+      confirmation: "fail",
+      message: "Invalid Resource"
+    })
+    return
+  }
+
+  controller.find(attribute, value)
+  .then((attribute) => {
+    res.json({
+      confirmation: 'success',
+      result: attribute
+    })
+  })
+  .catch((err) => {
+    res.json({
+      confirmation: 'fail',
+      message: 'Not found'
+    })
+  })
+})
+
+
+router.post('/update/:resource', (req, res) => {
+  const resource = req.params.resource
+  const attribute = req.body.attribute
+  const value = req.body.value
+  const controller = controllers[resource]
+
+  if(controller == null) {
+    res.json({
+      confirmation: "fail",
+      message: "Invalid Resource"
+    })
+    return
+  }
+
+  controller.findAndUpdate(attribute, value)
+  .then((attribute) => {
+    res.json({
+      confirmation: 'success',
+      result: attribute
+    })
+  })
+  .catch((err) => {
+    res.json({
+      confirmation: 'fail',
+      message: 'Not found'
     })
   })
 })

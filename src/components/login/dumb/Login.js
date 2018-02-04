@@ -22,6 +22,11 @@ export default class LoginPresentation extends Component {
         <div>Please install Metamask or another web3 enabled browser</div>
       )
     }
+    if (this.props.authProps.errorMsg.lenght > 0) {
+      content = (
+        <div>errorMsg</div>
+      )
+    }
     return (
       <div className="jumbotron" style={STYLES.jumboLogin}>
         <div className="container">

@@ -36,7 +36,7 @@ const verifySignature = (signature) => {
       })
     })
     .catch((err) => {
-      console.log('ERROR IN VERIY SIGNATURE: ', err)
+      console.log('ERROR in verify signature: ', err)
     })
   }
 }
@@ -44,24 +44,22 @@ const verifySignature = (signature) => {
 const saveUserAddress = () => {
   return (dispatch, getState) => {
     const userAddress = getState().auth.addressSignature
-
-    return axios.post('/api/user', {
-      userID: userAddress
-    })
+    return axios.post(`/api/update/user`, {attribute: 'userID', value: userAddress})
     .then((res) => {
       dispatch({
         type: type.SAVE_USER_ADDRESS,
-        response: res
+        response: res.data
       })
+      return axios.post('/authenticate', {id: res.data.result._id})
     })
     .catch((err) => {
-      dispatch({
-        type: type.SAVE_USER_ADDRESS,
-        response: err
-      })
+      console.log('ERROR save user address: ', err)
     })
   }
 }
+
+
+
 export default {
   login,
   verifySignature,

@@ -2,7 +2,8 @@ import * as type from '../actions/types';
 
 const initialState = {
   addressUser: '',
-  addressSignature: ''
+  addressSignature: '',
+  errorMsg: ''
 }
 
 export default (state = initialState, action) => {
@@ -23,7 +24,12 @@ export default (state = initialState, action) => {
         return updated
 
       case type.SAVE_USER_ADDRESS:
-        console.log('REDUCER SAVE USER ADDRESS: ', action)
+        if(action.response.confirmation === 'success') {
+          return state
+        } else {
+          updated['errorMsg'] = 'Could not update user properly.'
+          return updated
+        }
         return state
 
       default:

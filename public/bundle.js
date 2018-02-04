@@ -60744,7 +60744,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var initialState = {
   addressUser: '',
-  addressSignature: ''
+  addressSignature: '',
+  errorMsg: ''
 };
 
 exports.default = function () {
@@ -60768,7 +60769,12 @@ exports.default = function () {
       return updated;
 
     case type.SAVE_USER_ADDRESS:
-      console.log('REDUCER SAVE USER ADDRESS: ', action);
+      if (action.response.confirmation === 'success') {
+        return state;
+      } else {
+        updated['errorMsg'] = 'Could not update user properly.';
+        return updated;
+      }
       return state;
 
     default:
@@ -65191,7 +65197,8 @@ var LoginScreen = function (_Component) {
 
       var authenticated = this.checkAuthentication();
       return _react2.default.createElement(_Login2.default, {
-        authenticated: authenticated
+        authenticated: authenticated,
+        authProps: auth
       });
     }
   }]);
@@ -65274,7 +65281,7 @@ var verifySignature = function verifySignature(signature) {
         addressSignature: res
       });
     }).catch(function (err) {
-      console.log('ERROR IN VERIY SIGNATURE: ', err);
+      console.log('ERROR in verify signature: ', err);
     });
   };
 };
@@ -65282,22 +65289,18 @@ var verifySignature = function verifySignature(signature) {
 var saveUserAddress = function saveUserAddress() {
   return function (dispatch, getState) {
     var userAddress = getState().auth.addressSignature;
-
-    return _axios2.default.post('/api/user', {
-      userID: userAddress
-    }).then(function (res) {
+    return _axios2.default.post('/api/update/user', { attribute: 'userID', value: userAddress }).then(function (res) {
       dispatch({
         type: type.SAVE_USER_ADDRESS,
-        response: res
+        response: res.data
       });
+      return _axios2.default.post('/authenticate', { id: res.data.result._id });
     }).catch(function (err) {
-      dispatch({
-        type: type.SAVE_USER_ADDRESS,
-        response: err
-      });
+      console.log('ERROR save user address: ', err);
     });
   };
 };
+
 exports.default = {
   login: login,
   verifySignature: verifySignature,
@@ -111109,6 +111112,13 @@ var LoginPresentation = function (_Component) {
           'div',
           null,
           'Please install Metamask or another web3 enabled browser'
+        );
+      }
+      if (this.props.authProps.errorMsg.lenght > 0) {
+        content = _react2.default.createElement(
+          'div',
+          null,
+          'errorMsg'
         );
       }
       return _react2.default.createElement(

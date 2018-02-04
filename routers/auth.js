@@ -1,25 +1,21 @@
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 const express = require('express')
   router = express.Router()
 
-
-const nick = {
-  name :'nick szabo',
-  password: 'password',
-  admin: true
-}
-
-app.post('/authenticate', (req, res) => {
-  if(req.body.password === nick.password) {
-    // TODO check db for valid credentials and replace placeholder nick
+router.post('/', (req, res) => {
+  if(req.body.id) {
     const payload = {
-      name: nick.name
+      id: req.body.id
     }
 
     const token = jwt.sign(
       payload,
-      app.get('superSecret'),
-      {expiresIn: 1440}
+      config.secret,
+      {expiresIn: 30000}
     )
+    req.session.token = token
+    req.session.id = req.body.id
     res.json({
       success: true,
       message: 'Authenticated!',

@@ -6,8 +6,10 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 const config = require('./config')
+const cookieSession = require("cookie-session")
 
 const index = require('./routers/index')
+const authenticate = require('./routers/auth')
 const api = require('./routers/api')
 const exchanges = require('./routers/exchanges')
 
@@ -26,16 +28,21 @@ mongoose.connect('mongodb://localhost:27017/cryptotracker', function(err, res) {
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
+app.use(cookieSession({
+    secret: "ferferfef",
+    maxAge: 1000 * 60 * 20
+}))
 
 app.set('superSecret', config.secret)
 
 app.use('/', index)
+app.use('/authenticate', authenticate)
 app.use('/api', api)
 app.use('/exchanges', exchanges)
 
 
 app.use((req, res, next) => {
-  const token = req.body.token || req.query.token || req.headers['x-access-token']
+  const token = req.session.token || req.body.token || req.headers['x-access-token']
 
   if(token) {
     jwt.verify(token, app.get('superSecret'), (err, decoded) => {

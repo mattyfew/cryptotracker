@@ -27,6 +27,7 @@ class LoginScreen extends Component {
     return (
       <Presentation
         authenticated={authenticated}
+        authProps={auth}
       />
     )
   }
