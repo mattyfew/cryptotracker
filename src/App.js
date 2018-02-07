@@ -1,29 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 import Radium from 'radium'
-
-
+import { Navbar, Nav, NavItem, Button } from 'react-bootstrap'
+import { Link as ScrollLink, Element } from 'react-scroll'
 const STYLES = {
   nav: {
     backgroundColor: 'transparent',
+    width: '100%',
     border: 'none',
-    padding: '8px'
-  },
-  signIn: {
-    backgroundColor: '#fb5e6d',
-    borderRadius: '5px',
-    color: 'white'
+    textDecoration: 'none'
   },
   navText: {
     color: 'white',
     ':hover': {
-      color: 'black'
+      color: '#f3f3f3',
+      textDecoration: 'none !important'
     }
   }
 }
-// TODO: adapt nav bar to bootstrap 4
-// check mobile version
-// log in status -> should display more menu items
 
 class App extends Component {
   constructor(props) {
@@ -34,18 +28,38 @@ class App extends Component {
     const children = React.cloneElement(this.props.children)
     return (
       <div>
-        <div className="navbar navbar-default navbar-fixed-top navbar-inverse" style={STYLES.nav}>
-          <div className="container-fluid">
-            <ul className="nav nav-pills navbar-right">
-              <li style={STYLES.signIn}><Link to="/login"><span style={STYLES.navText}>Sign In</span></Link></li>
-            </ul>
-            <ul className="nav navbar-nav navbar-right">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/accounts">Accounts</Link></li>
-              <li><Link to="/prices">Prices</Link></li>
-            </ul>
-          </div>
-        </div>
+        <Navbar fixedTop fluid collapseOnSelect style={STYLES.nav}>
+          <Navbar.Header>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse style={STYLES.nav}>
+            <Nav>
+              <NavItem eventKey={1} href="/"><span style={STYLES.navText}>Home</span></NavItem>
+              <NavItem eventKey={2} href="#">
+                <ScrollLink
+                  style={STYLES.navText}
+                  className="navWhy"
+                  to="navWhy"
+                  smooth={true}
+                  spy={true}
+                  duration={900}>
+                    Why
+                  </ScrollLink>
+              </NavItem>
+              <NavItem eventKey={3} href="#">
+                <ScrollLink
+                  style={STYLES.navText}
+                  className="navHow"
+                  to="navHow"
+                  spy={true}
+                  smooth={true}
+                  duration={900}>
+                    How
+                  </ScrollLink>
+              </NavItem>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <main>
           { children }
         </main>
@@ -54,17 +68,6 @@ class App extends Component {
   }
 }
 
+
+
 export default Radium(App)
-
-
-
-// <header id="nav-container">
-//     <nav className="bar">
-//         <Link to="/"><img id="nav-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/500px-Bitcoin.svg.png" alt="logo" /></Link>
-//         <ul>
-//             <li><Link to="/login">Login w/ MetaMask</Link></li>
-//             <li><Link to="/accounts">Accounts</Link></li>
-//             <li><Link to="/prices">Prices</Link></li>
-//         </ul>
-//     </nav>
-// </header>
