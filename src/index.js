@@ -6,15 +6,15 @@ import store from './stores'
 
 
 import App from './App'
-import { LoginScreen, Accounts, Prices, WelcomeScreen } from './routes'
+import { Login, Accounts, Prices, Welcome } from './routes'
 
 
 const router = (
   <Provider store={store.configureStore()}>
     <Router history={ browserHistory }>
       <Route path="/" component={App}>
-        <IndexRoute component={WelcomeScreen} />
-        <Route path="login" component={LoginScreen} />
+        <IndexRoute component={Welcome} />
+        <Route path="login" component={Login} />
         <Route path="accounts" component={Accounts} />
         <Route path="prices" component={Prices} />
       </Route>
