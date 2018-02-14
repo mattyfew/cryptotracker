@@ -5,7 +5,6 @@ import { ExchangeActions } from '../actions'
 const { getExchangeInfo, addNewExchange } = ExchangeActions
 import Exchange from './Exchange'
 
-
 class Accounts extends Component {
     constructor(props) {
         super(props)
@@ -40,6 +39,8 @@ class Accounts extends Component {
     renderExchanges() {
         // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
         const { exchanges } = this.props
+
+        console.log("exchanges", exchanges);
 
         if (!exchanges) {
             return (
@@ -115,6 +116,7 @@ const styles = {
 
 function mapStateToProps(state) {
     // CODE DEBT: Might need to refactor this exchanges.exchanges (also in reducer index)
+    console.log(state);
     return {
         exchanges: state.exchanges.exchanges
     }

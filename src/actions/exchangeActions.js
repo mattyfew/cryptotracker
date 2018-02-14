@@ -8,7 +8,7 @@ function getExchangeInfo() {
     return (dispatch) => {
         return axios.get('/exchanges/get-exchange-info')
             .then( res => {
-                console.log("we here");
+                console.log("we here", res);
                 dispatch({
                     type: GET_EXCHANGE_INFO,
                     exchangeInfo: res.data.exchangeInfo
