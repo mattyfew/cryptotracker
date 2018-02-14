@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
+    "bootstrap": "^4.0.0-alpha.6",
     "ethereumjs-util": "^5.1.2",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
@@ -21,10 +22,12 @@
     "npm-run-all": "^4.1.2",
     "radium": "^0.21.1",
     "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router": "^3.0.0",
     "react-scripts": "1.0.17",
+    "react-scroll": "^1.7.6",
     "redux": "^3.7.2",
     "redux-thunk": "2.2.0",
     "web3": "^1.0.0-beta.27"
