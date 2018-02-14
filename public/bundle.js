@@ -111728,6 +111728,7 @@ function Exchange(_ref) {
 }
 
 function renderBalances(balances) {
+    console.log("IM HERE", balances);
     return Object.keys(balances).map(function (tickerName) {
         if (balances[tickerName].available > 0) {
             return _react2.default.createElement(
