@@ -40,10 +40,16 @@ function queryExchangesForBalances(exchanges) {
         promises.push(exchangeGetters[exchange.name](exchange))
     })
     return Promise.all(promises)
-        .then(exchangeInfo => {
-            return exchangeInfo
+        .then(exchangeInfoArr => {
+            console.log(exchangeInfoArr);
+
+            let newObj = {}
+            for (var i = 0; i < exchangeInfoArr.length; i++) {
+                newObj[ Object.keys(exchangeInfoArr[i])[0] ] = exchangeInfoArr[i]
+            }
+            return newObj
         })
-        .catch(e => console.log(e))
+        .catch(e => console.log("There was an error in queryExchangesForBalances", e))
 }
 
 router.get('/get-exchange-info', (req, res) => {
@@ -51,8 +57,7 @@ router.get('/get-exchange-info', (req, res) => {
         .then(exchanges => {
             queryExchangesForBalances(exchanges)
                 .then(results => {
-                    console.log(results);
-                    res.json({ exchanges: results })
+                    res.json({ exchangeInfo: results })
                 })
         })
 })
