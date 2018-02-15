@@ -75,15 +75,28 @@ const exchangeGetters = {
 
     bitstamp: function(exchange) {
         return new Promise((resolve, reject) => {
+            console.log("creating bitstamp client", exchange);
             const bitstamp = new Bitstamp({
-                apiKey: exchange.APIkey,
-                apiSecret: exchange.APIsecret,
-                clientId: exchange.clientId,
+                key: exchange.APIkey,
+                secret: exchange.APIsecret,
+                clientId: exchange.customerId,
                 timeout: 5000,
                 rateLimit: true //turned on by default
             })
 
-            console.log(bitstamp.getStats())
+            bitstamp.balance()
+                .then(bitstampInfo => {
+
+                    console.log("stats from bitstamp", bitstampInfo)
+                    const newObj = {
+                        bch_balance: bitstampInfo.bch_balance,
+                        btc_balance: bitstampInfo.btc_balance,
+                        eth_balance: bitstampInfo.eth_balance,
+                        ltc_balance: bitstampInfo.ltc_balance,
+                        xrp_balance: bitstampInfo.xrp_balance
+                    }
+                    resolve(newObj)
+                })
         })
     }
 }

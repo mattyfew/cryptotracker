@@ -20,5 +20,4 @@ function renderBalances(balances) {
             )
         }
     })
-
 }
