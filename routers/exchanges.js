@@ -86,16 +86,18 @@ const exchangeGetters = {
 
             bitstamp.balance()
                 .then(bitstampInfo => {
+                    console.log("bitstampInfo", bitstampInfo);
 
-                    console.log("stats from bitstamp", bitstampInfo)
+                    // TODO might need to add more metrics later
                     const newObj = {
-                        bch_balance: bitstampInfo.bch_balance,
-                        btc_balance: bitstampInfo.btc_balance,
-                        eth_balance: bitstampInfo.eth_balance,
-                        ltc_balance: bitstampInfo.ltc_balance,
-                        xrp_balance: bitstampInfo.xrp_balance
+                        BCH: { available: bitstampInfo.body.bch_balance },
+                        BTC: { available: bitstampInfo.body.btc_balance },
+                        ETH: { available: bitstampInfo.body.eth_balance },
+                        LTC: { available: bitstampInfo.body.ltc_balance },
+                        XRP: { available: bitstampInfo.body.xrp_balance }
                     }
-                    resolve(newObj)
+                    console.log(newObj);
+                    resolve({ bitstamp: newObj })
                 })
         })
     }
