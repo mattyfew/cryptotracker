@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 
-export default function Exchange({exchangeName, exchangeInfo}) {
-
-    console.log("exchangeName", exchangeName);
-    console.log("exchangeInfo", exchangeInfo);
+export default function Exchange({ exchangeName, exchangeInfo }) {
     return (<div className="exchange">
         <h3>{exchangeName}</h3>
 
@@ -14,7 +11,6 @@ export default function Exchange({exchangeName, exchangeInfo}) {
 }
 
 function renderBalances(balances) {
-    console.log("IM HERE", balances);
     return Object.keys(balances).map(tickerName => {
         if (balances[tickerName].available > 0) {
             return (

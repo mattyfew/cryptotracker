@@ -40,7 +40,8 @@ function queryExchangesForBalances(exchanges) {
         .then(exchangeInfoArr => {
             let newObj = {}
             for (let i = 0; i < exchangeInfoArr.length; i++) {
-                newObj[ Object.keys(exchangeInfoArr[i])[0] ] = exchangeInfoArr[i]
+                let exchangeName = Object.keys(exchangeInfoArr[i])[0]
+                newObj[ exchangeName ] = exchangeInfoArr[i][exchangeName]
             }
             return newObj
         })
@@ -51,7 +52,9 @@ router.get('/get-exchange-info', (req, res) => {
     exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
         .then( exchanges => {
             queryExchangesForBalances(exchanges)
-                .then( exchangeInfo => res.json({ exchangeInfo }) )
+                .then( exchangeInfo => {
+                    res.json({ exchangeInfo })
+                })
         })
 })
 
@@ -66,7 +69,7 @@ const exchangeGetters = {
                 'recvWindow': 60000
             })
 
-            binance.balance( balances => resolve(balances) )
+            binance.balance( balances => resolve({ binance: balances }) )
         })
     },
 

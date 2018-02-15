@@ -40,8 +40,6 @@ class Accounts extends Component {
         // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
         const { exchanges } = this.props
 
-        console.log("exchanges", exchanges);
-
         if (!exchanges) {
             return (
                 <div>renderiing bros</div>
@@ -49,7 +47,6 @@ class Accounts extends Component {
         }
 
         return Object.keys(exchanges).map(key => {
-            console.log("inside the loop", exchanges, exchanges[key]);
             return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
         } )
     }
@@ -117,7 +114,6 @@ const styles = {
 
 function mapStateToProps(state) {
     // CODE DEBT: Might need to refactor this exchanges.exchanges (also in reducer index)
-    console.log(state);
     return {
         exchanges: state.exchanges.exchanges
     }

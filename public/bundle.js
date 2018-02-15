@@ -111565,8 +111565,6 @@ var Accounts = function (_Component) {
             var exchanges = this.props.exchanges;
 
 
-            console.log("exchanges", exchanges);
-
             if (!exchanges) {
                 return _react2.default.createElement(
                     'div',
@@ -111576,7 +111574,6 @@ var Accounts = function (_Component) {
             }
 
             return Object.keys(exchanges).map(function (key) {
-                console.log("inside the loop", exchanges, exchanges[key]);
                 return _react2.default.createElement(_Exchange2.default, { key: key, exchangeName: key, exchangeInfo: exchanges[key] });
             });
         }
@@ -111681,7 +111678,6 @@ var styles = {
 
 function mapStateToProps(state) {
     // CODE DEBT: Might need to refactor this exchanges.exchanges (also in reducer index)
-    console.log(state);
     return {
         exchanges: state.exchanges.exchanges
     };
@@ -111712,9 +111708,6 @@ function Exchange(_ref) {
     var exchangeName = _ref.exchangeName,
         exchangeInfo = _ref.exchangeInfo;
 
-
-    console.log("exchangeName", exchangeName);
-    console.log("exchangeInfo", exchangeInfo);
     return _react2.default.createElement(
         "div",
         { className: "exchange" },
@@ -111732,7 +111725,6 @@ function Exchange(_ref) {
 }
 
 function renderBalances(balances) {
-    console.log("IM HERE", balances);
     return Object.keys(balances).map(function (tickerName) {
         if (balances[tickerName].available > 0) {
             return _react2.default.createElement(
