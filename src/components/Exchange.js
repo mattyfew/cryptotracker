@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 
 export default function Exchange({exchangeName, exchangeInfo}) {
+
+    console.log("exchangeName", exchangeName);
+    console.log("exchangeInfo", exchangeInfo);
     return (<div className="exchange">
         <h3>{exchangeName}</h3>
 

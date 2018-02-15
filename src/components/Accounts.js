@@ -49,6 +49,7 @@ class Accounts extends Component {
         }
 
         return Object.keys(exchanges).map(key => {
+            console.log("inside the loop", exchanges, exchanges[key]);
             return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
         } )
     }

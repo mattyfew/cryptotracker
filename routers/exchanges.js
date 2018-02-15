@@ -10,9 +10,6 @@ const express = require('express'),
     { Bitstamp } = require('node-bitstamp');
 
 router.post('/add-new-exchange', (req, res) => {
-    // console.log("about to add new exchange", req.body);
-    // console.log("the session", req.session);
-
     exchangeController.post({
         referenceMongoID: req.session.id,
         name: req.body.exchange,
@@ -41,10 +38,8 @@ function queryExchangesForBalances(exchanges) {
     })
     return Promise.all(promises)
         .then(exchangeInfoArr => {
-            console.log(exchangeInfoArr);
-
             let newObj = {}
-            for (var i = 0; i < exchangeInfoArr.length; i++) {
+            for (let i = 0; i < exchangeInfoArr.length; i++) {
                 newObj[ Object.keys(exchangeInfoArr[i])[0] ] = exchangeInfoArr[i]
             }
             return newObj
@@ -53,12 +48,10 @@ function queryExchangesForBalances(exchanges) {
 }
 
 router.get('/get-exchange-info', (req, res) => {
-    exchangeController.getExchangeInfo({ "referenceMongoID" : "5a775c6ef1d9c08160512b14" })
-        .then(exchanges => {
+    exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
+        .then( exchanges => {
             queryExchangesForBalances(exchanges)
-                .then(results => {
-                    res.json({ exchangeInfo: results })
-                })
+                .then( exchangeInfo => res.json({ exchangeInfo }) )
         })
 })
 
@@ -73,7 +66,7 @@ const exchangeGetters = {
                 'recvWindow': 60000
             })
 
-            binance.balance( balances => resolve({ binance: balances }))
+            binance.balance( balances => resolve(balances) )
         })
     },
 

@@ -111576,6 +111576,7 @@ var Accounts = function (_Component) {
             }
 
             return Object.keys(exchanges).map(function (key) {
+                console.log("inside the loop", exchanges, exchanges[key]);
                 return _react2.default.createElement(_Exchange2.default, { key: key, exchangeName: key, exchangeInfo: exchanges[key] });
             });
         }
@@ -111711,6 +111712,9 @@ function Exchange(_ref) {
     var exchangeName = _ref.exchangeName,
         exchangeInfo = _ref.exchangeInfo;
 
+
+    console.log("exchangeName", exchangeName);
+    console.log("exchangeInfo", exchangeInfo);
     return _react2.default.createElement(
         "div",
         { className: "exchange" },
