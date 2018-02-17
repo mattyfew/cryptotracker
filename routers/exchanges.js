@@ -84,17 +84,17 @@ const exchangeGetters = {
                 rateLimit: true
             })
 
-            bitstamp.balance().then(bitstampInfo => {
+            bitstamp.balance().then(({ body: balances }) => {
                 const newObj = {
-                    BCH: { available: bitstampInfo.body.bch_balance },
-                    BTC: { available: bitstampInfo.body.btc_balance },
-                    ETH: { available: bitstampInfo.body.eth_balance },
-                    LTC: { available: bitstampInfo.body.ltc_balance },
-                    XRP: { available: bitstampInfo.body.xrp_balance }
+                    BCH: { available: balances.bch_balance },
+                    BTC: { available: balances.btc_balance },
+                    ETH: { available: balances.eth_balance },
+                    LTC: { available: balances.ltc_balance },
+                    XRP: { available: balances.xrp_balance }
                 }
                 resolve({ bitstamp: newObj })
             })
-            .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
+            .catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
         })
     },
 
@@ -127,7 +127,6 @@ const exchangeGetters = {
                 }
 
                 resolve({ kraken: newObj })
-
             })
             .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
         })
