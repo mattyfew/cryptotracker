@@ -7,7 +7,8 @@ const express = require('express'),
 
     Poloniex = require('poloniex-api-node'),
     binance = require('node-binance-api'),
-    { Bitstamp } = require('node-bitstamp');
+    { Bitstamp } = require('node-bitstamp'),
+    Kraken = require('kraken-api');
 
 router.post('/add-new-exchange', (req, res) => {
     exchangeController.post({
@@ -80,13 +81,12 @@ const exchangeGetters = {
                 secret: exchange.APIsecret,
                 clientId: exchange.customerId,
                 timeout: 5000,
-                rateLimit: true //turned on by default
+                rateLimit: true
             })
 
             bitstamp.balance()
                 .then(bitstampInfo => {
 
-                    // TODO might need to add more metrics later
                     const newObj = {
                         BCH: { available: bitstampInfo.body.bch_balance },
                         BTC: { available: bitstampInfo.body.btc_balance },
@@ -113,6 +113,26 @@ const exchangeGetters = {
                 resolve({ poloniex: newObj })
             }).catch((err) => {
                 console.log(err.message)
+            })
+        })
+    },
+
+    kraken(exchange) {
+        return new Promise((resolve, reject) => {
+            const kraken = new Kraken(exchange.APIkey, exchange.APIsecret)
+
+            kraken.api('Balance').then(({ result: balances }) => {
+
+                const newObj = {}
+
+                for (let key in balances) {
+                    newObj[key] = { available: balances[key] }
+                }
+
+                console.log("balances: ", newObj)
+
+                resolve({ kraken: newObj })
+
             })
         })
     }
