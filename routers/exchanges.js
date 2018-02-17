@@ -5,7 +5,7 @@ const express = require('express'),
     exchangeController = require(path.resolve(__dirname, '..', './controllers/ExchangeController')),
     userController = require(path.resolve(__dirname, '..', './controllers/UserController')),
 
-    // Poloniex = require('poloniex-api-node'),
+    Poloniex = require('poloniex-api-node'),
     binance = require('node-binance-api'),
     { Bitstamp } = require('node-bitstamp');
 
@@ -61,7 +61,7 @@ router.get('/get-exchange-info', (req, res) => {
 module.exports = router
 
 const exchangeGetters = {
-    binance: function(exchange){
+    binance(exchange){
         return new Promise((resolve, reject) => {
             binance.options({
                 'APIKEY': exchange.APIkey,
@@ -73,9 +73,8 @@ const exchangeGetters = {
         })
     },
 
-    bitstamp: function(exchange) {
+    bitstamp(exchange) {
         return new Promise((resolve, reject) => {
-            console.log("creating bitstamp client", exchange);
             const bitstamp = new Bitstamp({
                 key: exchange.APIkey,
                 secret: exchange.APIsecret,
@@ -86,7 +85,6 @@ const exchangeGetters = {
 
             bitstamp.balance()
                 .then(bitstampInfo => {
-                    console.log("bitstampInfo", bitstampInfo);
 
                     // TODO might need to add more metrics later
                     const newObj = {
@@ -96,9 +94,26 @@ const exchangeGetters = {
                         LTC: { available: bitstampInfo.body.ltc_balance },
                         XRP: { available: bitstampInfo.body.xrp_balance }
                     }
-                    console.log(newObj);
                     resolve({ bitstamp: newObj })
                 })
+        })
+    },
+
+    poloniex(exchange) {
+        return new Promise((resolve, reject) => {
+            let poloniex = new Poloniex(exchange.APIkey, exchange.APIsecret)
+
+            poloniex.returnBalances().then( balances => {
+                const newObj = {}
+
+                for (let key in balances) {
+                    newObj[key] = { available: balances[key] }
+                }
+
+                resolve({ poloniex: newObj })
+            }).catch((err) => {
+                console.log(err.message)
+            })
         })
     }
 }
