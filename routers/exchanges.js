@@ -84,18 +84,17 @@ const exchangeGetters = {
                 rateLimit: true
             })
 
-            bitstamp.balance()
-                .then(bitstampInfo => {
-
-                    const newObj = {
-                        BCH: { available: bitstampInfo.body.bch_balance },
-                        BTC: { available: bitstampInfo.body.btc_balance },
-                        ETH: { available: bitstampInfo.body.eth_balance },
-                        LTC: { available: bitstampInfo.body.ltc_balance },
-                        XRP: { available: bitstampInfo.body.xrp_balance }
-                    }
-                    resolve({ bitstamp: newObj })
-                })
+            bitstamp.balance().then(bitstampInfo => {
+                const newObj = {
+                    BCH: { available: bitstampInfo.body.bch_balance },
+                    BTC: { available: bitstampInfo.body.btc_balance },
+                    ETH: { available: bitstampInfo.body.eth_balance },
+                    LTC: { available: bitstampInfo.body.ltc_balance },
+                    XRP: { available: bitstampInfo.body.xrp_balance }
+                }
+                resolve({ bitstamp: newObj })
+            })
+            .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
         })
     },
 
@@ -111,9 +110,8 @@ const exchangeGetters = {
                 }
 
                 resolve({ poloniex: newObj })
-            }).catch((err) => {
-                console.log(err.message)
             })
+            .catch(err => console.log("There was an error in exchangeGetters.poloniex: ", err.message))
         })
     },
 
@@ -122,18 +120,16 @@ const exchangeGetters = {
             const kraken = new Kraken(exchange.APIkey, exchange.APIsecret)
 
             kraken.api('Balance').then(({ result: balances }) => {
-
                 const newObj = {}
 
                 for (let key in balances) {
                     newObj[key] = { available: balances[key] }
                 }
 
-                console.log("balances: ", newObj)
-
                 resolve({ kraken: newObj })
 
             })
+            .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
         })
     }
 }
