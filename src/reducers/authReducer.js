@@ -2,7 +2,8 @@ import * as type from '../actions/types';
 
 const initialState = {
   addressUser: '',
-  addressSignature: ''
+  addressSignature: '',
+  errorMsg: ''
 }
 
 export default (state = initialState, action) => {
@@ -21,6 +22,15 @@ export default (state = initialState, action) => {
       case type.VERIFY_SIGNATURE:
         updated['addressSignature'] = action.addressSignature
         return updated
+
+      case type.SAVE_USER_ADDRESS:
+        if(action.response.confirmation === 'success') {
+          return state
+        } else {
+          updated['errorMsg'] = 'Could not update user properly.'
+          return updated
+        }
+        return state
 
       default:
         return state
