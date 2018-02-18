@@ -6,9 +6,9 @@ const ROOT_URL = 'http://localhost:8080'
 function getExchangeInfo() {
     // TODO: will need to add logged in user credentials
     return (dispatch) => {
-        return axios.get('/get-exchange-info')
+        return axios.get('/exchanges/get-exchange-info')
             .then( res => {
-                console.log("we here");
+                console.log("we here", res);
                 dispatch({
                     type: GET_EXCHANGE_INFO,
                     exchangeInfo: res.data.exchangeInfo
@@ -19,7 +19,7 @@ function getExchangeInfo() {
 
 function addNewExchange(exchangeInfo) {
     return (dispatch) => {
-        axios.post('/add-new-exchange', exchangeInfo)
+        axios.post('/exchanges/add-new-exchange', exchangeInfo)
             .then(res => {
                 console.log("we got something back", res)
                 dispatch({
@@ -30,7 +30,17 @@ function addNewExchange(exchangeInfo) {
     }
 }
 
+function getLogos() {
+    return (dispatch) => {
+        return axios.get('https://www.cryptocompare.com/api/data/coinlist/')
+            .then( res => {
+                console.log("getting logos", res)
+            })
+    }
+}
+
 export default {
   getExchangeInfo,
-  addNewExchange
+  addNewExchange,
+  getLogos
 }

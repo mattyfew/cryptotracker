@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-export default function Exchange({exchangeName, exchangeInfo}) {
+export default function Exchange({ exchangeName, exchangeInfo }) {
     return (<div className="exchange">
         <h3>{exchangeName}</h3>
 
@@ -20,5 +20,4 @@ function renderBalances(balances) {
             )
         }
     })
-
 }

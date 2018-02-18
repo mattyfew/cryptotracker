@@ -13,6 +13,17 @@ module.exports = {
     })
   },
 
+  getExchangeInfo: (params) => {
+    return new Promise((resolve, reject) => {
+      Exchange.find(params)
+        .populate('exchanges')
+        .then(result => {
+            resolve(result)
+        })
+        .catch (e => reject(e))
+    })
+  },
+
   getById: (id) => {
     return new Promise((resolve, reject) => {
       Exchange.findById(id, (err, exchange) => {
