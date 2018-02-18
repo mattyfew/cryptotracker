@@ -30,7 +30,17 @@ function addNewExchange(exchangeInfo) {
     }
 }
 
+function getLogos() {
+    return (dispatch) => {
+        return axios.get('https://www.cryptocompare.com/api/data/coinlist/')
+            .then( res => {
+                console.log("getting logos", res)
+            })
+    }
+}
+
 export default {
   getExchangeInfo,
-  addNewExchange
+  addNewExchange,
+  getLogos
 }

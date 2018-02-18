@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 export default function Exchange({ exchangeName, exchangeInfo }) {
     return (<div className="exchange">

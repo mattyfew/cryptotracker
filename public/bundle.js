@@ -13267,6 +13267,8 @@ var GET_EXCHANGE_INFO = exports.GET_EXCHANGE_INFO = 'get_exchange_info';
 var ADD_NEW_EXCHANGE = exports.ADD_NEW_EXCHANGE = 'add_new_exchange';
 var SAVE_USER_ADDRESS = exports.SAVE_USER_ADDRESS = 'save_user_address';
 
+var GET_LOGOS = exports.GET_LOGOS = 'get_logos';
+
 /***/ }),
 /* 114 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -61168,6 +61170,11 @@ exports.default = function () {
         case _types.ADD_NEW_EXCHANGE:
             console.log("inside reducer, case: ADD_NEW_EXCHANGE", action);
             return state;
+
+        case _types.GET_LOGOS:
+            console.log("inside reducer, case: GET_LOGOS", action, state);
+            return state;
+
         default:
             return state;
 
@@ -111369,9 +111376,18 @@ function addNewExchange(exchangeInfo) {
     };
 }
 
+function getLogos() {
+    return function (dispatch) {
+        return _axios2.default.get('https://www.cryptocompare.com/api/data/coinlist/').then(function (res) {
+            console.log("getting logos", res);
+        });
+    };
+}
+
 exports.default = {
     getExchangeInfo: getExchangeInfo,
-    addNewExchange: addNewExchange
+    addNewExchange: addNewExchange,
+    getLogos: getLogos
 };
 
 /***/ }),
@@ -111515,7 +111531,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var getExchangeInfo = _actions.ExchangeActions.getExchangeInfo,
-    addNewExchange = _actions.ExchangeActions.addNewExchange;
+    addNewExchange = _actions.ExchangeActions.addNewExchange,
+    getLogos = _actions.ExchangeActions.getLogos;
 
 var Accounts = function (_Component) {
     _inherits(Accounts, _Component);
@@ -111541,6 +111558,7 @@ var Accounts = function (_Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.props.getExchangeInfo();
+            this.props.getLogos();
         }
     }, {
         key: 'handleChange',
@@ -111684,7 +111702,7 @@ function mapStateToProps(state) {
 }
 
 // export default connect(mapStateToProps)(Accounts)
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { getExchangeInfo: getExchangeInfo, addNewExchange: addNewExchange })(Accounts);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { getExchangeInfo: getExchangeInfo, addNewExchange: addNewExchange, getLogos: getLogos })(Accounts);
 
 /***/ }),
 /* 837 */
