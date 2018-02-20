@@ -8,15 +8,15 @@ export default class EncryptionAgent {
     const key = await _constructKey({password, salt})
 
     const cipher = crypto.createCipher('aes-256-ctr', key)
-    let crypted = cipher.update(text,'utf8','hex')
+    let crypted = cipher.update(plaintext,'utf8','hex')
     crypted += cipher.final('hex');
     return {cipertext: crypted, salt}
   }
 
-  async decrypt({cipherText, salt, password}) {
+  async decrypt({ciphertext, salt, password}) {
     const key = await _constructKey({password, salt})
     const decipher = crypto.createDecipher(algorithm,password)
-    let dec = decipher.update(text,'hex','utf8')
+    let dec = decipher.update(ciphertext,'hex','utf8')
     dec += decipher.final('utf8');
     return {plaintext: dec}
   }
