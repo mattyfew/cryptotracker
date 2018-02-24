@@ -86,6 +86,17 @@ const exchangeGetters = {
 
             binance.balance( balances => {
                 newBalances = removeZeroBalance(balances)
+
+                // TODO Get Trade History: API has binance.trades("SNMBTC"), .allorder("SNMBTC")
+
+
+
+
+
+
+
+
+
                 resolve({ binance: newBalances })
             })
         })
@@ -129,6 +140,11 @@ const exchangeGetters = {
                 }
 
                 newBalances = removeZeroBalance(newObj)
+
+                // returnOrderBook(currencyPair, depth [, callback])
+                // returnTradeHistory(currencyPair, start, end, limit [, callback])
+
+
                 resolve({ poloniex: newBalances })
             })
             .catch(err => console.log("There was an error in exchangeGetters.poloniex: ", err.message))

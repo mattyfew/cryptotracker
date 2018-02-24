@@ -1,36 +1,43 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default function Exchange({ exchangeName, exchangeInfo }) {
+function Exchange({ exchangeName, exchangeInfo, coinList }) {
+    console.log(coinList["ADA"]);
+    console.log(exchangeInfo);
+
     return (
         <div className="exchange" style={ styles.exchange }>
             <h3 style={ styles.exchangeName }>{ capitalise(exchangeName) }</h3>
 
             <div className="balances-container">
-                { renderBalances(exchangeInfo) }
+                { /* TODO: figure out a way to not have to pass coinList */}
+                { renderBalances(exchangeInfo, coinList) }
             </div>
         </div>
     )
 }
 
-function renderBalances(balances) {
+function buildCurrencyInfo(currency) {
+
+}
+
+function renderBalances(balances, coinList) {
 
     // TODO: render balances in decending order
     // sortBalances(balances)
 
     return Object.keys(balances).map(tickerName => {
-        if (balances[tickerName].available > 0) {
 
-            return (
-                <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
-                    <div className="col-sm-1"><img src={`/cryptocurrency-icons/32/color/${ tickerName.toLowerCase() }.png`} alt=""/></div>
-                    <div className="col-sm-8">
-                        <p>{ tickerName }</p>
-                        <p>Bitcoin</p>
-                    </div>
-                    <div className="col-sm-3">{ balances[tickerName].available }</div>
+        return (
+            <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
+                <div className="col-sm-1"><img src={`/cryptocurrency-icons/32/color/${ tickerName.toLowerCase() }.png`} alt=""/></div>
+                <div className="col-sm-8">
+                    <p>{ tickerName }</p>
+                    <p>{ coinList[tickerName] && coinList[tickerName].CoinName || "??????" }</p>
                 </div>
-            )
-        }
+                <div className="col-sm-3">{ balances[tickerName].available }</div>
+            </div>
+        )
     })
 
     // function sortBalances(balances) {
@@ -74,3 +81,11 @@ const styles = {
         padding: '10px 0'
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        coinList: state.coinList.coinList
+    }
+}
+
+export default connect(mapStateToProps)(Exchange)
