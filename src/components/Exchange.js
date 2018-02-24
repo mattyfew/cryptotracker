@@ -15,6 +15,7 @@ export default function Exchange({ exchangeName, exchangeInfo }) {
 function renderBalances(balances) {
 
     // TODO: render balances in decending order
+    sortBalances(balances)
 
     return Object.keys(balances).map(tickerName => {
         if (balances[tickerName].available > 0) {
@@ -27,6 +28,27 @@ function renderBalances(balances) {
             )
         }
     })
+
+    // function sortBalances(balances) {
+    //
+    //     const clone = Object.assign({}, balances)
+    //     let sortable = []
+    //
+    //     for (const key in clone) {
+    //         clone[key].available == 0
+    //             ? delete clone[key]
+    //             : sortable.push( [key, parseFloat(clone[key].available) ]);
+    //
+    //     }
+    //
+    //     sortable.sort(function(a, b) {
+    //         return a[1] - b[1]
+    //     })
+    //
+    //
+    //
+    //     console.log(sortable);
+    // }
 }
 
 function capitalise(str) {
