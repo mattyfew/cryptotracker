@@ -22,7 +22,10 @@ function renderBalances(balances) {
             return (
                 <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
                     <div className="col-sm-1"><img src={`/cryptocurrency-icons/32/color/${ tickerName.toLowerCase() }.png`} alt=""/></div>
-                    <div className="col-sm-8">{ tickerName }</div>
+                    <div className="col-sm-8">
+                        <p>{ tickerName }</p>
+                        <p>Bitcoin</p>
+                    </div>
                     <div className="col-sm-3">{ balances[tickerName].available }</div>
                 </div>
             )

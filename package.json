@@ -11,9 +11,10 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
+    "bootstrap": "^4.0.0-alpha.6",
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.4",
-    "bootstrap": "^4.0.0-alpha.6",
+    "cryptocompare": "^0.4.0",
     "ethereumjs-util": "^5.1.2",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { ExchangeActions } from '../actions'
-const { getExchangeInfo, addNewExchange, getLogos } = ExchangeActions
 import Exchange from './Exchange'
+
+import { ExchangeActions, CoinActions } from '../actions'
+const { getExchangeInfo, addNewExchange } = ExchangeActions
+const { getCoinInfo } = CoinActions
 
 class Accounts extends Component {
     constructor(props) {
@@ -22,7 +24,7 @@ class Accounts extends Component {
 
     componentDidMount() {
         this.props.getExchangeInfo()
-        this.props.getLogos()
+        this.props.getCoinInfo()
     }
 
     handleChange(e) {
@@ -123,9 +125,11 @@ const styles = {
 
 function mapStateToProps(state) {
     // CODE DEBT: Might need to refactor this exchanges.exchanges (also in reducer index)
+    console.log(state);
     return {
-        exchanges: state.exchanges.exchanges
+        exchanges: state.exchanges.exchanges,
+        coinList: state.coinList.coinList
     }
 }
 
-export default connect(mapStateToProps, { getExchangeInfo, addNewExchange, getLogos })(Accounts)
+export default connect(mapStateToProps, { getExchangeInfo, addNewExchange, getCoinInfo })(Accounts)

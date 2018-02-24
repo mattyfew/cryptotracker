@@ -8,3 +8,5 @@ export const ADD_NEW_EXCHANGE = 'add_new_exchange'
 export const SAVE_USER_ADDRESS = 'save_user_address'
 
 export const GET_LOGOS = 'get_logos'
+
+export const GET_COIN_INFO = 'get_coin_info'
