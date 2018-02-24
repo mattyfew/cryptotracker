@@ -19,6 +19,7 @@ function renderBalances(balances) {
 
     return Object.keys(balances).map(tickerName => {
         if (balances[tickerName].available > 0) {
+
             return (
                 <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
                     <div className="col-sm-1"><img src={`/cryptocurrency-icons/32/color/${ tickerName.toLowerCase() }.png`} alt=""/></div>

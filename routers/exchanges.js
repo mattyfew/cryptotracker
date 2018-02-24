@@ -61,6 +61,20 @@ router.get('/get-exchange-info', (req, res) => {
 
 module.exports = router
 
+function removeZeroBalance(balances) {
+    const clone = Object.assign({}, balances)
+    let sortable = []
+
+    for (const key in clone) {
+        clone[key].available == 0
+            ? delete clone[key]
+            : sortable.push( [key, parseFloat(clone[key].available) ]);
+
+    }
+
+    return clone
+}
+
 const exchangeGetters = {
     binance(exchange){
         return new Promise((resolve, reject) => {
@@ -70,7 +84,10 @@ const exchangeGetters = {
                 'recvWindow': 60000
             })
 
-            binance.balance( balances => resolve({ binance: balances }) )
+            binance.balance( balances => {
+                newBalances = removeZeroBalance(balances)
+                resolve({ binance: newBalances })
+            })
         })
     },
 
@@ -92,7 +109,9 @@ const exchangeGetters = {
                     LTC: { available: balances.ltc_balance },
                     XRP: { available: balances.xrp_balance }
                 }
-                resolve({ bitstamp: newObj })
+
+                newBalances = removeZeroBalance(newObj)
+                resolve({ bitstamp: newBalances })
             })
             .catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
         })
@@ -109,7 +128,8 @@ const exchangeGetters = {
                     newObj[key] = { available: balances[key] }
                 }
 
-                resolve({ poloniex: newObj })
+                newBalances = removeZeroBalance(newObj)
+                resolve({ poloniex: newBalances })
             })
             .catch(err => console.log("There was an error in exchangeGetters.poloniex: ", err.message))
         })
@@ -126,7 +146,8 @@ const exchangeGetters = {
                     newObj[key] = { available: balances[key] }
                 }
 
-                resolve({ kraken: newObj })
+                newBalances = removeZeroBalance(newObj)
+                resolve({ kraken: newBalances })
             })
             .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
         })
