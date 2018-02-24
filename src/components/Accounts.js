@@ -43,24 +43,28 @@ class Accounts extends Component {
 
         if (!exchanges) {
             return (
-                <div>renderiing bros</div>
+                <div>Loading exchange details...</div>
             )
         }
 
-        return Object.keys(exchanges).map(key => {
+        const exchangesJSX = Object.keys(exchanges).map(key => {
             return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
         } )
+
+        return (
+            <div className="exchanges-container" style={ styles.exchangesContainer}>
+                { exchangesJSX }
+            </div>
+        )
     }
 
     render() {
         return (
             <div>
-                <section style={styles.showExchanges}id="show-exchanges">
+                <section style={styles.showExchanges} id="show-exchanges">
                     <h2>Your Linked Exchanges</h2>
 
-                    <div className="exchanges-container">
-                        { this.renderExchanges() }
-                    </div>
+                    { this.renderExchanges() }
                 </section>
 
                 <section style={styles.linkExchanges}id="link-exchanges">
@@ -110,6 +114,10 @@ const styles = {
     formButton: {
         marginTop: 15,
         padding: 20
+    },
+    exchangesContainer: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr'
     }
 }
 
@@ -120,5 +128,4 @@ function mapStateToProps(state) {
     }
 }
 
-// export default connect(mapStateToProps)(Accounts)
 export default connect(mapStateToProps, { getExchangeInfo, addNewExchange, getLogos })(Accounts)
