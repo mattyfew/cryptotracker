@@ -5,7 +5,7 @@ const express = require('express'),
     Wallet = require(path.resolve(__dirname, '..', './db/models/wallet')),
     walletController = require(path.resolve(__dirname, '..', './controllers/WalletController')),
 
-    bitcoin = require('bitcoin');
+    bitcoin = require('bitcoin-promise');
 
 router.post('/add-new-wallet', (req, res) => {
     walletController.post({
@@ -31,7 +31,32 @@ router.get('/get-wallet-info', (req, res) => {
     walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
         .then( walletInfo => {
             // TODO: need to run the bitcoin GET wallet info stuff here
-            res.json({ walletInfo })
+            const client = new bitcoin.Client({
+                // host: 'localhost',
+                // port: 3000,
+                // timeout: 30000
+
+                host: 'localhost',
+                port: 8332,
+                user: 'user',
+                pass: 'pass'
+            });
+            
+            client.getBalance(walletInfo[0].address, 6, function(err, balance, resHeaders) {
+                if(err)return console.log(err)
+                console.log('Balance:', balance)
+            })
+            // client.getNewAddress()
+            //     .then(function(addr) {
+            //         return client.validateAddress(addr);
+            //     }).then(function(walletInfo) {
+            //         console.log(walletInfo);
+            //         res.json({ walletInfo })
+            //     }).catch(function(err) {
+            //         console.log(err);
+            //     });
+
+
         })
 })
 
