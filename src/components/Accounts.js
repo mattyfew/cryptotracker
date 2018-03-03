@@ -64,6 +64,10 @@ class Accounts extends Component {
     render() {
         return (
             <div>
+                <section style={styles.wallets}>
+                    <AddWallet />
+                </section>
+
                 <section style={styles.showExchanges} id="show-exchanges">
                     <h2>Your Linked Exchanges</h2>
 
@@ -89,7 +93,6 @@ class Accounts extends Component {
                     </form>
                 </section>
 
-                <AddWallet />
 
             </div>
         )
@@ -97,6 +100,11 @@ class Accounts extends Component {
 }
 
 const styles = {
+    wallets: {
+        border: '2px solid purple',
+        margin: '25px',
+        padding: '30px'
+    },
     showExchanges: {
         border: '2px solid red',
         margin: '25px',

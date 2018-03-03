@@ -11,11 +11,16 @@ class AddWallet extends Component {
 
         this.state = {
             cryptocurrency: 'bitcoin',
-            address: ''
+            address: '',
+            wallets: []
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.getWalletInfo()
     }
 
     handleChange(e) {
@@ -26,26 +31,34 @@ class AddWallet extends Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        console.log("trying to submit");
-
         this.props.addNewWallet(this.state)
     }
 
     render() {
         return (
-            <section>
-                <h2>Add a New Wallet</h2>
 
-                <form onSubmit={this.handleSubmit}>
-                    <select value="" name="cryptocurrency" onChange={this.handleChange}>
-                        <option value="bitcoin" defaultValue>BTC</option>
-                        <option value="ethereum">ETH</option>
-                        <option value="litecoin">LTC</option>
-                    </select>
-                    <input type="text" name="address" placeholder="Enter wallet address" onChange={this.handleChange}/>
-                    <button>Submit</button>
-                </form>
-            </section>
+            <div>
+                <section>
+                    <h2>Your Wallets</h2>
+
+                    <p>Wallets will go here</p>
+
+                </section>
+
+                <section>
+                    <h2>Add a New Wallet</h2>
+
+                    <form onSubmit={this.handleSubmit}>
+                        <select value="" name="cryptocurrency" onChange={this.handleChange}>
+                            <option value="bitcoin" defaultValue>BTC</option>
+                            <option value="ethereum">ETH</option>
+                            <option value="litecoin">LTC</option>
+                        </select>
+                        <input type="text" name="address" placeholder="Enter wallet address" onChange={this.handleChange}/>
+                        <button>Submit</button>
+                    </form>
+                </section>
+            </div>
         )
     }
 }

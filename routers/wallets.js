@@ -26,6 +26,13 @@ router.post('/add-new-wallet', (req, res) => {
     })
 })
 
-router.get('/get-wallet-info', (req, res) => {})
+router.get('/get-wallet-info', (req, res) => {
+    console.log("running GET /get-wallet-info");
+    walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
+        .then( walletInfo => {
+            // TODO: need to run the bitcoin GET wallet info stuff here
+            res.json({ walletInfo })
+        })
+})
 
 module.exports = router

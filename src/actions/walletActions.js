@@ -6,6 +6,7 @@ function getWalletInfo() {
     return (dispatch) => {
         return axios.get('/wallets/get-wallet-info')
             .then( res => {
+                console.log("running getWalletInfo", res);
                 dispatch({
                     type: GET_WALLET_INFO,
                     walletInfo: res.data.walletInfo
