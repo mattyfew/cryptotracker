@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bitcoin": "^3.0.1",
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0-alpha.6",
     "cookie-session": "^2.0.0-beta.3",

@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { authReducer, exchangeReducer, coinReducer } from '../reducers'
+import { authReducer, exchangeReducer, coinReducer, walletReducer } from '../reducers'
 
 var store
 
@@ -9,7 +9,8 @@ export default {
     const reducers = combineReducers({
       auth: authReducer,
       exchanges: exchangeReducer,
-      coinList: coinReducer
+      coinList: coinReducer,
+      wallets: walletReducer
     })
 
     store = createStore(

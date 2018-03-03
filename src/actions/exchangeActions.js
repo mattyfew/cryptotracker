@@ -13,6 +13,7 @@ function getExchangeInfo() {
                     exchangeInfo: res.data.exchangeInfo
                 })
             })
+            .catch(err => console.log("there was an error in GET /get-exchange-info", err) )
     }
 }
 

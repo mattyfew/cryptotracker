@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Exchange from './Exchange'
+import AddWallet from './AddWallet'
+
 
 import { ExchangeActions, CoinActions } from '../actions'
 const { getExchangeInfo, addNewExchange } = ExchangeActions
@@ -68,7 +70,7 @@ class Accounts extends Component {
                     { this.renderExchanges() }
                 </section>
 
-                <section style={styles.linkExchanges}id="link-exchanges">
+                <section style={styles.linkExchanges} id="link-exchanges">
                     <h2>Linking up exchanges to accounts will go here</h2>
 
                     <form style={styles.formStyles} onSubmit={this.handleSubmit} >
@@ -86,6 +88,9 @@ class Accounts extends Component {
                         <button style={styles.formButton} >Add Exchange API Access</button>
                     </form>
                 </section>
+
+                <AddWallet />
+
             </div>
         )
     }
