@@ -49,8 +49,7 @@ app.use('/exchanges', exchanges)
 
 app.use((req, res, next) => {
   const token = req.session.token || req.body.token || req.headers['x-access-token']
-
-  if(token) {
+  if (token) {
     jwt.verify(token, app.get('superSecret'), (err, decoded) => {
         if(err) {
           return res.json({
@@ -64,10 +63,14 @@ app.use((req, res, next) => {
       }
     )
   } else {
-    return res.status(403).send({
-      success: false,
-      message: 'No token provided'
-    })
+    if (req.url === '/login') {
+      next()
+    } else {
+      return res.status(403).send({
+        success: false,
+        message: 'No token provided'
+      })
+    }
   }
 })
 

@@ -5,30 +5,13 @@ import Presentation from '../view/Login'
 
 
 class LoginScreen extends Component {
-  componentDidMount() {
-    this.props.login()
-  }
-
-  checkAuthentication() {
-    const auth = this.props.auth
-    const checkRule = auth.addressUser !== undefined && auth.addressUser.length > 0 &&
-      auth.addressUser.toUpperCase() === auth.addressSignature.toUpperCase()
-    if(checkRule) {
-      this.props.saveUserAddress()
-      return `You are authenticated as ${auth.addressUser}. Please proceed to you dashboard >> LINK.`
-    } else {
-      return `you are not logged in.`
-    }
-  }
 
   render () {
     const {auth} = this.props
-    const authenticated = this.checkAuthentication()
     return (
       <Presentation
-        authenticated={authenticated}
-        authProps={auth}
-      />
+        login={this.props.login}
+        authProps={auth} />
     )
   }
 }
@@ -41,9 +24,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: () => dispatch(AuthActions.login()),
-    verifySignature: () => dispatch(AuthActions.verifySignature()),
-    saveUserAddress: () => dispatch(AuthActions.saveUserAddress())
+    login: () => dispatch(AuthActions.login())
   }
 }
 

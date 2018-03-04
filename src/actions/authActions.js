@@ -1,6 +1,7 @@
 import axios from 'axios'
 import * as type from './types'
 import { web3Manager } from '../utils'
+import { push } from 'react-router-redux'
 
 const ROOT_URL = 'http://localhost:8080'
 
@@ -34,6 +35,7 @@ const verifySignature = (signature) => {
         type: type.VERIFY_SIGNATURE,
         addressSignature: res
       })
+      return dispatch(saveUserAddress())
     })
     .catch((err) => {
       console.log('ERROR in verify signature: ', err)
@@ -50,7 +52,12 @@ const saveUserAddress = () => {
         type: type.SAVE_USER_ADDRESS,
         response: res.data
       })
-      return axios.post('/authenticate', {id: res.data.result._id})
+
+      axios.post('/authenticate', {id: res.data.result._id})
+      .then((res) => {
+        dispatch(push('/wallet'))
+        return res
+      })
     })
     .catch((err) => {
       console.log('ERROR save user address: ', err)
