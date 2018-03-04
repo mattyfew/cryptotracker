@@ -44,7 +44,7 @@ app.set('superSecret', config.secret)
 app.use('/', index)
 app.use('/authenticate', authenticate)
 app.use('/api', api)
-app.use('/exchanges', exchanges)
+// app.use('/exchanges', exchanges)
 
 
 app.use((req, res, next) => {
