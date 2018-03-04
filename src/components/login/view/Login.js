@@ -1,6 +1,7 @@
 import React, {Component } from 'react'
 import appStyles from '../../../styles'
 import { Button } from 'react-bootstrap'
+
 const STYLES = {
   jumboLogin: {
     height: '100vh',
@@ -17,7 +18,7 @@ const STYLES = {
 
 
 export default class LoginPresentation extends Component {
-  
+
   render () {
     let content
 
@@ -41,7 +42,7 @@ export default class LoginPresentation extends Component {
             bsStyle="danger"
             style={STYLES.button}
             onClick={() => {this.props.login()}}>
-            Sign Inside
+            Sign In
           </Button>
         </div>
       )
