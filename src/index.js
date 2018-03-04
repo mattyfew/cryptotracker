@@ -22,7 +22,7 @@ import {
 
 
 const router = (
-  <Provider store={store.configureStore()}>
+  <Provider store={store.configureStore(browserHistory)}>
     <Router history={ browserHistory }>
       <Route path="/" component={App}>
         <IndexRoute component={Welcome} />

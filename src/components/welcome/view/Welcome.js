@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import styles from '../../../styles'
 import { Element, animateScroll as scroll, Link as ScrollLink } from 'react-scroll'
 import { Button, Jumbotron } from 'react-bootstrap'
 import { Link } from 'react-router'
