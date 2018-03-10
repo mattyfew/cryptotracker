@@ -19,6 +19,7 @@ class AddWallet extends Component {
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.renderWallets = this.renderWallets.bind(this)
     }
 
     componentDidMount() {
@@ -36,14 +37,31 @@ class AddWallet extends Component {
         this.props.addNewWallet(this.state)
     }
 
+    renderWallets() {
+        if (this.props.wallets.length == 0) {
+            return (
+                <p>Loading wallets...</p>
+            )
+        }
+        return this.props.wallets.map(wallet => {
+            return (
+                <div key={ wallet.address }>
+                    <p>Currency: { wallet.cryptocurrency }</p>
+                    <p>Balance: { wallet.balance }</p>
+                </div>
+            )
+        })
+    }
+
     render() {
+        console.log("wallets?", this.props);
         return (
 
             <div>
                 <section>
                     <h2>Your Wallets</h2>
 
-                    <p>Wallets will go here</p>
+                    { this.renderWallets() }
                 </section>
 
                 <section>

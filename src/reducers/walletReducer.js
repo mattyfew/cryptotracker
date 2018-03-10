@@ -1,6 +1,8 @@
 import { GET_WALLET_INFO, ADD_NEW_WALLET } from '../actions/types'
 
-const INITIAL_STATE = {}
+const INITIAL_STATE = {
+    wallets: []
+}
 
 
 export default (state = INITIAL_STATE, action) => {

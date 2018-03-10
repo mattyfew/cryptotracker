@@ -2,6 +2,7 @@ const express = require('express'),
     router = express.Router(),
     path = require('path'),
     web3 = require('web3'),
+    chalk = require('chalk'),
 
     Wallet = require(path.resolve(__dirname, '..', './db/models/wallet')),
     walletController = require(path.resolve(__dirname, '..', './controllers/WalletController')),
@@ -28,15 +29,11 @@ router.post('/add-new-wallet', (req, res) => {
 })
 
 router.get('/get-wallet-info', (req, res) => {
-    console.log("running GET /get-wallet-info");
-
     walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
-    .then( walletInfo => {
-        console.log("walletInfo: ", walletInfo);
-
-        queryWalletsForBalances(walletInfo)
-        .then( exchangeInfo => {
-            res.json({ exchangeInfo })
+    .then( wallets => {
+        queryWalletsForBalances(wallets)
+        .then( walletInfo => {
+            res.json({ walletInfo })
         })
     })
 })
@@ -47,45 +44,43 @@ module.exports = router
 function queryWalletsForBalances(wallets) {
     let promises = []
     wallets.forEach(wallet => {
-        console.log("the wallet----", wallet);
         promises.push(walletGetters[wallet.name](wallet))
     })
     return Promise.all(promises)
-        .then(walletInfoArr => {
-            let newObj = {}
-            for (let i = 0; i < walletInfoArr.length; i++) {
-                let walletName = Object.keys(walletInfoArr[i])[0]
-                newObj[ walletName ] = walletInfoArr[i][walletName]
-            }
-            return newObj
-        })
-        .catch(e => console.log("There was an error in queryExchangesForBalances", e))
+    .then(walletInfoArr => {
+        return walletInfoArr
+    })
+    .catch(e => console.log("There was an error in queryExchangesForBalances", e))
 }
 
 const walletGetters = {
-    ethereum(addr) {
+    ethereum({ address }) {
         return new Promise((resolve, reject) => {
-            let key = require( path.resolve(__dirname, '..', './config') ).etherscanApiKey
-
-            console.log("asdjfaj", addr);
-
+            const key = require( path.resolve(__dirname, '..', './config') ).etherscanApiKey
             const api = etherscan.init( key )
-            api.account.balance(addr.address)
-            // api.account.balance('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae')
 
-                .then(balanceData => {
-                    console.log("we got some data!!", web3.utils.fromWei(balanceData.result));
-                    resolve(balanceData)
+            api.account.balance(address)
+            .then(balanceData => {
+                resolve({
+                    cryptocurrency: 'etherum',
+                    symbol: 'ETH',
+                    address,
+                    balance: web3.utils.fromWei(balanceData.result)
                 })
-                .catch(e => console.log("There was an error in get Ethereum", e))
-
+            })
+            .catch(e => console.log("There was an error in get Ethereum", e))
         })
     },
 
-    bitcoin(addr) {
+    bitcoin({ address }) {
         return new Promise(function(resolve, reject) {
             // TODO: this
-            return null
+            resolve({
+                cryptocurrency: 'bitcoin',
+                symbol: 'BTC',
+                address,
+                balance: '9999999'
+            })
         })
     }
 }
