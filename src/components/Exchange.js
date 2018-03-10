@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 function Exchange({ exchangeName, exchangeInfo, coinList }) {
-    console.log(coinList["ADA"]);
-    console.log(exchangeInfo);
-
     return (
         <div className="exchange" style={ styles.exchange }>
             <h3 style={ styles.exchangeName }>{ capitalise(exchangeName) }</h3>

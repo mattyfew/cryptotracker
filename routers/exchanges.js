@@ -32,6 +32,18 @@ router.post('/add-new-exchange', (req, res) => {
     .catch(err => console.log("There was an error in POST /exchanges/add-new-exchange", err))
 })
 
+router.get('/get-exchange-info', (req, res) => {
+    exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
+    .then( exchanges => {
+        queryExchangesForBalances(exchanges)
+        .then( exchangeInfo => {
+            res.json({ exchangeInfo })
+        })
+    })
+})
+
+module.exports = router
+
 function queryExchangesForBalances(exchanges) {
     let promises = []
     exchanges.forEach(exchange => {
@@ -48,18 +60,6 @@ function queryExchangesForBalances(exchanges) {
         })
         .catch(e => console.log("There was an error in queryExchangesForBalances", e))
 }
-
-router.get('/get-exchange-info', (req, res) => {
-    exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
-        .then( exchanges => {
-            queryExchangesForBalances(exchanges)
-                .then( exchangeInfo => {
-                    res.json({ exchangeInfo })
-                })
-        })
-})
-
-module.exports = router
 
 function removeZeroBalance(balances) {
     const clone = Object.assign({}, balances)
@@ -86,17 +86,7 @@ const exchangeGetters = {
 
             binance.balance( balances => {
                 newBalances = removeZeroBalance(balances)
-
                 // TODO Get Trade History: API has binance.trades("SNMBTC"), .allorder("SNMBTC")
-
-
-
-
-
-
-
-
-
                 resolve({ binance: newBalances })
             })
         })

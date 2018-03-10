@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Exchange from './Exchange'
 import AddWallet from './AddWallet'
 
-
 import { ExchangeActions, CoinActions } from '../actions'
 const { getExchangeInfo, addNewExchange } = ExchangeActions
 const { getCoinInfo } = CoinActions
@@ -137,7 +136,7 @@ const styles = {
 
 function mapStateToProps(state) {
     // CODE DEBT: Might need to refactor this exchanges.exchanges (also in reducer index)
-    console.log(state);
+    // console.log(state);
     return {
         exchanges: state.exchanges.exchanges,
         coinList: state.coinList.coinList

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { WalletActions } from '../actions'
 const { getWalletInfo, addNewWallet } = WalletActions
 // const { getCoinInfo } = CoinActions
+// import axios from 'axios'
+
 
 class AddWallet extends Component {
     constructor() {
@@ -42,15 +44,14 @@ class AddWallet extends Component {
                     <h2>Your Wallets</h2>
 
                     <p>Wallets will go here</p>
-
                 </section>
 
                 <section>
                     <h2>Add a New Wallet</h2>
 
                     <form onSubmit={this.handleSubmit}>
-                        <select value="" name="cryptocurrency" onChange={this.handleChange}>
-                            <option value="bitcoin" defaultValue>BTC</option>
+                        <select value={this.state.cryptocurrency} name="cryptocurrency" onChange={this.handleChange}>
+                            <option value="bitcoin">BTC</option>
                             <option value="ethereum">ETH</option>
                             <option value="litecoin">LTC</option>
                         </select>

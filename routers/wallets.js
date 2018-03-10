@@ -1,11 +1,12 @@
 const express = require('express'),
     router = express.Router(),
     path = require('path'),
+    web3 = require('web3'),
 
     Wallet = require(path.resolve(__dirname, '..', './db/models/wallet')),
     walletController = require(path.resolve(__dirname, '..', './controllers/WalletController')),
 
-    bitcoin = require('bitcoin-promise');
+    etherscan = require('etherscan-api');
 
 router.post('/add-new-wallet', (req, res) => {
     walletController.post({
@@ -28,36 +29,63 @@ router.post('/add-new-wallet', (req, res) => {
 
 router.get('/get-wallet-info', (req, res) => {
     console.log("running GET /get-wallet-info");
+
     walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
-        .then( walletInfo => {
-            // TODO: need to run the bitcoin GET wallet info stuff here
-            const client = new bitcoin.Client({
-                // host: 'localhost',
-                // port: 3000,
-                // timeout: 30000
+    .then( walletInfo => {
+        console.log("walletInfo: ", walletInfo);
 
-                host: 'localhost',
-                port: 8332,
-                user: 'user',
-                pass: 'pass'
-            });
-            
-            client.getBalance(walletInfo[0].address, 6, function(err, balance, resHeaders) {
-                if(err)return console.log(err)
-                console.log('Balance:', balance)
-            })
-            // client.getNewAddress()
-            //     .then(function(addr) {
-            //         return client.validateAddress(addr);
-            //     }).then(function(walletInfo) {
-            //         console.log(walletInfo);
-            //         res.json({ walletInfo })
-            //     }).catch(function(err) {
-            //         console.log(err);
-            //     });
-
-
+        queryWalletsForBalances(walletInfo)
+        .then( exchangeInfo => {
+            res.json({ exchangeInfo })
         })
+    })
 })
 
 module.exports = router
+
+
+function queryWalletsForBalances(wallets) {
+    let promises = []
+    wallets.forEach(wallet => {
+        console.log("the wallet----", wallet);
+        promises.push(walletGetters[wallet.name](wallet))
+    })
+    return Promise.all(promises)
+        .then(walletInfoArr => {
+            let newObj = {}
+            for (let i = 0; i < walletInfoArr.length; i++) {
+                let walletName = Object.keys(walletInfoArr[i])[0]
+                newObj[ walletName ] = walletInfoArr[i][walletName]
+            }
+            return newObj
+        })
+        .catch(e => console.log("There was an error in queryExchangesForBalances", e))
+}
+
+const walletGetters = {
+    ethereum(addr) {
+        return new Promise((resolve, reject) => {
+            let key = require( path.resolve(__dirname, '..', './config') ).etherscanApiKey
+
+            console.log("asdjfaj", addr);
+
+            const api = etherscan.init( key )
+            api.account.balance(addr.address)
+            // api.account.balance('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae')
+
+                .then(balanceData => {
+                    console.log("we got some data!!", web3.utils.fromWei(balanceData.result));
+                    resolve(balanceData)
+                })
+                .catch(e => console.log("There was an error in get Ethereum", e))
+
+        })
+    },
+
+    bitcoin(addr) {
+        return new Promise(function(resolve, reject) {
+            // TODO: this
+            return null
+        })
+    }
+}
