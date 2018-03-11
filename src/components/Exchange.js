@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { capitalise } from '../utils';
 
 function Exchange({ exchangeName, exchangeInfo, coinList }) {
     return (
@@ -14,14 +15,9 @@ function Exchange({ exchangeName, exchangeInfo, coinList }) {
     )
 }
 
-function buildCurrencyInfo(currency) {
-
-}
-
 function renderBalances(balances, coinList) {
 
     // TODO: render balances in decending order
-    // sortBalances(balances)
 
     return Object.keys(balances).map(tickerName => {
 
@@ -36,31 +32,6 @@ function renderBalances(balances, coinList) {
             </div>
         )
     })
-
-    // function sortBalances(balances) {
-    //
-    //     const clone = Object.assign({}, balances)
-    //     let sortable = []
-    //
-    //     for (const key in clone) {
-    //         clone[key].available == 0
-    //             ? delete clone[key]
-    //             : sortable.push( [key, parseFloat(clone[key].available) ]);
-    //
-    //     }
-    //
-    //     sortable.sort(function(a, b) {
-    //         return a[1] - b[1]
-    //     })
-    //
-    //
-    //
-    //     console.log(sortable);
-    // }
-}
-
-function capitalise(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 const styles = {

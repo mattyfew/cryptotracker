@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { capitalise } from '../utils';
 
 import { WalletActions } from '../actions'
 const { getWalletInfo, addNewWallet } = WalletActions
@@ -44,8 +45,9 @@ class AddWallet extends Component {
             )
         }
         return this.props.wallets.map(wallet => {
+            console.log("mapping", wallet);
             return (
-                <div key={ wallet.address }>
+                <div style={ styles.wallet} key={ wallet.address } className="wallet" >
                     <p>Currency: { wallet.cryptocurrency }</p>
                     <p>Balance: { wallet.balance }</p>
                 </div>
@@ -82,7 +84,54 @@ class AddWallet extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const styles = {
+    wallet: {
+        backgroundColor: '#dfe6e9',
+        padding: '20px 28px',
+        margin: '16px 8px'
+    },
+    walletName: {
+        margin: '0 0 15px',
+        borderBottom: '1px solid #2d3436'
+    },
+    balanceRow: {
+        borderBottom: '1px solid #2d3436',
+        padding: '10px 0'
+    }
+}
+
+function Wallet({ balance, cryptocurrency, symbol }) {
+    return (
+        <div className="wallet" style={ styles.wallet }>
+            <h3 style={ styles.walletName }>{ capitalise(walletName) }</h3>
+
+            <div className="balances-container">
+                { renderBalances(walletInfo, coinList) }
+            </div>
+        </div>
+    )
+
+    function renderBalances(balances, coinList) {
+
+        // TODO: render balances in decending order
+
+        return Object.keys(balances).map(tickerName => {
+
+            return (
+                <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
+                    <div className="col-sm-1"><img src={`/cryptocurrency-icons/32/color/${ tickerName.toLowerCase() }.png`} alt=""/></div>
+                    <div className="col-sm-8">
+                        <p>{ tickerName }</p>
+                        <p>{ coinList[tickerName] && coinList[tickerName].CoinName || "??????" }</p>
+                    </div>
+                    <div className="col-sm-3">{ balances[tickerName].available }</div>
+                </div>
+            )
+        })
+    }
+}
+
+const mapStateToProps = state => {
     return {
         wallets: state.wallets.wallets
     }

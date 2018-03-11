@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Exchange from './Exchange'
+import Wallet from './Wallet'
 import AddWallet from './AddWallet'
 
-import { ExchangeActions, CoinActions } from '../actions'
+import { ExchangeActions, CoinActions, WalletActions } from '../actions'
 const { getExchangeInfo, addNewExchange } = ExchangeActions
 const { getCoinInfo } = CoinActions
+const { getWalletInfo, addNewWallet } = WalletActions
 
 class Accounts extends Component {
     constructor(props) {
@@ -25,6 +27,7 @@ class Accounts extends Component {
     componentDidMount() {
         this.props.getExchangeInfo()
         this.props.getCoinInfo()
+        this.props.getWalletInfo()
     }
 
     handleChange(e) {
@@ -40,7 +43,6 @@ class Accounts extends Component {
     }
 
     renderExchanges() {
-        // NEED TO FIX THIS FUNCTION TO RENDER PROPERLY asyncly
         const { exchanges } = this.props
 
         if (!exchanges) {
@@ -51,11 +53,33 @@ class Accounts extends Component {
 
         const exchangesJSX = Object.keys(exchanges).map(key => {
             return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
-        } )
+        })
 
         return (
-            <div className="exchanges-container" style={ styles.exchangesContainer}>
+            <div className="exchanges-container" style={ styles.accountsContainer}>
                 { exchangesJSX }
+            </div>
+        )
+    }
+
+    renderWallets() {
+        const { wallets } = this.props
+
+        if (!wallets) {
+            return (
+                <div>Loading wallet details...</div>
+            )
+        }
+        const walletsJSX = wallets.map(wallet => {
+            console.log("in the map", wallet);
+            return (
+                <Wallet key={ wallet.address } wallet={ wallet } />
+            )
+        })
+
+        return (
+            <div className="wallets-container" style={ styles.accountsContainer}>
+                { walletsJSX }
             </div>
         )
     }
@@ -64,7 +88,10 @@ class Accounts extends Component {
         return (
             <div>
                 <section style={styles.wallets}>
-                    <AddWallet />
+                    <h2>Your Linked Wallets</h2>
+
+                    {/*<AddWallet />*/}
+                    { this.renderWallets() }
                 </section>
 
                 <section style={styles.showExchanges} id="show-exchanges">
@@ -91,8 +118,6 @@ class Accounts extends Component {
                         <button style={styles.formButton} >Add Exchange API Access</button>
                     </form>
                 </section>
-
-
             </div>
         )
     }
@@ -128,19 +153,21 @@ const styles = {
         marginTop: 15,
         padding: 20
     },
-    exchangesContainer: {
+    accountsContainer: {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr'
     }
 }
 
 function mapStateToProps(state) {
-    // CODE DEBT: Might need to refactor this exchanges.exchanges (also in reducer index)
-    // console.log(state);
+    console.log("THE STATE", state);
     return {
         exchanges: state.exchanges.exchanges,
-        coinList: state.coinList.coinList
+        coinList: state.coinList.coinList,
+        wallets: state.wallets.wallets
     }
 }
 
-export default connect(mapStateToProps, { getExchangeInfo, addNewExchange, getCoinInfo })(Accounts)
+export default connect(mapStateToProps, {
+    getExchangeInfo, addNewExchange, getCoinInfo, getWalletInfo, addNewWallet
+})(Accounts)
