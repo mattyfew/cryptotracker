@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Exchange from './Exchange'
 import Wallet from './Wallet'
 import AddWallet from './AddWallet'
+import AddExchange from './AddExchange'
 
 import { ExchangeActions, CoinActions, WalletActions } from '../actions'
 const { getExchangeInfo, addNewExchange } = ExchangeActions
@@ -19,27 +20,12 @@ class Accounts extends Component {
             customerId: '',
             exchange: 'binance'
         }
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount() {
         this.props.getExchangeInfo()
         this.props.getCoinInfo()
         this.props.getWalletInfo()
-    }
-
-    handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        }, () => console.log("new state", this.state) )
-    }
-
-    handleSubmit(e) {
-        e.preventDefault()
-
-        this.props.addNewExchange(this.state)
     }
 
     renderExchanges() {
@@ -71,7 +57,6 @@ class Accounts extends Component {
             )
         }
         const walletsJSX = wallets.map(wallet => {
-            console.log("in the map", wallet);
             return (
                 <Wallet key={ wallet.address } wallet={ wallet } />
             )
@@ -87,36 +72,19 @@ class Accounts extends Component {
     render() {
         return (
             <div>
-                <section style={styles.wallets}>
+                <section style={styles.wallets} id="show-wallets">
                     <h2>Your Linked Wallets</h2>
-
-                    {/*<AddWallet />*/}
                     { this.renderWallets() }
                 </section>
 
                 <section style={styles.showExchanges} id="show-exchanges">
                     <h2>Your Linked Exchanges</h2>
-
                     { this.renderExchanges() }
                 </section>
 
                 <section style={styles.linkExchanges} id="link-exchanges">
-                    <h2>Linking up exchanges to accounts will go here</h2>
-
-                    <form style={styles.formStyles} onSubmit={this.handleSubmit} >
-
-                        <select value={this.state.exchange} onChange={this.handleChange} name="exchange">
-                            <option value="binance" defaultValue>Binance</option>
-                            <option value="bitstamp">Bitstamp</option>
-                            <option value="kraken">Kraken</option>
-                            <option value="poloniex">Poloniex</option>
-                        </select>
-
-                        <input style={styles.formInput} type="text" name="key" value={this.state.key} onChange={this.handleChange} placeholder="API Key" />
-                        <input style={styles.formInput} type="text" name="secret" value={this.state.secret} onChange={this.handleChange} placeholder="API Secret" />
-                        { this.state.exchange === "bitstamp" && <input style={styles.formInput} type="text" name="customerId" value={this.state.customerId} onChange={this.handleChange} placeholder="Customer ID" /> }
-                        <button style={styles.formButton} >Add Exchange API Access</button>
-                    </form>
+                    <AddExchange />
+                    <AddWallet />
                 </section>
             </div>
         )
@@ -160,7 +128,6 @@ const styles = {
 }
 
 function mapStateToProps(state) {
-    console.log("THE STATE", state);
     return {
         exchanges: state.exchanges.exchanges,
         coinList: state.coinList.coinList,
@@ -169,5 +136,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-    getExchangeInfo, addNewExchange, getCoinInfo, getWalletInfo, addNewWallet
+    getExchangeInfo, getCoinInfo, getWalletInfo
 })(Accounts)

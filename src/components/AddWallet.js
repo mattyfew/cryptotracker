@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { capitalise } from '../utils';
 
 import { WalletActions } from '../actions'
-const { getWalletInfo, addNewWallet } = WalletActions
-// const { getCoinInfo } = CoinActions
-// import axios from 'axios'
+const { addNewWallet } = WalletActions
 
 
 class AddWallet extends Component {
@@ -20,11 +18,6 @@ class AddWallet extends Component {
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.renderWallets = this.renderWallets.bind(this)
-    }
-
-    componentDidMount() {
-        this.props.getWalletInfo()
     }
 
     handleChange(e) {
@@ -38,34 +31,9 @@ class AddWallet extends Component {
         this.props.addNewWallet(this.state)
     }
 
-    renderWallets() {
-        if (this.props.wallets.length == 0) {
-            return (
-                <p>Loading wallets...</p>
-            )
-        }
-        return this.props.wallets.map(wallet => {
-            console.log("mapping", wallet);
-            return (
-                <div style={ styles.wallet} key={ wallet.address } className="wallet" >
-                    <p>Currency: { wallet.cryptocurrency }</p>
-                    <p>Balance: { wallet.balance }</p>
-                </div>
-            )
-        })
-    }
-
     render() {
-        console.log("wallets?", this.props);
         return (
-
             <div>
-                <section>
-                    <h2>Your Wallets</h2>
-
-                    { this.renderWallets() }
-                </section>
-
                 <section>
                     <h2>Add a New Wallet</h2>
 
@@ -100,41 +68,10 @@ const styles = {
     }
 }
 
-function Wallet({ balance, cryptocurrency, symbol }) {
-    return (
-        <div className="wallet" style={ styles.wallet }>
-            <h3 style={ styles.walletName }>{ capitalise(walletName) }</h3>
-
-            <div className="balances-container">
-                { renderBalances(walletInfo, coinList) }
-            </div>
-        </div>
-    )
-
-    function renderBalances(balances, coinList) {
-
-        // TODO: render balances in decending order
-
-        return Object.keys(balances).map(tickerName => {
-
-            return (
-                <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
-                    <div className="col-sm-1"><img src={`/cryptocurrency-icons/32/color/${ tickerName.toLowerCase() }.png`} alt=""/></div>
-                    <div className="col-sm-8">
-                        <p>{ tickerName }</p>
-                        <p>{ coinList[tickerName] && coinList[tickerName].CoinName || "??????" }</p>
-                    </div>
-                    <div className="col-sm-3">{ balances[tickerName].available }</div>
-                </div>
-            )
-        })
-    }
-}
-
 const mapStateToProps = state => {
     return {
         wallets: state.wallets.wallets
     }
 }
 
-export default connect(mapStateToProps, { getWalletInfo, addNewWallet })(AddWallet);
+export default connect(mapStateToProps, { addNewWallet })(AddWallet);
