@@ -8,7 +8,12 @@ function Wallet(props) {
         wallet: { balance, cryptocurrency, symbol, address }
     } = props
 
+    if (!coinList) {
+        return (<div>Loading...</div>)
+    }
+    
     return (
+
         <div className="wallet" style={ styles.wallet }>
             <h3 style={ styles.walletName }>{ address }</h3>
 

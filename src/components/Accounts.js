@@ -38,6 +38,7 @@ class Accounts extends Component {
         }
 
         const exchangesJSX = Object.keys(exchanges).map(key => {
+            // console.log("inside map", exchanges, key);
             return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
         })
 

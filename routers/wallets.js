@@ -6,8 +6,10 @@ const express = require('express'),
 
     Wallet = require(path.resolve(__dirname, '..', './db/models/wallet')),
     walletController = require(path.resolve(__dirname, '..', './controllers/WalletController')),
+    config = require( path.resolve(__dirname, '..', './config') ),
 
-    etherscan = require('etherscan-api');
+    etherscan = require('etherscan-api'),
+    blockcypher = require('blockcypher');
 
 router.post('/add-new-wallet', (req, res) => {
     walletController.post({
@@ -18,7 +20,7 @@ router.post('/add-new-wallet', (req, res) => {
     .then(newWallet => {
         console.log("New wallet added to DB", newWallet)
 
-        userController.getById(req.session.id)
+        walletController.getById(req.session.id)
         .then(user => {
             user.wallets.push(newWallet._id)
             user.save()
@@ -26,6 +28,8 @@ router.post('/add-new-wallet', (req, res) => {
             res.json({ success: true, newWallet })
         })
     })
+    .catch(e => console.log("There was an error in /add-new-wallet", e))
+
 })
 
 router.get('/get-wallet-info', (req, res) => {
@@ -36,6 +40,7 @@ router.get('/get-wallet-info', (req, res) => {
             res.json({ walletInfo })
         })
     })
+    .catch(e => console.log("There was an error in /get-wallet-info", e))
 })
 
 module.exports = router
@@ -56,7 +61,7 @@ function queryWalletsForBalances(wallets) {
 const walletGetters = {
     ethereum({ address }) {
         return new Promise((resolve, reject) => {
-            const key = require( path.resolve(__dirname, '..', './config') ).etherscanApiKey
+            const key = config.etherscanApiKey
             const api = etherscan.init( key )
 
             api.account.balance(address)
@@ -69,6 +74,25 @@ const walletGetters = {
                 })
             })
             .catch(e => console.log("There was an error in get Ethereum", e))
+        })
+    },
+
+    litecoin({ address }) {
+        return new Promise(function(resolve, reject) {
+            // const bcapi = new blockcypher('ltc','main', config.blockcypherToken)
+            //
+            // bcapi.getAddrBal(address, {}, function(err, data) {
+            //     if (err) { console.log(err) }
+            //
+            //     console.log("DAT!!", data);
+            // })
+
+            resolve({
+                cryptocurrency: 'litecoin',
+                symbol: 'LTC',
+                address,
+                balance: 777777
+            })
         })
     },
 

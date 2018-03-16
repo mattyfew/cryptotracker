@@ -19,7 +19,12 @@ function renderBalances(balances, coinList) {
 
     // TODO: render balances in decending order
 
+    if (!coinList) {
+        return (<div>Loading...</div>)
+    }
+
     return Object.keys(balances).map(tickerName => {
+        console.log("renderBalances", tickerName, balances[tickerName]);
 
         return (
             <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
