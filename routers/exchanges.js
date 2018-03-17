@@ -44,6 +44,18 @@ router.get('/get-exchange-info', (req, res) => {
 
 module.exports = router
 
+// function getPricing(wallets) {
+//     return new Promise(function(resolve, reject) {
+//         coinmarketcap.multi(coins => {
+//             const copy = wallets.map(wallet => {
+//                 wallet.priceUSD = coins.get(wallet.symbol).price_usd * wallet.balance
+//                 return wallet
+//             })
+//             resolve(copy)
+//         })
+//     })
+// }
+
 function queryExchangesForBalances(exchanges) {
     let promises = []
     exchanges.forEach(exchange => {

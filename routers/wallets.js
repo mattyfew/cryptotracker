@@ -8,10 +8,20 @@ const express = require('express'),
     walletController = require(path.resolve(__dirname, '..', './controllers/WalletController')),
     config = require( path.resolve(__dirname, '..', './config') ),
 
+    { Bitstamp, CURRENCY } = require('node-bitstamp'),
     etherscan = require('etherscan-api'),
     cryptoBalance = require('crypto-balances');
 
-    // blockcypher = require('blockcypher');
+const CoinMarketCap = require("node-coinmarketcap");
+const coinmarketcap = new CoinMarketCap();
+
+// const bitstamp = new Bitstamp({
+//     key: config.APIkey,
+//     secret: config.APIsecret,
+//     clientId: config.customerId,
+//     timeout: 5000,
+//     rateLimit: true
+// })
 
 router.post('/add-new-wallet', (req, res) => {
     walletController.post({
@@ -38,7 +48,9 @@ router.get('/get-wallet-info', (req, res) => {
     walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
     .then( wallets => {
         queryWalletsForBalances(wallets)
-        .then( walletInfo => {
+        .then(getPricing)
+        .then(walletInfo => {
+            console.log("INFO");
             res.json({ walletInfo })
         })
     })
@@ -47,6 +59,17 @@ router.get('/get-wallet-info', (req, res) => {
 
 module.exports = router
 
+function getPricing(wallets) {
+    return new Promise(function(resolve, reject) {
+        coinmarketcap.multi(coins => {
+            const copy = wallets.map(wallet => {
+                wallet.priceUSD = coins.get(wallet.symbol).price_usd * wallet.balance
+                return wallet
+            })
+            resolve(copy)
+        })
+    })
+}
 
 function queryWalletsForBalances(wallets) {
     let promises = []
@@ -65,7 +88,10 @@ const walletGetters = {
         return new Promise(function(resolve, reject) {
             cryptoBalance(address, (err, results) =>{
                 if (err) reject(err)
-                console.log("this should be bitcoin", results);
+
+                // bitstamp.ticker(CURRENCY.ETH_BTC).then((res) => console.log("something", res))
+
+
                 resolve({
                     cryptocurrency: 'bitcoin',
                     symbol: 'BTC',
@@ -98,7 +124,6 @@ const walletGetters = {
         return new Promise(function(resolve, reject) {
             cryptoBalance(address, (err, results) =>{
                 if (err) reject(err)
-                console.log("this should be litecoin", results);
                 resolve({
                     cryptocurrency: 'litecoin',
                     symbol: 'LTC',
