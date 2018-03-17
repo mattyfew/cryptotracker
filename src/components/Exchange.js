@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { capitalise } from '../utils';
 
+
 function Exchange({ exchangeName, exchangeInfo, coinList }) {
     return (
         <div className="exchange" style={ styles.exchange }>
@@ -24,8 +25,6 @@ function renderBalances(balances, coinList) {
     }
 
     return Object.keys(balances).map(tickerName => {
-        console.log("renderBalances", tickerName, balances[tickerName]);
-
         return (
             <div key={ tickerName } className="balance-row row" style={ styles.balanceRow }>
                 <div className="col-sm-1"><img src={`/cryptocurrency-icons/32/color/${ tickerName.toLowerCase() }.png`} alt=""/></div>
@@ -33,7 +32,9 @@ function renderBalances(balances, coinList) {
                     <p>{ tickerName }</p>
                     <p>{ coinList[tickerName] && coinList[tickerName].CoinName || "??????" }</p>
                 </div>
-                <div className="col-sm-3">{ balances[tickerName].available }</div>
+                <div className="col-sm-3">
+                    <p>{ balances[tickerName].available } { tickerName }</p>
+                </div>
             </div>
         )
     })
@@ -43,7 +44,8 @@ const styles = {
     exchange: {
         backgroundColor: '#dfe6e9',
         padding: '20px 28px',
-        margin: '16px 8px'
+        flexBasis: '48%',
+        marginBottom: 10
     },
     exchangeName: {
         margin: '0 0 15px',

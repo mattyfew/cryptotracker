@@ -9,7 +9,9 @@ const express = require('express'),
     config = require( path.resolve(__dirname, '..', './config') ),
 
     etherscan = require('etherscan-api'),
-    blockcypher = require('blockcypher');
+    cryptoBalance = require('crypto-balances');
+
+    // blockcypher = require('blockcypher');
 
 router.post('/add-new-wallet', (req, res) => {
     walletController.post({
@@ -59,6 +61,21 @@ function queryWalletsForBalances(wallets) {
 }
 
 const walletGetters = {
+    bitcoin({ address }) {
+        return new Promise(function(resolve, reject) {
+            cryptoBalance(address, (err, results) =>{
+                if (err) reject(err)
+                console.log("this should be bitcoin", results);
+                resolve({
+                    cryptocurrency: 'bitcoin',
+                    symbol: 'BTC',
+                    address,
+                    balance: results[0].quantity
+                })
+            })
+        })
+    },
+
     ethereum({ address }) {
         return new Promise((resolve, reject) => {
             const key = config.etherscanApiKey
@@ -79,31 +96,15 @@ const walletGetters = {
 
     litecoin({ address }) {
         return new Promise(function(resolve, reject) {
-            // const bcapi = new blockcypher('ltc','main', config.blockcypherToken)
-            //
-            // bcapi.getAddrBal(address, {}, function(err, data) {
-            //     if (err) { console.log(err) }
-            //
-            //     console.log("DAT!!", data);
-            // })
-
-            resolve({
-                cryptocurrency: 'litecoin',
-                symbol: 'LTC',
-                address,
-                balance: 777777
-            })
-        })
-    },
-
-    bitcoin({ address }) {
-        return new Promise(function(resolve, reject) {
-            // TODO: this
-            resolve({
-                cryptocurrency: 'bitcoin',
-                symbol: 'BTC',
-                address,
-                balance: '9999999'
+            cryptoBalance(address, (err, results) =>{
+                if (err) reject(err)
+                console.log("this should be litecoin", results);
+                resolve({
+                    cryptocurrency: 'litecoin',
+                    symbol: 'LTC',
+                    address,
+                    balance: results[0] && results[0].quantity
+                })
             })
         })
     }

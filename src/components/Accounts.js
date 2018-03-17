@@ -37,10 +37,9 @@ class Accounts extends Component {
             )
         }
 
-        const exchangesJSX = Object.keys(exchanges).map(key => {
-            // console.log("inside map", exchanges, key);
-            return (<Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />)
-        })
+        const exchangesJSX = Object.keys(exchanges).map(key =>
+            <Exchange key={ key } exchangeName= { key } exchangeInfo={ exchanges[key] } />
+        )
 
         return (
             <div className="exchanges-container" style={ styles.accountsContainer}>
@@ -57,11 +56,12 @@ class Accounts extends Component {
                 <div>Loading wallet details...</div>
             )
         }
-        const walletsJSX = wallets.map(wallet => {
-            return (
-                <Wallet key={ wallet.address } wallet={ wallet } />
-            )
-        })
+
+        // TODO: need to sort each wallet by the highest amount of a cryptocurrency
+
+        const walletsJSX = wallets.map(wallet =>
+            <Wallet key={ wallet.address } wallet={ wallet } />
+        )
 
         return (
             <div className="wallets-container" style={ styles.accountsContainer}>
@@ -123,12 +123,14 @@ const styles = {
         padding: 20
     },
     accountsContainer: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr'
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around'
     }
 }
 
 function mapStateToProps(state) {
+    
     return {
         exchanges: state.exchanges.exchanges,
         coinList: state.coinList.coinList,

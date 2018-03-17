@@ -11,7 +11,7 @@ function Wallet(props) {
     if (!coinList) {
         return (<div>Loading...</div>)
     }
-    
+
     return (
 
         <div className="wallet" style={ styles.wallet }>
@@ -35,7 +35,8 @@ const styles = {
     wallet: {
         backgroundColor: '#dfe6e9',
         padding: '20px 28px',
-        margin: '16px 8px'
+        flexBasis: '48%',
+        marginBottom: 10
     },
     walletName: {
         margin: '0 0 15px',
