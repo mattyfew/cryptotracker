@@ -25,22 +25,11 @@ mongoose.connect('mongodb://localhost:27017/cryptotracker', {useMongoClient: tru
 })
 
 app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+    res.setHeader('Access-Control-Allow-Credentials', true)
+    next()
 });
 
 app.use(express.static('public'))
@@ -48,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 app.use(cookieSession({
     secret: "ferferfef",
-    maxAge: 1000 * 60 * 20
+    maxAge: 1000 * 60 * 90
 }))
 
 app.set('superSecret', config.secret)
@@ -62,8 +51,7 @@ app.use('/wallets', wallets)
 
 app.use((req, res, next) => {
   const token = req.session.token || req.body.token || req.headers['x-access-token']
-
-  if(token) {
+  if (token) {
     jwt.verify(token, app.get('superSecret'), (err, decoded) => {
         if(err) {
           return res.json({
@@ -77,10 +65,14 @@ app.use((req, res, next) => {
       }
     )
   } else {
-    return res.status(403).send({
-      success: false,
-      message: 'No token provided'
-    })
+    if (req.url === '/login') {
+      next()
+    } else {
+      return res.status(403).send({
+        success: false,
+        message: 'No token provided'
+      })
+    }
   }
 })
 
