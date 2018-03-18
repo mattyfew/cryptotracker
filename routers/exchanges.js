@@ -32,6 +32,30 @@ router.post('/add-new-exchange', (req, res) => {
     .catch(err => console.log("There was an error in POST /exchanges/add-new-exchange", err))
 })
 
+router.get('/get-exchange-info', (req, res) => {
+    exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
+    .then( exchanges => {
+        queryExchangesForBalances(exchanges)
+        .then( exchangeInfo => {
+            res.json({ exchangeInfo })
+        })
+    })
+})
+
+module.exports = router
+
+// function getPricing(wallets) {
+//     return new Promise(function(resolve, reject) {
+//         coinmarketcap.multi(coins => {
+//             const copy = wallets.map(wallet => {
+//                 wallet.priceUSD = coins.get(wallet.symbol).price_usd * wallet.balance
+//                 return wallet
+//             })
+//             resolve(copy)
+//         })
+//     })
+// }
+
 function queryExchangesForBalances(exchanges) {
     let promises = []
     exchanges.forEach(exchange => {
@@ -49,17 +73,19 @@ function queryExchangesForBalances(exchanges) {
         .catch(e => console.log("There was an error in queryExchangesForBalances", e))
 }
 
-router.get('/get-exchange-info', (req, res) => {
-    exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
-        .then( exchanges => {
-            queryExchangesForBalances(exchanges)
-                .then( exchangeInfo => {
-                    res.json({ exchangeInfo })
-                })
-        })
-})
+function removeZeroBalance(balances) {
+    const clone = Object.assign({}, balances)
+    let sortable = []
 
-module.exports = router
+    for (const key in clone) {
+        clone[key].available == 0
+            ? delete clone[key]
+            : sortable.push( [key, parseFloat(clone[key].available) ]);
+
+    }
+
+    return clone
+}
 
 const exchangeGetters = {
     binance(exchange){
@@ -70,7 +96,11 @@ const exchangeGetters = {
                 'recvWindow': 60000
             })
 
-            binance.balance( balances => resolve({ binance: balances }) )
+            binance.balance( balances => {
+                newBalances = removeZeroBalance(balances)
+                // TODO Get Trade History: API has binance.trades("SNMBTC"), .allorder("SNMBTC")
+                resolve({ binance: newBalances })
+            })
         })
     },
 
@@ -92,7 +122,9 @@ const exchangeGetters = {
                     LTC: { available: balances.ltc_balance },
                     XRP: { available: balances.xrp_balance }
                 }
-                resolve({ bitstamp: newObj })
+
+                newBalances = removeZeroBalance(newObj)
+                resolve({ bitstamp: newBalances })
             })
             .catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
         })
@@ -109,7 +141,13 @@ const exchangeGetters = {
                     newObj[key] = { available: balances[key] }
                 }
 
-                resolve({ poloniex: newObj })
+                newBalances = removeZeroBalance(newObj)
+
+                // returnOrderBook(currencyPair, depth [, callback])
+                // returnTradeHistory(currencyPair, start, end, limit [, callback])
+
+
+                resolve({ poloniex: newBalances })
             })
             .catch(err => console.log("There was an error in exchangeGetters.poloniex: ", err.message))
         })
@@ -126,7 +164,8 @@ const exchangeGetters = {
                     newObj[key] = { available: balances[key] }
                 }
 
-                resolve({ kraken: newObj })
+                newBalances = removeZeroBalance(newObj)
+                resolve({ kraken: newBalances })
             })
             .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
         })

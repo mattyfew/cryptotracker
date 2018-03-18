@@ -13,6 +13,7 @@ const index = require('./routers/index')
 const authenticate = require('./routers/auth')
 const api = require('./routers/api')
 const exchanges = require('./routers/exchanges')
+const wallets = require('./routers/wallets')
 
 // mongoose.createConnection('mongodb://localhost:27017/cryptotracker')
 mongoose.connect('mongodb://localhost:27017/cryptotracker', {useMongoClient: true}, function(err, res) {
@@ -45,6 +46,7 @@ app.use('/', index)
 app.use('/authenticate', authenticate)
 app.use('/api', api)
 app.use('/exchanges', exchanges)
+app.use('/wallets', wallets)
 
 
 app.use((req, res, next) => {
