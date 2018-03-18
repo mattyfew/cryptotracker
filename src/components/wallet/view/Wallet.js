@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { capitalise } from '../utils';
+import { capitalise } from '../../../utils';
 
-function Wallet(props) {
+export default function Wallet(props) {
     const {
         coinList,
         wallet: { balance, cryptocurrency, symbol, address }
@@ -47,12 +46,3 @@ const styles = {
         padding: '10px 0'
     }
 }
-
-const mapStateToProps = state => {
-    return {
-        coinList: state.coinList.coinList,
-        wallets: state.wallets.wallets
-    }
-}
-
-export default connect(mapStateToProps)(Wallet)

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import { ExchangeActions } from '../actions'
-const { addNewExchange } = ExchangeActions
-
-
-class AddExchange extends Component {
+export default class AddExchange extends Component {
     constructor() {
         super()
 
@@ -73,11 +68,3 @@ const styles = {
         padding: 20
     }
 }
-
-const mapStateToProps = state => {
-    return {
-        wallets: state.wallets.wallets
-    }
-}
-
-export default connect(mapStateToProps, { addNewExchange })(AddExchange);

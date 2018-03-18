@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { capitalise } from '../utils';
+import { capitalise } from '../../../utils';
 
-
-function Exchange({ exchangeName, exchangeInfo, coinList }) {
+export default function Exchange({ exchangeName, exchangeInfo, coinList }) {
     return (
         <div className="exchange" style={ styles.exchange }>
             <h3 style={ styles.exchangeName }>{ capitalise(exchangeName) }</h3>
@@ -56,11 +54,3 @@ const styles = {
         padding: '10px 0'
     }
 }
-
-function mapStateToProps(state) {
-    return {
-        coinList: state.coinList.coinList
-    }
-}
-
-export default connect(mapStateToProps)(Exchange)

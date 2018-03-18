@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { capitalise } from '../utils';
+import { capitalise } from '../../../utils';
 
-import { WalletActions } from '../actions'
-const { addNewWallet } = WalletActions
-
-
-class AddWallet extends Component {
+export default class AddWallet extends Component {
     constructor() {
         super()
 
         this.state = {
             cryptocurrency: 'bitcoin',
-            address: '',
-            wallets: []
+            address: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -67,11 +61,3 @@ const styles = {
         padding: '10px 0'
     }
 }
-
-const mapStateToProps = state => {
-    return {
-        wallets: state.wallets.wallets
-    }
-}
-
-export default connect(mapStateToProps, { addNewWallet })(AddWallet);
