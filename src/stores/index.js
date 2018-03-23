@@ -1,15 +1,17 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import { authReducer, exchangeReducer, coinReducer, walletReducer } from '../reducers'
 import { routerMiddleware } from 'react-router-redux'
-import { authReducer, exchangeReducer } from '../reducers'
 
-var store
+let store
 
 export default {
   configureStore: (history) => {
     const reducers = combineReducers({
       auth: authReducer,
-      exchanges: exchangeReducer
+      exchanges: exchangeReducer,
+      coinList: coinReducer,
+      wallets: walletReducer
     })
 
     const reduxRouterMiddleware = routerMiddleware(history)
