@@ -59,6 +59,9 @@ router.get('/get-wallet-info', (req, res) => {
 
 module.exports = router
 
+
+
+// return to client for state
 function getPricing(wallets) {
     return new Promise(function(resolve, reject) {
         coinmarketcap.multi(coins => {

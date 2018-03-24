@@ -1,9 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { AssetActions } from '../../../actions'
+const { getAssetInformation } = AssetActions
+
+
 
 class Dashboard extends Component {
+  componentDidMount() {
+    if (this.props.assets.assetInformation.length === 0) {
+      this.props.getAssetInformation()
+    }
+  }
+
     render() {
+        console.log('DASHBOARD PROPS: ', this.props)
         return (
           <div>
             <div>Dashboard Screen</div>
@@ -12,4 +23,19 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard
+
+
+
+
+
+
+function mapStateToProps(state) {
+    return {
+        assets: state.assets
+    }
+}
+
+
+export default connect(mapStateToProps, {
+  getAssetInformation
+})(Dashboard)
