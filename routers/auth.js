@@ -29,4 +29,13 @@ router.post('/', (req, res) => {
   }
 })
 
+router.get('/get-user-info', (req, res) => {
+    if (!req.session.id) {
+        return res.redirect('/')
+    }
+    res.json({
+        addressUser: req.session.id
+    })
+})
+
 module.exports = router

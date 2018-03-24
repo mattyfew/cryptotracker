@@ -8,7 +8,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
 
-  let updated = Object.assign({}, state)
+    let updated = Object.assign({}, state)
 
     switch (action.type) {
 
@@ -31,6 +31,10 @@ export default (state = initialState, action) => {
           return updated
         }
         return state
+
+      case type.GET_USER_INFO:
+        updated['addressUser'] = action.userInfo._id
+        return updated
 
       default:
         return state

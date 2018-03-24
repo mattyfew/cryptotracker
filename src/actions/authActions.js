@@ -65,10 +65,31 @@ const saveUserAddress = () => {
   }
 }
 
+const getUserInfo = () => {
+    return (dispatch, getState) => {
+        if (!getState().auth.addressUser) {
+            return axios.get('/authenticate/get-user-info')
+            .then(res => {
+                axios.get(`/api/user/${res.data.addressUser}`)
+                .then(res => {
+                    // NOTE: We have all the user data attached to results
+                    // including exchanges array.....why not wallets too?
+                    dispatch({
+                        type: type.GET_USER_INFO,
+                        userInfo: res.data.results
+                    })
+                })
+            })
+            .catch(err => console.log('ERROR get user info: ', err))
+        }
+
+    }
+}
 
 
 export default {
   login,
   verifySignature,
-  saveUserAddress
+  saveUserAddress,
+  getUserInfo
 }

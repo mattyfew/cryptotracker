@@ -16,10 +16,10 @@ router.get('/:resource', (req, res) => {
   }
 
   controller.get(req.query)
-  .then((res) => {
+  .then((results) => {
     res.json({
       confirmation: 'success',
-      results: res
+      results
     })
   })
   .catch((err) => {
@@ -43,13 +43,14 @@ router.get('/:resource/:id', (req, res) => {
   }
 
   controller.getById(id)
-  .then((res) => {
+  .then((results) => {
     res.json({
       confirmation: 'success',
-      results: res
+      results
     })
   })
   .catch((err) => {
+    console.log("error in API get resource by id", err)
     res.json({
       confirmation: 'fail',
       message: 'Not found'
@@ -70,10 +71,10 @@ router.post('/:resource', (req, res) => {
   }
 
   controller.post(req.body)
-  .then((res) => {
+  .then((results) => {
     res.json({
       confirmation: 'success',
-      results: res
+      results
     })
   })
   .catch((err) => {

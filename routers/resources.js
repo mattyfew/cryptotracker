@@ -12,6 +12,7 @@ const Kraken = require('kraken-api')
 
 router.post('/:type', (req, res) => {
   const { type } = req.params
+  console.log("INSIDE POST /:type", type);
 
   if (type === 'wallet') {
     // wallets = [{ referenceMongoID: xx, name: 'ethereum', address: 'dfmjnsfXX'}]
