@@ -6,12 +6,8 @@ function getWalletInfo() {
     return (dispatch, getState) => {
 
         // NEED TO SEND OVER USER INFO THAT COMES FROM THE STATE
-        // console.log("Getting state", getState().auth)
-        // return axios.post('/resources/wallet')
 
-
-        console.log("running getWalletInfo");
-        return axios.get('/wallets/get-wallet-info')
+        return axios.post('/resources/wallet')
             .then( res => {
                 console.log("running getWalletInfo", res);
                 dispatch({
@@ -19,8 +15,7 @@ function getWalletInfo() {
                     walletInfo: res.data.walletInfo
                 })
             })
-            .catch(err => console.log("there was an error in GET /get-wallet-info", err) )
-
+            .catch(err => console.log("there was an error in GET /get-wallet-info", err))
     }
 }
 

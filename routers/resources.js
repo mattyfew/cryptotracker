@@ -1,8 +1,12 @@
 const express = require('express'),
   router = express.Router()
 const path = require('path')
+const web3 = require('web3')
+const config = require( path.resolve(__dirname, '..', './config'))
+
 
 const exchangeController = require(path.resolve(__dirname, '..', './controllers/ExchangeController'))
+const walletController = require(path.resolve(__dirname, '..', './controllers/WalletController'))
 
 const { Bitstamp, CURRENCY } = require('node-bitstamp')
 const etherscan = require('etherscan-api')
@@ -17,32 +21,38 @@ router.post('/:type', (req, res) => {
 
   if (type === 'wallet') {
     // wallets = [{ referenceMongoID: xx, name: 'ethereum', address: 'dfmjnsfXX'}]
-    const { wallets } = req.body
-    let promises = []
+    // const { wallets } = req.body
 
-    wallets.forEach(wallet => {
-      promises.push(walletGetters[wallet.name](wallet))
-    })
+    walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
+    .then(wallets => {
+        console.log("are we here?");
+        let promises = []
 
-    return Promise.all(promises)
-    .then(walletInfo => {
-      res.json({walletInfo})
-    })
-    .catch(err => {
-      console.log("There was an error in getting wallet info.", err)
-      res.send({
-        confirmation: 'fail',
-        message: err
-      })
+        wallets.forEach(wallet => {
+            console.log(wallet);
+            promises.push(walletGetters[wallet.name](wallet))
+        })
+
+        return Promise.all(promises)
+        .then(walletInfo => {
+            res.json({walletInfo})
+        })
+        .catch(err => {
+            console.log("There was an error in getting wallet info.", err)
+            res.send({
+                confirmation: 'fail',
+                message: err
+            })
+        })
     })
   }
 
   if (type === 'exchange') {
-    const { exchanges } = req.body
+    // const { exchanges } = req.body
 
-    let promises = []
     exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
     .then(exchanges => {
+        let promises = []
         exchanges.forEach(exchange => {
             promises.push(exchangeGetters[exchange.name](exchange))
         })
