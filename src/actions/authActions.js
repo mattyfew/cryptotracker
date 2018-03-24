@@ -104,14 +104,11 @@ const getUserInfoAndResources = () => {
     return (dispatch, getState) => {
         return dispatch(getUserInfo()).then(() => {
             const userID = getState().auth._id
-            console.log("after getUserInfo",userID );
             return Promise.all([
                 dispatch(getExchangeInfo()),
                 dispatch(getCoinInfo()),
                 dispatch(getWalletInfo())
-            ]).then(() => {
-                console.log("all these ran");
-            })
+            ])
         })
     }
 }

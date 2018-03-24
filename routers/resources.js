@@ -17,15 +17,13 @@ const Kraken = require('kraken-api')
 
 router.post('/:type', (req, res) => {
   const { type } = req.params
-  console.log("INSIDE POST /:type", type);
 
   if (type === 'wallet') {
     // wallets = [{ referenceMongoID: xx, name: 'ethereum', address: 'dfmjnsfXX'}]
-    // const { wallets } = req.body
+    const { wallets } = req.body
 
     walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
     .then(wallets => {
-        console.log("are we here?");
         let promises = []
 
         wallets.forEach(wallet => {
@@ -48,6 +46,7 @@ router.post('/:type', (req, res) => {
   }
 
   if (type === 'exchange') {
+    // {poloniex: {BTC: { avalable: 400 } }, }
     // const { exchanges } = req.body
 
     exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
@@ -65,7 +64,6 @@ router.post('/:type', (req, res) => {
                 let exchangeName = Object.keys(exchangeInfoArr[i])[0]
                 exchangeInfo[ exchangeName ] = exchangeInfoArr[i][exchangeName]
             }
-            // {poloniex: {BTC: { avalable: 400 } }, }
             res.json({exchangeInfo})
         })
         .catch(err => {
