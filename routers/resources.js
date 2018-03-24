@@ -86,6 +86,13 @@ router.get('/asset-images', (req, res) => {
   //TODO ; also check public folder
 })
 
+
+
+
+
+
+
+
 const exchangeGetters = {
   binance(exchange){
     return new Promise((resolve, reject) => {
@@ -110,145 +117,131 @@ const exchangeGetters = {
     })
   },
   bitstamp(exchange) {
-        return new Promise((resolve, reject) => {
-            const bitstamp = new Bitstamp({
-                key: exchange.APIkey,
-                secret: exchange.APIsecret,
-                clientId: exchange.customerId,
-                timeout: 5000,
-                rateLimit: true
-            })
+    return new Promise((resolve, reject) => {
+      const bitstamp = new Bitstamp({
+        key: exchange.APIkey,
+        secret: exchange.APIsecret,
+        clientId: exchange.customerId,
+        timeout: 5000,
+        rateLimit: true
+      })
 
-            bitstamp.balance().then(({ body: balances }) => {
-                const newObj = {
-                    BCH: { balance: balances.bch_balance },
-                    BTC: { balance: balances.btc_balance },
-                    ETH: { balance: balances.eth_balance },
-                    LTC: { balance: balances.ltc_balance },
-                    XRP: { balance: balances.xrp_balance }
-                }
+    bitstamp.balance().then(({ body: balances }) => {
+      const newObj = {
+        BCH: { balance: balances.bch_balance },
+        BTC: { balance: balances.btc_balance },
+        ETH: { balance: balances.eth_balance },
+        LTC: { balance: balances.ltc_balance },
+        XRP: { balance: balances.xrp_balance }
+      }
 
-                newBalances = removeZeroBalance(newObj)
-                resolve({ bitstamp: newBalances })
-            })
-            .catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
-        })
+      newBalances = removeZeroBalance(newObj)
+        resolve({ bitstamp: newBalances })
+      })
+      .catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
+
+      })
     },
-
     poloniex(exchange) {
-        return new Promise((resolve, reject) => {
-            let poloniex = new Poloniex(exchange.APIkey, exchange.APIsecret)
+      return new Promise((resolve, reject) => {
+        let poloniex = new Poloniex(exchange.APIkey, exchange.APIsecret)
 
-            poloniex.returnBalances().then( balances => {
-                const newObj = {}
+        poloniex.returnBalances().then( balances => {
+          const newObj = {}
 
-                for (let key in balances) {
-                    newObj[key] = { balance: balances[key] }
-                }
+          for (let key in balances) {
+            newObj[key] = { balance: balances[key] }
+          }
 
-                newBalances = removeZeroBalance(newObj)
+          newBalances = removeZeroBalance(newObj)
+          // returnOrderBook(currencyPair, depth [, callback])
+          // returnTradeHistory(currencyPair, start, end, limit [, callback])
 
-                // returnOrderBook(currencyPair, depth [, callback])
-                // returnTradeHistory(currencyPair, start, end, limit [, callback])
 
-
-                resolve({ poloniex: newBalances })
-            })
-            .catch(err => console.log("There was an error in exchangeGetters.poloniex: ", err.message))
+          resolve({ poloniex: newBalances })
         })
+        .catch(err => console.log("There was an error in exchangeGetters.poloniex: ", err.message))
+      })
     },
-
     kraken(exchange) {
-        return new Promise((resolve, reject) => {
-            const kraken = new Kraken(exchange.APIkey, exchange.APIsecret)
+      return new Promise((resolve, reject) => {
+        const kraken = new Kraken(exchange.APIkey, exchange.APIsecret)
 
-            kraken.api('Balance').then(({ result: balances }) => {
-                const newObj = {}
+        kraken.api('Balance').then(({ result: balances }) => {
+          const newObj = {}
 
-                for (let key in balances) {
-                    newObj[key] = { balance: balances[key] }
-                }
+          for (let key in balances) {
+            newObj[key] = { balance: balances[key] }
+          }
 
-                newBalances = removeZeroBalance(newObj)
-                resolve({ kraken: newBalances })
-            })
-            .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
-        })
+          newBalances = removeZeroBalance(newObj)
+            resolve({ kraken: newBalances })
+          })
+          .catch(err => console.log("There was an error in exchangeGetters.kraken: ", err.message))
+      })
     }
 }
 
 
-
-
-
-
-
-
-
-
-
-
 const walletGetters = {
-    bitcoin({address}) {
-        return new Promise(function(resolve, reject) {
-            cryptoBalance(address, (err, results) =>{
-                if (err) reject(err)
-                resolve({
-                    cryptocurrency: 'bitcoin',
-                    symbol: 'BTC',
-                    address,
-                    balance: results[0].quantity
-                })
-            })
+  bitcoin({address}) {
+    return new Promise(function(resolve, reject) {
+      cryptoBalance(address, (err, results) =>{
+        if (err) reject(err)
+          resolve({
+            cryptocurrency: 'bitcoin',
+            symbol: 'BTC',
+            address,
+            balance: results[0].quantity
         })
-    },
+      })
+    })
+  },
+  ethereum({address}) {
+    return new Promise((resolve, reject) => {
+      const key = config.etherscanApiKey
+      const api = etherscan.init( key )
 
-    ethereum({address}) {
-        return new Promise((resolve, reject) => {
-            const key = config.etherscanApiKey
-            const api = etherscan.init( key )
-
-            api.account.balance(address)
-            .then(balanceData => {
-                resolve({
-                    cryptocurrency: 'etherum',
-                    symbol: 'ETH',
-                    address,
-                    balance: web3.utils.fromWei(balanceData.result)
-                })
-            })
-            .catch(e => console.log("There was an error in get Ethereum", e))
+      api.account.balance(address)
+      .then(balanceData => {
+        resolve({
+          cryptocurrency: 'etherum',
+          symbol: 'ETH',
+          address,
+          balance: web3.utils.fromWei(balanceData.result)
         })
-    },
+      })
+      .catch(e => console.log("There was an error in get Ethereum", e))
+    })
+  },
+  litecoin({address}) {
+    return new Promise(function(resolve, reject) {
+      cryptoBalance(address, (err, results) =>{
+        if (err) reject(err)
 
-    litecoin({address}) {
-        return new Promise(function(resolve, reject) {
-            cryptoBalance(address, (err, results) =>{
-                if (err) reject(err)
-                resolve({
-                    cryptocurrency: 'litecoin',
-                    symbol: 'LTC',
-                    address,
-                    balance: results[0] && results[0].quantity
-                })
-            })
+        resolve({
+          cryptocurrency: 'litecoin',
+          symbol: 'LTC',
+          address,
+          balance: results[0] && results[0].quantity
         })
-    }
+      })
+    })
+  }
 }
 
 
 function removeZeroBalance(balances) {
-    const clone = Object.assign({}, balances)
-    let sortable = []
+  const clone = Object.assign({}, balances)
+  let sortable = []
 
-    for (const key in clone) {
-        clone[key].available == 0
-            ? delete clone[key]
-            : sortable.push( [key, parseFloat(clone[key].available) ])
+  for (const key in clone) {
+    clone[key].available == 0
+      ? delete clone[key]
+      : sortable.push( [key, parseFloat(clone[key].available) ])
+  }
 
-    }
-
-    return clone
+  return clone
 }
 
 module.exports = router
