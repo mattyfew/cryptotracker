@@ -14,3 +14,5 @@ export const ADD_NEW_WALLET = 'add_new_wallet'
 export const GET_LOGOS = 'get_logos'
 
 export const GET_COIN_INFO = 'get_coin_info'
+
+export const GET_ASSET_INFO = 'get_asset_info'

@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { authReducer, exchangeReducer, coinReducer, walletReducer } from '../reducers'
+import { authReducer, exchangeReducer, coinReducer, walletReducer, assetReducer } from '../reducers'
 import { routerMiddleware } from 'react-router-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -13,7 +13,8 @@ export default {
       auth: authReducer,
       exchanges: exchangeReducer,
       coinList: coinReducer,
-      wallets: walletReducer
+      wallets: walletReducer,
+      assets: assetReducer
     })
 
     const reduxRouterMiddleware = routerMiddleware(history)

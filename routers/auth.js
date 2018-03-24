@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
-const express = require('express')
+const express = require('express'),
   router = express.Router()
 
 router.post('/', (req, res) => {
