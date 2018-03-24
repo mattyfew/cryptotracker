@@ -1,5 +1,8 @@
 const express = require('express'),
   router = express.Router()
+const path = require('path')
+
+const exchangeController = require(path.resolve(__dirname, '..', './controllers/ExchangeController'))
 
 const { Bitstamp, CURRENCY } = require('node-bitstamp')
 const etherscan = require('etherscan-api')
@@ -7,8 +10,6 @@ const cryptoBalance = require('crypto-balances')
 const Poloniex = require('poloniex-api-node')
 const binance = require('node-binance-api')
 const Kraken = require('kraken-api')
-
-
 
 router.post('/:type', (req, res) => {
   const { type } = req.params
@@ -40,30 +41,32 @@ router.post('/:type', (req, res) => {
     const { exchanges } = req.body
 
     let promises = []
-    exchanges.forEach(exchange => {
-      promises.push(exchangeGetters[exchange.name](exchange))
-    })
-
-    return Promise.all(promises)
-      .then(exchangeInfoArr => {
-        const exchangeInfo = {}
-
-        for (let i = 0; i < exchangeInfoArr.length; i++) {
-          let exchangeName = Object.keys(exchangeInfoArr[i])[0]
-          exchangeInfo[ exchangeName ] = exchangeInfoArr[i][exchangeName]
-        }
-        // {poloniex: {BTC: { avalable: 400 } }, }
-        res.json({exchangeInfo})
-      })
-      .catch(err => {
-        console.log("There was an error in getting exchange info.", err)
-        res.json({
-          confirmation: 'fail',
-          message: err
+    exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
+    .then(exchanges => {
+        exchanges.forEach(exchange => {
+            promises.push(exchangeGetters[exchange.name](exchange))
         })
-      })
-  }
 
+        return Promise.all(promises)
+        .then(exchangeInfoArr => {
+            const exchangeInfo = {}
+
+            for (let i = 0; i < exchangeInfoArr.length; i++) {
+                let exchangeName = Object.keys(exchangeInfoArr[i])[0]
+                exchangeInfo[ exchangeName ] = exchangeInfoArr[i][exchangeName]
+            }
+            // {poloniex: {BTC: { avalable: 400 } }, }
+            res.json({exchangeInfo})
+        })
+        .catch(err => {
+            console.log("There was an error in getting exchange info.", err)
+            res.json({
+                confirmation: 'fail',
+                message: err
+            })
+        })
+    })
+  }
 })
 
 router.get('/exchange-rate', (req, res) => {

@@ -31,7 +31,7 @@ function renderBalances(balances, coinList) {
                     <p>{ coinList[tickerName] && coinList[tickerName].CoinName || "??????" }</p>
                 </div>
                 <div className="col-sm-3">
-                    <p>{ balances[tickerName].available } { tickerName }</p>
+                    <p>{ balances[tickerName].balance } { tickerName }</p>
                 </div>
             </div>
         )

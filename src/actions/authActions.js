@@ -3,6 +3,22 @@ import * as type from './types'
 import { web3Manager } from '../utils'
 import { push } from 'react-router-redux'
 
+// method # 1 - everything undefined wtf?
+// import * as actions from './index'
+// console.log(actions);
+// const { getExchangeInfo } = ExchangeActions
+// const { getWalletInfo } = WalletActions
+// const { getCoinInfo } = CoinActions
+// console.log(getExchangeInfo, getWalletInfo, getCoinInfo);
+
+// method #2
+import CoinActions from './coinActions'
+import WalletActions from './walletActions'
+import ExchangeActions from './exchangeActions'
+const { getExchangeInfo } = ExchangeActions
+const { getWalletInfo } = WalletActions
+const { getCoinInfo } = CoinActions
+
 const ROOT_URL = 'http://localhost:8080'
 
 const login = () => {
@@ -66,15 +82,14 @@ const saveUserAddress = () => {
 }
 
 const getUserInfo = () => {
+
     return (dispatch, getState) => {
         if (!getState().auth.addressUser) {
             return axios.get('/authenticate/get-user-info')
             .then(res => {
-                axios.get(`/api/user/${res.data.addressUser}`)
+                return axios.get(`/api/user/${res.data.addressUser}`)
                 .then(res => {
-                    // NOTE: We have all the user data attached to results
-                    // including exchanges array.....why not wallets too?
-                    dispatch({
+                    return dispatch({
                         type: type.GET_USER_INFO,
                         userInfo: res.data.results
                     })
@@ -82,7 +97,22 @@ const getUserInfo = () => {
             })
             .catch(err => console.log('ERROR get user info: ', err))
         }
+    }
+}
 
+const getUserInfoAndResources = () => {
+    return (dispatch, getState) => {
+        return dispatch(getUserInfo()).then(() => {
+            const userID = getState().auth._id
+            console.log("after getUserInfo",userID );
+            return Promise.all([
+                dispatch(getExchangeInfo()),
+                dispatch(getCoinInfo()),
+                dispatch(getWalletInfo())
+            ]).then(() => {
+                console.log("all these ran");
+            })
+        })
     }
 }
 
@@ -91,5 +121,6 @@ export default {
   login,
   verifySignature,
   saveUserAddress,
-  getUserInfo
+  getUserInfo,
+  getUserInfoAndResources
 }

@@ -18,11 +18,6 @@ const STYLES = {
 }
 
 class Wallet extends Component {
-    componentDidMount() {
-        if (!this.props.addressUser){
-            this.props.getUserInfo()
-        }
-    }
 
     render() {
         return (

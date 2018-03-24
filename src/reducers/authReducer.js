@@ -33,7 +33,10 @@ export default (state = initialState, action) => {
         return state
 
       case type.GET_USER_INFO:
-        updated['addressUser'] = action.userInfo._id
+        updated['addressUser'] = action.userInfo.userID
+        updated['_id'] = action.userInfo._id
+        updated['exchanges'] = action.userInfo.exchanges
+        console.log("inside reducer GET_USER_INFO", updated);
         return updated
 
       default:

@@ -5,15 +5,19 @@ const ROOT_URL = 'http://localhost:8080'
 
 function getExchangeInfo() {
     // TODO: will need to add logged in user credentials
-    return (dispatch) => {
-        return axios.get('/exchanges/get-exchange-info')
+
+    return (dispatch, getState) => {
+        const userMongoID = getState().auth._id
+        const exchanges = getState().auth.exchanges
+
+        return axios.post(`/resources/exchange`, { exchanges })
             .then( res => {
                 dispatch({
                     type: GET_EXCHANGE_INFO,
                     exchangeInfo: res.data.exchangeInfo
                 })
             })
-            .catch(err => console.log("there was an error in GET /get-exchange-info", err) )
+            .catch(err => console.log("there was an error in GET /resources/exchange", err) )
     }
 }
 

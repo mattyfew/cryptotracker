@@ -2,6 +2,8 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { authReducer, exchangeReducer, coinReducer, walletReducer } from '../reducers'
 import { routerMiddleware } from 'react-router-redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 
 let store
 
@@ -22,7 +24,7 @@ export default {
 
     store = createStore(
       reducers,
-      applyMiddleware(...middleware)
+      composeWithDevTools(applyMiddleware(...middleware))
     )
 
     return store
