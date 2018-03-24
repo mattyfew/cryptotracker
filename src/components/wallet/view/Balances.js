@@ -57,9 +57,7 @@ export default class Balances extends Component {
         )
     }
 
-    render() {
-        console.log("HEY",this.props)
-        
+    render() {        
         return (
             <div>
                 <section style={styles.wallets} id="show-wallets">

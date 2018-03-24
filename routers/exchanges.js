@@ -98,9 +98,12 @@ const exchangeGetters = {
 
             binance.balance( balances => {
                 newBalances = removeZeroBalance(balances)
+                console.log("BINANCE: ", newBalances);
                 // TODO Get Trade History: API has binance.trades("SNMBTC"), .allorder("SNMBTC")
                 resolve({ binance: newBalances })
             })
+
+
         })
     },
 
@@ -115,6 +118,8 @@ const exchangeGetters = {
             })
 
             bitstamp.balance().then(({ body: balances }) => {
+                // console.log("BITSTAMP: ", balances);
+
                 const newObj = {
                     BCH: { available: balances.bch_balance },
                     BTC: { available: balances.btc_balance },

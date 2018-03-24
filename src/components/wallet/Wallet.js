@@ -4,6 +4,9 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import Radium from 'radium'
 import { Link } from 'react-router'
 
+import { AuthActions } from '../../actions'
+const { getUserInfo } = AuthActions
+
 const STYLES = {
   nav: {
     backgroundColor: 'transparent',
@@ -15,6 +18,7 @@ const STYLES = {
 }
 
 class Wallet extends Component {
+
     render() {
         return (
           <div>
@@ -56,4 +60,6 @@ class Wallet extends Component {
     }
 }
 
-export default Wallet
+export default connect(null, {
+    getUserInfo
+})(Wallet)

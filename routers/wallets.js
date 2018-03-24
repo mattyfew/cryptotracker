@@ -50,7 +50,6 @@ router.get('/get-wallet-info', (req, res) => {
         queryWalletsForBalances(wallets)
         .then(getPricing)
         .then(walletInfo => {
-            console.log("INFO");
             res.json({ walletInfo })
         })
     })
