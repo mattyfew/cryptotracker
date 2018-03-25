@@ -32,12 +32,12 @@ export default class AddExchange extends Component {
         switch (exchangeName) {
             case 'binance':
                 return (
-                    <ol class="mb-5">
+                    <ol className="mb-5">
                         <li>Open the Binance <strong><a href="https://www.binance.com/userCenter/createApi.html" target="_blank">API page</a></strong></li>
                         <li><strong>Create a new API key</strong> by entering a label, such as '<strong>CoinTracker</strong>', and clicking the <strong>Create New Key</strong> button</li>
                         <li>If applicable, enter your <strong>two-factor authentication code</strong></li>
                         <li>Copy the <strong>API Key</strong> and <strong>Secret</strong> below</li>
-                        <li class="mt-3"><strong class="text-muted mr-2 small">RECOMMENDED</strong> Disable trading access for this API key:
+                        <li className="mt-3"><strong className="text-muted mr-2 small">RECOMMENDED</strong> Disable trading access for this API key:
                             <ul>
                                 <li>Click the <strong>Edit</strong> button</li>
                                 <li>Disable the <strong>Enable Trading</strong> permission</li>
@@ -50,7 +50,7 @@ export default class AddExchange extends Component {
                 break;
             case 'bitstamp':
                 return (
-                    <ol class="mb-5">
+                    <ol className="mb-5">
                         <li>Open the Bitstamp <strong><a href="https://www.bitstamp.net/account/security/api/" target="_blank">API Access</a></strong> page</li>
                         <li>If you already have existing API keys, click <strong>New API Key</strong></li>
                         <li>Enable the following <strong>permissions</strong>:
@@ -69,7 +69,7 @@ export default class AddExchange extends Component {
                 break;
             case 'kraken':
                 return (
-                    <ol class="mb-5">
+                    <ol className="mb-5">
                         <li>Navigate to <strong><a href="https://www.kraken.com" target="_blank">Kraken</a></strong> and log in</li>
                         <li>Navigate to <strong>Settings</strong> -&gt; <strong>API</strong></li>
                         <li>Click the <strong>Generate New Key</strong> button</li>
@@ -87,7 +87,7 @@ export default class AddExchange extends Component {
                 break;
             case 'poloniex':
                 return (
-                    <ol class="mb-5">
+                    <ol className="mb-5">
                         <li>Open the Poloniex <strong><a href="https://poloniex.com/apiKeys" target="_blank">API Keys</a></strong> page</li>
                         <li>Click the <strong>Create New Key</strong> button</li>
                         <li>If applicable, enter your <strong>two-factor authentication code</strong></li>
@@ -105,10 +105,10 @@ export default class AddExchange extends Component {
     render() {
         return (
             <div>
-                <section style={styles.linkExchanges} id="link-exchanges">
+                <section id="link-exchanges">
                     <h2 className="add-new-header">Add New Exchange</h2>
 
-                    <form style={styles.formStyles} onSubmit={this.handleSubmit} >
+                    <form className="add-new-form" onSubmit={this.handleSubmit} >
 
                         <select value={this.state.exchange} onChange={this.handleChange} name="exchange">
                             <option value="binance" defaultValue>Binance</option>
@@ -123,30 +123,13 @@ export default class AddExchange extends Component {
                             { this.renderInstructions(this.state.exchange) }
                         </div>
 
-                        <input style={styles.formInput} type="text" name="key" value={this.state.key} onChange={this.handleChange} placeholder="API Key" />
-                        <input style={styles.formInput} type="text" name="secret" value={this.state.secret} onChange={this.handleChange} placeholder="API Secret" />
-                        { this.state.exchange === "bitstamp" && <input style={styles.formInput} type="text" name="customerId" value={this.state.customerId} onChange={this.handleChange} placeholder="Customer ID" /> }
-                        <button style={styles.formButton} >Add Exchange API Access</button>
+                        <input className="add-new-input" type="text" name="key" value={this.state.key} onChange={this.handleChange} placeholder="API Key" />
+                        <input className="add-new-input" type="text" name="secret" value={this.state.secret} onChange={this.handleChange} placeholder="API Secret" />
+                        { this.state.exchange === "bitstamp" && <input className="add-new-input" type="text" name="customerId" value={this.state.customerId} onChange={this.handleChange} placeholder="Customer ID" /> }
+                        <button className="add-new-submit" >Add Exchange API Access</button>
                     </form>
                 </section>
             </div>
         )
-    }
-}
-
-const styles = {
-    formStyles: {
-        display: 'flex',
-        flexDirection: 'column',
-        maxWidth: 500,
-        margin: '0 auto'
-    },
-    formInput: {
-        marginTop: 15,
-        padding: 20
-    },
-    formButton: {
-        marginTop: 15,
-        padding: 20
     }
 }

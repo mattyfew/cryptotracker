@@ -29,35 +29,21 @@ export default class AddWallet extends Component {
         return (
             <div>
                 <section>
-                    <h2>Add a New Wallet</h2>
+                    <h2 className="add-new-header">Add a New Wallet</h2>
 
-                    <form onSubmit={this.handleSubmit}>
+
+                    <form className="add-new-form"  onSubmit={this.handleSubmit}>
+                        <p>Cryptotrackr will automatically sync the transactions and balances from the public addresses you add below. We currently support Bitcoin, Ethereum, and Litecoin addresses.</p>
                         <select value={this.state.cryptocurrency} name="cryptocurrency" onChange={this.handleChange}>
                             <option value="bitcoin">BTC</option>
                             <option value="ethereum">ETH</option>
                             <option value="litecoin">LTC</option>
                         </select>
-                        <input type="text" name="address" placeholder="Enter wallet address" onChange={this.handleChange}/>
-                        <button>Submit</button>
+                        <input className="add-new-input" type="text" name="address" placeholder="Enter wallet address" onChange={this.handleChange}/>
+                        <button className="add-new-submit">Submit</button>
                     </form>
                 </section>
             </div>
         )
-    }
-}
-
-const styles = {
-    wallet: {
-        backgroundColor: '#dfe6e9',
-        padding: '20px 28px',
-        margin: '16px 8px'
-    },
-    walletName: {
-        margin: '0 0 15px',
-        borderBottom: '1px solid #2d3436'
-    },
-    balanceRow: {
-        borderBottom: '1px solid #2d3436',
-        padding: '10px 0'
     }
 }
