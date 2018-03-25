@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { capitalise } from '../../../utils'
 
 export default class AddExchange extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
         this.state = {
             key: '',

@@ -131,7 +131,7 @@ const exchangeGetters = {
 
 
 const walletGetters = {
-  bitcoin({address}) {
+  bitcoin({address, alias}) {
     return new Promise(function(resolve, reject) {
         const options = {
             method: 'GET',
@@ -143,13 +143,14 @@ const walletGetters = {
               cryptocurrency: 'bitcoin',
               symbol: 'BTC',
               address,
+              alias,
               balance: results && results.data.confirmed_balance
             })
         })
         .catch(e => console.log('There was an error in get Litecoin', e))
     })
   },
-  ethereum({address}) {
+  ethereum({address, alias}) {
     return new Promise((resolve, reject) => {
       const key = config.etherscanApiKey
       const api = etherscan.init( key )
@@ -160,13 +161,14 @@ const walletGetters = {
           cryptocurrency: 'etherum',
           symbol: 'ETH',
           address,
+          alias,
           balance: web3.utils.fromWei(balanceData.result)
         })
       })
       .catch(e => console.log("There was an error in get Ethereum", e))
     })
   },
-  litecoin({address}) {
+  litecoin({address, alias}) {
     return new Promise(function(resolve, reject) {
         const options = {
             method: 'GET',
@@ -178,6 +180,7 @@ const walletGetters = {
               cryptocurrency: 'litecoin',
               symbol: 'LTC',
               address,
+              alias,
               balance: results && results.data.confirmed_balance
             })
         })

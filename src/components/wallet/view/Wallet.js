@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { capitalise } from '../../../utils';
+import { capitalise, truncateAddress } from '../../../utils';
 
 export default function Wallet(props) {
     const {
         coinList,
-        wallet: { balance, cryptocurrency, symbol, address }
+        wallet: { balance, cryptocurrency, symbol, address, alias }
     } = props
 
     if (!coinList) {
@@ -14,7 +14,7 @@ export default function Wallet(props) {
     return (
 
         <div className="wallet" style={ styles.wallet }>
-            <h3 style={ styles.walletName }>{ address }</h3>
+            <h3 style={ styles.walletName }>{ alias } | { truncateAddress(address) }</h3>
 
             <div className="balances-container">
                 <div className="balance-row row" style={ styles.balanceRow }>

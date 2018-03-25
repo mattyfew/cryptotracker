@@ -78,7 +78,8 @@ router.post('/:type', (req, res) => {
         walletController.post({
             referenceMongoID: req.session.id,
             name: req.body.cryptocurrency,
-            address: req.body.address
+            address: req.body.address,
+            alias: req.body.alias
         })
         .then(newWallet => {
             console.log("New wallet added to DB", newWallet)

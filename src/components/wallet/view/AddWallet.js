@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { capitalise } from '../../../utils';
 
 export default class AddWallet extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
         this.state = {
             cryptocurrency: 'bitcoin',
-            address: ''
+            address: '',
+            alias: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -40,6 +41,7 @@ export default class AddWallet extends Component {
                             <option value="litecoin">LTC</option>
                         </select>
                         <input className="add-new-input" type="text" name="address" placeholder="Enter wallet address" onChange={this.handleChange}/>
+                        <input className="add-new-input" type="text" name="alias" placeholder="Enter wallet alias" onChange={this.handleChange}/>
                         <button className="add-new-submit">Submit</button>
                     </form>
                 </section>

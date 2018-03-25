@@ -10,5 +10,5 @@ export {default as Dashboard} from './components/wallet/manager/Dashboard'
 export {default as Balances} from './components/wallet/manager/Balances'
 export {default as Transactions} from './components/wallet/manager/Transactions'
 
-export {default as AddWallet} from './components/wallet/view/AddWallet'
-export {default as AddExchange} from './components/wallet/view/AddExchange'
+export {default as AddWallet} from './components/wallet/manager/AddWallet'
+export {default as AddExchange} from './components/wallet/manager/AddExchange'

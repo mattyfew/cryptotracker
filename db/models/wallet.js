@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const walletSchema = new Schema({
     name: { type: String },
     address: { type: String },
+    alias: { type: String },
     referenceMongoID: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true })
 

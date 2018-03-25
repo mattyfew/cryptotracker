@@ -20,6 +20,7 @@ function getWalletInfo() {
 }
 
 function addNewWallet(walletInfo) {
+    console.log("adding wallet", walletInfo);
     return (dispatch) => {
         axios.post('/resources/wallet', walletInfo)
             .then(res => {

@@ -4,8 +4,8 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import Radium from 'radium'
 import { Link } from 'react-router'
 
-import { AuthActions } from '../../actions'
-const { getUserInfo } = AuthActions
+// import { AuthActions } from '../../actions'
+// const { getUserInfo } = AuthActions
 
 const STYLES = {
   nav: {
@@ -17,7 +17,7 @@ const STYLES = {
   }
 }
 
-class Wallet extends Component {
+export default class Wallet extends Component {
 
     render() {
         return (
@@ -60,6 +60,6 @@ class Wallet extends Component {
     }
 }
 
-export default connect(null, {
-    getUserInfo
-})(Wallet)
+// export default connect(null, {
+//     getUserInfo
+// })(Wallet)
