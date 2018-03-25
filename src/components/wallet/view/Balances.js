@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import Exchange from './Exchange'
 import Wallet from './Wallet'
 import AddWallet from './AddWallet'
@@ -57,9 +58,12 @@ export default class Balances extends Component {
         )
     }
 
-    render() {        
+    render() {
         return (
             <div>
+                <Link to="/wallet/add/exchange">Add Exchange</Link> |
+                <Link to="/wallet/add/wallet">Add Wallet</Link>
+
                 <section style={styles.wallets} id="show-wallets">
                     <h2>Your Linked Wallets</h2>
                     { this.renderWallets() }
@@ -70,14 +74,14 @@ export default class Balances extends Component {
                     { this.renderExchanges() }
                 </section>
 
-                <section style={styles.linkExchanges} id="link-exchanges">
+                {/*<section style={styles.linkExchanges} id="link-exchanges">
                     <AddExchange
                         addNewExchange={ this.props.addNewExchange }
                     />
                     <AddWallet
                         addNewWallet={ this.props.addNewWallet }
                     />
-                </section>
+                </section>*/}
             </div>
         )
     }

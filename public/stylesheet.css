@@ -35,3 +35,9 @@ nav ul { display: flex; list-style-type: none; }
 nav a { color: white; text-decoration: none; }
 nav a:hover { color: #1C4CB2; }
 nav li { padding-right: 15px; }
+
+
+
+
+/* Add New Wallet / Exchange */
+.add-new-header { text-align: center; }
