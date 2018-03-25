@@ -1,16 +1,32 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { authReducer, exchangeReducer, coinReducer, walletReducer, assetReducer } from '../reducers'
+import {
+  userReducer,
+  exchangeReducer,
+  coinReducer,
+  walletReducer,
+  assetReducer
+} from '../reducers'
 import { routerMiddleware } from 'react-router-redux'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 
 let store
 
+
+const userPersistConfig = {
+  key: 'user', // key is used to store state in localStorage
+  storage,
+  blacklist: ['navigation']
+}
+
 export default {
+
   configureStore: (history) => {
     const reducers = combineReducers({
-      auth: authReducer,
+      user: persistReducer(userPersistConfig, userReducer),
       exchanges: exchangeReducer,
       coinList: coinReducer,
       wallets: walletReducer,
@@ -28,7 +44,8 @@ export default {
       composeWithDevTools(applyMiddleware(...middleware))
     )
 
-    return store
+    let persistor = persistStore(store)
+    return { store, persistor }
   },
 
   currentStore: () => {

@@ -1,30 +1,30 @@
-import React, {Component } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {AuthActions} from '../../../actions'
-import Presentation from '../view/Login'
+import { UserActions } from '../../../actions'
+import View from '../view/Login'
 
 
 class LoginScreen extends Component {
 
   render () {
-    const {auth} = this.props
+    const { user } = this.props
     return (
-      <Presentation
+      <View
         login={this.props.login}
-        authProps={auth} />
+        userProps={user} />
     )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    user: state.user
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: () => dispatch(AuthActions.login())
+    login: () => dispatch(UserActions.login())
   }
 }
 

@@ -1,11 +1,11 @@
-import AuthActions from './authActions'
+import UserActions from './userActions'
 import ExchangeActions from './exchangeActions'
 import CoinActions from './coinActions'
 import WalletActions from './walletActions'
 import AssetActions from './assetActions'
 
 export {
-  AuthActions,
+  UserActions,
   ExchangeActions,
   CoinActions,
   WalletActions,

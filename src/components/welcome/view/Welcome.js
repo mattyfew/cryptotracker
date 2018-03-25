@@ -5,6 +5,59 @@ import { Link } from 'react-router'
 import Radium from 'radium'
 import Navigation from './Nav'
 
+
+class Welcome extends Component {
+
+  scrollToTop() {
+    scroll.scrollToTop()
+  }
+
+  render() {
+    return (
+      <div>
+        <Navigation />
+        <div>
+          <Jumbotron style={STYLES.jumbotron}>
+            <div className="container-fluid" style={STYLES.container}>
+              <div className="row">
+                <div className="col-md-12 col-xs-12">
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6 col-xs-12">
+                </div>
+              </div>
+            </div>
+          </Jumbotron>
+        </div>
+
+        <div>
+          <Jumbotron style={STYLES.jumboWhy}>
+            <Element name="navWhy" className="element">
+              <p>this is why....</p>
+            </Element>
+          </Jumbotron>
+        </div>
+        <div>
+          <Jumbotron style={STYLES.jumboHow}>
+            <Element name="navHow" className="element">
+              <p>blablabla</p>
+            </Element>
+          </Jumbotron>
+        </div>
+        <Button bsSize="large" bsStyle="danger" style={STYLES.signUpBtn}>
+          <Link to={'/login'} style={{textDecoration: 'none', color: '#fff'}}>Sign In</Link>
+        </Button>
+        <Button onClick={() => this.scrollToTop()} style={STYLES.backTop}>
+          <span className="glyphicon glyphicon-menu-up"></span>
+        </Button>
+      </div>
+    )
+  }
+}
+
+
+
 const STYLES = {
   jumbotron: {
     height: '100vh',
@@ -65,54 +118,5 @@ const STYLES = {
   }
 }
 
-class Welcome extends Component {
-
-  scrollToTop() {
-    scroll.scrollToTop()
-  }
-
-  render() {
-    return (
-      <div>
-        <Navigation />
-        <div>
-          <Jumbotron style={STYLES.jumbotron}>
-            <div className="container-fluid" style={STYLES.container}>
-              <div className="row">
-                <div className="col-md-12 col-xs-12">
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6 col-xs-12">
-                </div>
-              </div>
-            </div>
-          </Jumbotron>
-        </div>
-
-        <div>
-          <Jumbotron style={STYLES.jumboWhy}>
-            <Element name="navWhy" className="element">
-              <p>this is why....</p>
-            </Element>
-          </Jumbotron>
-        </div>
-        <div>
-          <Jumbotron style={STYLES.jumboHow}>
-            <Element name="navHow" className="element">
-              <p>blablabla</p>
-            </Element>
-          </Jumbotron>
-        </div>
-        <Button bsSize="large" bsStyle="danger" style={STYLES.signUpBtn}>
-          <Link to={'/login'} style={{textDecoration: 'none', color: '#fff'}}>Sign In</Link>
-        </Button>
-        <Button onClick={() => this.scrollToTop()} style={STYLES.backTop}>
-          <span className="glyphicon glyphicon-menu-up"></span>
-        </Button>
-      </div>
-    )
-  }
-}
 
 export default Radium(Welcome)
