@@ -133,16 +133,20 @@ const exchangeGetters = {
 const walletGetters = {
   bitcoin({address}) {
     return new Promise(function(resolve, reject) {
-      cryptoBalance(address, (err, results) =>{
-          if (err) reject(err)
-
-          resolve({
-            cryptocurrency: 'bitcoin',
-            symbol: 'BTC',
-            address,
-            balance: results[0].quantity
+        const options = {
+            method: 'GET',
+            uri: `https://chain.so/api/v2/get_address_balance/BTC/${address}`,
+            json: true
+        }
+        request(options).then(results => {
+            resolve({
+              cryptocurrency: 'bitcoin',
+              symbol: 'BTC',
+              address,
+              balance: results && results.data.confirmed_balance
+            })
         })
-      })
+        .catch(e => console.log('There was an error in get Litecoin', e))
     })
   },
   ethereum({address}) {
@@ -168,11 +172,8 @@ const walletGetters = {
             method: 'GET',
             uri: `https://chain.so/api/v2/get_address_balance/LTC/${address}`,
             json: true
-        };
-        request(options)
-        .then(results => {
-            console.log("we are here", results.data);
-
+        }
+        request(options).then(results => {
             resolve({
               cryptocurrency: 'litecoin',
               symbol: 'LTC',
@@ -180,20 +181,7 @@ const walletGetters = {
               balance: results && results.data.confirmed_balance
             })
         })
-
-      // cryptoBalance(address, (err, results) => {
-      //   if (err) reject(err)
-      //
-      //   console.log("results!", results);
-      //
-      //
-      //   resolve({
-      //     cryptocurrency: 'litecoin',
-      //     symbol: 'LTC',
-      //     address,
-      //     balance: results[0] && results[0].quantity
-      //   })
-      // })
+        .catch(e => console.log('There was an error in get Litecoin', e))
     })
   }
 }
