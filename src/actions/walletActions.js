@@ -7,7 +7,7 @@ function getWalletInfo() {
 
         // NEED TO SEND OVER USER INFO THAT COMES FROM THE STATE
 
-        return axios.post('/resources/wallet')
+        return axios.get('/resources/wallet')
             .then( res => {
                 console.log("running getWalletInfo", res);
                 dispatch({

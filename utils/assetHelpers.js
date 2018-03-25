@@ -1,11 +1,13 @@
+const path = require('path')
+const web3 = require('web3')
+const config = require( path.resolve(__dirname, '..', './config'))
+
 const { Bitstamp, CURRENCY } = require('node-bitstamp')
 const etherscan = require('etherscan-api')
 const cryptoBalance = require('crypto-balances')
 const Poloniex = require('poloniex-api-node')
 const binance = require('node-binance-api')
 const Kraken = require('kraken-api')
-const CoinMarketCap = require("node-coinmarketcap")
-
 
 
 function prepareAssetInformation(coinList, exRates) {

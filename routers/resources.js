@@ -1,24 +1,20 @@
 const express = require('express'),
   router = express.Router()
-const path = require('path')
-const web3 = require('web3')
-const config = require( path.resolve(__dirname, '..', './config'))
 
+const path = require('path')
 const exchangeController = require(path.resolve(__dirname, '..', './controllers/ExchangeController'))
 const walletController = require(path.resolve(__dirname, '..', './controllers/WalletController'))
 
 const axios = require('axios')
-const CoinMarketCap = require("node-coinmarketcap")
 const cc = require('cryptocompare')
-global.fetch = require('node-fetch')
+// global.fetch = require('node-fetch')
 const helpers = require('../utils/assetHelpers')
+const { walletGetters, exchangeGetters } = helpers
 
-router.post('/:type', (req, res) => {
+router.get('/:type', (req, res) => {
   const { type } = req.params
 
   if (type === 'wallet') {
-    const { wallets } = req.body
-
     walletController.getWalletInfo({ "referenceMongoID" : req.session.id })
     .then(wallets => {
         let promises = []
@@ -43,7 +39,6 @@ router.post('/:type', (req, res) => {
 
   if (type === 'exchange') {
     // {poloniex: {BTC: { avalable: 400 } }, }
-    // const { exchanges } = req.body
 
     exchangeController.getExchangeInfo({ "referenceMongoID" : req.session.id })
     .then(exchanges => {
