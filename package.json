@@ -41,6 +41,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "1.0.17",
     "react-scroll": "^1.7.6",
+    "react-vis": "^1.9.2",
     "redux": "^3.7.2",
     "redux-thunk": "2.2.0",
     "web3": "^1.0.0-beta.27"
