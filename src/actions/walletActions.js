@@ -7,7 +7,7 @@ function getWalletInfo() {
 
         // NEED TO SEND OVER USER INFO THAT COMES FROM THE STATE
 
-        return axios.post('/resources/wallet')
+        return axios.get('/resources/wallet')
             .then( res => {
                 console.log("running getWalletInfo", res);
                 dispatch({
@@ -15,20 +15,21 @@ function getWalletInfo() {
                     walletInfo: res.data.walletInfo
                 })
             })
-            .catch(err => console.log("there was an error in GET /get-wallet-info", err))
+            .catch(err => console.log("there was an error in getWalletInfo", err))
     }
 }
 
 function addNewWallet(walletInfo) {
+    console.log("adding wallet", walletInfo);
     return (dispatch) => {
-        axios.post('/wallets/add-new-wallet', walletInfo)
+        axios.post('/resources/wallet', walletInfo)
             .then(res => {
                 console.log("we got something back", res)
                 dispatch({
                     type: ADD_NEW_WALLET
                 })
             })
-            .catch(err => console.log("there was an error in POST /add-new-wallet", err) )
+            .catch(err => console.log("there was an error in addNewWallet", err) )
     }
 }
 

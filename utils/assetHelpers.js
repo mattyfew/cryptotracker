@@ -1,11 +1,16 @@
+const path = require('path')
+const web3 = require('web3')
+const config = require( path.resolve(__dirname, '..', './config'))
+
 const { Bitstamp, CURRENCY } = require('node-bitstamp')
 const etherscan = require('etherscan-api')
 const cryptoBalance = require('crypto-balances')
 const Poloniex = require('poloniex-api-node')
 const binance = require('node-binance-api')
 const Kraken = require('kraken-api')
-const CoinMarketCap = require("node-coinmarketcap")
 
+// fetch = require('node-fetch')
+const request = require('request-promise')
 
 
 function prepareAssetInformation(coinList, exRates) {
@@ -45,42 +50,43 @@ const exchangeGetters = {
       })
 
       binance.balance( balances => {
-        newBalances = removeZeroBalance(balances)
+
         // TODO Get Trade History: API has binance.trades("SNMBTC"), .allorder("SNMBTC")
 
         const newObj = {}
-        for (let key in newBalances) {
-          newObj[key] = { balance: newBalances[key].available }
+        for (let key in balances) {
+          newObj[key] = { balance: balances[key].available }
         }
-        resolve({ binance: newObj })
+        newBalances = removeZeroBalance(newBalances)
+        resolve({ binance: newBalances })
       })
     })
   },
   bitstamp(exchange) {
-    return new Promise((resolve, reject) => {
-      const bitstamp = new Bitstamp({
-        key: exchange.APIkey,
-        secret: exchange.APIsecret,
-        clientId: exchange.customerId,
-        timeout: 5000,
-        rateLimit: true
-      })
+      console.log(exchange);
+        return new Promise((resolve, reject) => {
+          const bitstamp = new Bitstamp({
+            key: exchange.APIkey,
+            secret: exchange.APIsecret,
+            clientId: exchange.customerId,
+            timeout: 5000,
+            rateLimit: true
+          })
 
-    bitstamp.balance().then(({ body: balances }) => {
-      const newObj = {
-        BCH: { balance: balances.bch_balance },
-        BTC: { balance: balances.btc_balance },
-        ETH: { balance: balances.eth_balance },
-        LTC: { balance: balances.ltc_balance },
-        XRP: { balance: balances.xrp_balance }
-      }
+          bitstamp.balance()
+          .then(({ body: balances }) => {
+            const newObj = {
+              BCH: { balance: balances.bch_balance },
+              BTC: { balance: balances.btc_balance },
+              ETH: { balance: balances.eth_balance },
+              LTC: { balance: balances.ltc_balance },
+              XRP: { balance: balances.xrp_balance }
+            }
 
-      newBalances = removeZeroBalance(newObj)
-        resolve({ bitstamp: newBalances })
-      })
-      .catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
-
-      })
+            newBalances = removeZeroBalance(newObj)
+            resolve({ bitstamp: newBalances })
+          }).catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
+        })
     },
     poloniex(exchange) {
       return new Promise((resolve, reject) => {
@@ -94,6 +100,7 @@ const exchangeGetters = {
           }
 
           newBalances = removeZeroBalance(newObj)
+
           // returnOrderBook(currencyPair, depth [, callback])
           // returnTradeHistory(currencyPair, start, end, limit [, callback])
 
@@ -124,20 +131,26 @@ const exchangeGetters = {
 
 
 const walletGetters = {
-  bitcoin({address}) {
+  bitcoin({address, alias}) {
     return new Promise(function(resolve, reject) {
-      cryptoBalance(address, (err, results) =>{
-        if (err) reject(err)
-          resolve({
-            cryptocurrency: 'bitcoin',
-            symbol: 'BTC',
-            address,
-            balance: results[0].quantity
+        const options = {
+            method: 'GET',
+            uri: `https://chain.so/api/v2/get_address_balance/BTC/${address}`,
+            json: true
+        }
+        request(options).then(results => {
+            resolve({
+              cryptocurrency: 'bitcoin',
+              symbol: 'BTC',
+              address,
+              alias,
+              balance: results && results.data.confirmed_balance
+            })
         })
-      })
+        .catch(e => console.log('There was an error in get Litecoin', e))
     })
   },
-  ethereum({address}) {
+  ethereum({address, alias}) {
     return new Promise((resolve, reject) => {
       const key = config.etherscanApiKey
       const api = etherscan.init( key )
@@ -148,24 +161,30 @@ const walletGetters = {
           cryptocurrency: 'etherum',
           symbol: 'ETH',
           address,
+          alias,
           balance: web3.utils.fromWei(balanceData.result)
         })
       })
       .catch(e => console.log("There was an error in get Ethereum", e))
     })
   },
-  litecoin({address}) {
+  litecoin({address, alias}) {
     return new Promise(function(resolve, reject) {
-      cryptoBalance(address, (err, results) =>{
-        if (err) reject(err)
-
-        resolve({
-          cryptocurrency: 'litecoin',
-          symbol: 'LTC',
-          address,
-          balance: results[0] && results[0].quantity
+        const options = {
+            method: 'GET',
+            uri: `https://chain.so/api/v2/get_address_balance/LTC/${address}`,
+            json: true
+        }
+        request(options).then(results => {
+            resolve({
+              cryptocurrency: 'litecoin',
+              symbol: 'LTC',
+              address,
+              alias,
+              balance: results && results.data.confirmed_balance
+            })
         })
-      })
+        .catch(e => console.log('There was an error in get Litecoin', e))
     })
   }
 }
@@ -176,9 +195,9 @@ function removeZeroBalance(balances) {
   let sortable = []
 
   for (const key in clone) {
-    clone[key].available == 0
+    clone[key].balance == 0
       ? delete clone[key]
-      : sortable.push( [key, parseFloat(clone[key].available) ])
+      : sortable.push( [key, parseFloat(clone[key].balance) ])
   }
 
   return clone

@@ -35,3 +35,23 @@ nav ul { display: flex; list-style-type: none; }
 nav a { color: white; text-decoration: none; }
 nav a:hover { color: #1C4CB2; }
 nav li { padding-right: 15px; }
+
+
+
+
+/* Add New Wallet / Exchange */
+.add-new-header { text-align: center; }
+.add-new-form {
+    display: 'flex';
+    flex-direction: 'column';
+    max-width: 500px;
+    margin: 0 auto;
+}
+.add-new-input {
+    margin-top: 15px;
+    padding: 20px;
+}
+.add-new-submit {
+    margin-top: 15px;
+    padding: 20px;
+}

@@ -18,7 +18,9 @@ import {
   Profile,
   Dashboard,
   Balances,
-  Transactions
+  Transactions,
+  AddWallet,
+  AddExchange
 } from './routes'
 
 const { store, persistor } = appStore.configureStore(browserHistory)
@@ -39,6 +41,8 @@ const router = (
               <IndexRoute component={Dashboard} />
               <Route path="/wallet/balances" component={Balances} />
               <Route path="/wallet/transactions" component={Transactions} />
+              <Route path="/wallet/add/wallet" component={AddWallet} />
+              <Route path="/wallet/add/exchange" component={AddExchange} />
 
             </Route>
 

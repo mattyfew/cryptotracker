@@ -7,10 +7,10 @@ function getExchangeInfo() {
     // TODO: will need to add logged in user credentials
 
     return (dispatch, getState) => {
-        const userMongoID = getState().auth._id
-        const exchanges = getState().auth.exchanges
+        // const userMongoID = getState().auth._id
+        // const exchanges = getState().auth.exchanges
 
-        return axios.post(`/resources/exchange`, { exchanges })
+        return axios.get(`/resources/exchange`)
             .then( res => {
                 dispatch({
                     type: GET_EXCHANGE_INFO,
@@ -23,7 +23,7 @@ function getExchangeInfo() {
 
 function addNewExchange(exchangeInfo) {
     return (dispatch) => {
-        axios.post('/exchanges/add-new-exchange', exchangeInfo)
+        axios.post('/resources/exchange', exchangeInfo)
             .then(res => {
                 console.log("we got something back", res)
                 dispatch({
