@@ -47,14 +47,15 @@ const exchangeGetters = {
       })
 
       binance.balance( balances => {
-        newBalances = removeZeroBalance(balances)
+
         // TODO Get Trade History: API has binance.trades("SNMBTC"), .allorder("SNMBTC")
 
         const newObj = {}
-        for (let key in newBalances) {
-          newObj[key] = { balance: newBalances[key].available }
+        for (let key in balances) {
+          newObj[key] = { balance: balances[key].available }
         }
-        resolve({ binance: newObj })
+        newBalances = removeZeroBalance(newBalances)
+        resolve({ binance: newBalances })
       })
     })
   },
@@ -96,6 +97,7 @@ const exchangeGetters = {
           }
 
           newBalances = removeZeroBalance(newObj)
+
           // returnOrderBook(currencyPair, depth [, callback])
           // returnTradeHistory(currencyPair, start, end, limit [, callback])
 
@@ -178,9 +180,9 @@ function removeZeroBalance(balances) {
   let sortable = []
 
   for (const key in clone) {
-    clone[key].available == 0
+    clone[key].balance == 0
       ? delete clone[key]
-      : sortable.push( [key, parseFloat(clone[key].available) ])
+      : sortable.push( [key, parseFloat(clone[key].balance) ])
   }
 
   return clone
