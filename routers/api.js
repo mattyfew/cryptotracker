@@ -116,11 +116,12 @@ router.get('/search/:resource/:attribute/:value', (req, res) => {
 
 
 router.post('/update/:resource', (req, res) => {
+  console.log('API CALL UPDATE: ', req.params.resource)
   const resource = req.params.resource
   const attribute = req.body.attribute
   const value = req.body.value
   const controller = controllers[resource]
-
+  console.log('CONTROLLER: ', controller)
   if(controller == null) {
     res.json({
       confirmation: "fail",

@@ -3,21 +3,16 @@ import { connect } from 'react-redux'
 
 import BalancesView from '../view/Balances'
 
-import { ExchangeActions, CoinActions, WalletActions, AuthActions } from '../../../actions'
+import { ExchangeActions, CoinActions, WalletActions } from '../../../actions'
 const { getExchangeInfo, addNewExchange } = ExchangeActions
 const { getCoinInfo } = CoinActions
 const { getWalletInfo, addNewWallet } = WalletActions
-const { getUserInfo, getUserInfoAndResources } = AuthActions
 
 class Balances extends Component {
     componentDidMount() {
-        if (!this.props.addressUser){
-            this.props.getUserInfoAndResources()
-        } else {
-            this.props.getExchangeInfo()
-            this.props.getCoinInfo()
-            this.props.getWalletInfo()
-        }
+        this.props.getExchangeInfo()
+        this.props.getCoinInfo()
+        this.props.getWalletInfo()
     }
 
     render() {
@@ -41,10 +36,10 @@ function mapStateToProps(state) {
         exchanges: state.exchanges.exchanges,
         coinList: state.coinList.coinList,
         wallets: state.wallets.wallets,
-        auth: state.auth
+        user: state.user
     }
 }
 
 export default connect(mapStateToProps, {
-    getUserInfoAndResources, getUserInfo, getExchangeInfo, getCoinInfo, getWalletInfo, addNewExchange, addNewWallet
+    getExchangeInfo, getCoinInfo, getWalletInfo, addNewExchange, addNewWallet
 })(Balances)

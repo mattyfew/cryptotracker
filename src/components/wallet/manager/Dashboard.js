@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { AssetActions } from '../../../actions'
+import { AssetActions, UserActions } from '../../../actions'
 const { getAssetInformation } = AssetActions
+const { getUserInfo } = UserActions
 
 
 
@@ -28,11 +29,11 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
     return {
         assets: state.assets,
-        auth: state.auth
+        user: state.user
     }
 }
 
 
 export default connect(mapStateToProps, {
-  getAssetInformation
+  getAssetInformation, getUserInfo
 })(Dashboard)
