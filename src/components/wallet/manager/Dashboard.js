@@ -25,13 +25,10 @@ class Dashboard extends Component {
 
 
 
-
-
-
-
 function mapStateToProps(state) {
     return {
-        assets: state.assets
+        assets: state.assets,
+        auth: state.auth
     }
 }
 
