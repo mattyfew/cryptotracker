@@ -15,7 +15,7 @@ function getWalletInfo() {
                     walletInfo: res.data.walletInfo
                 })
             })
-            .catch(err => console.log("there was an error in GET /get-wallet-info", err))
+            .catch(err => console.log("there was an error in getWalletInfo", err))
     }
 }
 
@@ -28,7 +28,7 @@ function addNewWallet(walletInfo) {
                     type: ADD_NEW_WALLET
                 })
             })
-            .catch(err => console.log("there was an error in POST /add-new-wallet", err) )
+            .catch(err => console.log("there was an error in addNewWallet", err) )
     }
 }
 

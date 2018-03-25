@@ -9,6 +9,9 @@ const Poloniex = require('poloniex-api-node')
 const binance = require('node-binance-api')
 const Kraken = require('kraken-api')
 
+// fetch = require('node-fetch')
+const request = require('request-promise')
+
 
 function prepareAssetInformation(coinList, exRates) {
   const assetsWithExRate = exRates.data
@@ -131,7 +134,8 @@ const walletGetters = {
   bitcoin({address}) {
     return new Promise(function(resolve, reject) {
       cryptoBalance(address, (err, results) =>{
-        if (err) reject(err)
+          if (err) reject(err)
+
           resolve({
             cryptocurrency: 'bitcoin',
             symbol: 'BTC',
@@ -160,16 +164,36 @@ const walletGetters = {
   },
   litecoin({address}) {
     return new Promise(function(resolve, reject) {
-      cryptoBalance(address, (err, results) =>{
-        if (err) reject(err)
+        const options = {
+            method: 'GET',
+            uri: `https://chain.so/api/v2/get_address_balance/LTC/${address}`,
+            json: true
+        };
+        request(options)
+        .then(results => {
+            console.log("we are here", results.data);
 
-        resolve({
-          cryptocurrency: 'litecoin',
-          symbol: 'LTC',
-          address,
-          balance: results[0] && results[0].quantity
+            resolve({
+              cryptocurrency: 'litecoin',
+              symbol: 'LTC',
+              address,
+              balance: results && results.data.confirmed_balance
+            })
         })
-      })
+
+      // cryptoBalance(address, (err, results) => {
+      //   if (err) reject(err)
+      //
+      //   console.log("results!", results);
+      //
+      //
+      //   resolve({
+      //     cryptocurrency: 'litecoin',
+      //     symbol: 'LTC',
+      //     address,
+      //     balance: results[0] && results[0].quantity
+      //   })
+      // })
     })
   }
 }

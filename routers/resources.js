@@ -27,6 +27,7 @@ router.get('/:type', (req, res) => {
 
         return Promise.all(promises)
         .then(walletInfo => {
+            console.log(walletInfo);
             res.json({walletInfo})
         })
         .catch(err => {
@@ -53,12 +54,11 @@ router.get('/:type', (req, res) => {
         .then(exchangeInfoArr => {
             const exchangeInfo = {}
 
-            // console.log("loggin", exchangeInfoArr[0] );
             for (let i = 0; i < exchangeInfoArr.length; i++) {
                 let exchangeName = Object.keys(exchangeInfoArr[i])[0]
                 exchangeInfo[ exchangeName ] = exchangeInfoArr[i][exchangeName]
             }
-            // console.log(exchangeInfo);
+
             res.json({exchangeInfo})
         })
         .catch(err => {
