@@ -21,7 +21,7 @@ function getWalletInfo() {
 
 function addNewWallet(walletInfo) {
     return (dispatch) => {
-        axios.post('/wallets/add-new-wallet', walletInfo)
+        axios.post('/resources/wallet', walletInfo)
             .then(res => {
                 console.log("we got something back", res)
                 dispatch({

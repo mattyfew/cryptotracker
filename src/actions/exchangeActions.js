@@ -23,7 +23,7 @@ function getExchangeInfo() {
 
 function addNewExchange(exchangeInfo) {
     return (dispatch) => {
-        axios.post('/exchanges/add-new-exchange', exchangeInfo)
+        axios.post('/resources/exchange', exchangeInfo)
             .then(res => {
                 console.log("we got something back", res)
                 dispatch({

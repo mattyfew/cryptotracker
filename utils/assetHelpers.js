@@ -60,30 +60,30 @@ const exchangeGetters = {
     })
   },
   bitstamp(exchange) {
-    return new Promise((resolve, reject) => {
-      const bitstamp = new Bitstamp({
-        key: exchange.APIkey,
-        secret: exchange.APIsecret,
-        clientId: exchange.customerId,
-        timeout: 5000,
-        rateLimit: true
-      })
+      console.log(exchange);
+        return new Promise((resolve, reject) => {
+          const bitstamp = new Bitstamp({
+            key: exchange.APIkey,
+            secret: exchange.APIsecret,
+            clientId: exchange.customerId,
+            timeout: 5000,
+            rateLimit: true
+          })
 
-    bitstamp.balance().then(({ body: balances }) => {
-      const newObj = {
-        BCH: { balance: balances.bch_balance },
-        BTC: { balance: balances.btc_balance },
-        ETH: { balance: balances.eth_balance },
-        LTC: { balance: balances.ltc_balance },
-        XRP: { balance: balances.xrp_balance }
-      }
+          bitstamp.balance()
+          .then(({ body: balances }) => {
+            const newObj = {
+              BCH: { balance: balances.bch_balance },
+              BTC: { balance: balances.btc_balance },
+              ETH: { balance: balances.eth_balance },
+              LTC: { balance: balances.ltc_balance },
+              XRP: { balance: balances.xrp_balance }
+            }
 
-      newBalances = removeZeroBalance(newObj)
-        resolve({ bitstamp: newBalances })
-      })
-      .catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
-
-      })
+            newBalances = removeZeroBalance(newObj)
+            resolve({ bitstamp: newBalances })
+          }).catch(err => console.log("There was an error in exchangeGetters.bitstamp: ", err.message))
+        })
     },
     poloniex(exchange) {
       return new Promise((resolve, reject) => {
