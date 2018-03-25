@@ -17,7 +17,7 @@ const STYLES = {
 }
 
 
-export default class LoginPresentation extends Component {
+export default class LoginView extends Component {
 
   render () {
     let content
@@ -25,7 +25,8 @@ export default class LoginPresentation extends Component {
     if (typeof window.web3 !== 'undefined') {
       const ethereumProvider = web3.currentProvider
 
-      content = (<div>
+      content = (
+        <div>
           <div style={appStyles.textStyles.sectionHeader}>
             You have Metamask intalled!
           </div>
@@ -61,7 +62,7 @@ export default class LoginPresentation extends Component {
       )
     }
 
-    if (this.props.authProps.errorMsg.lenght > 0) {
+    if (this.props.userProps.errorMsg.lenght > 0) {
       content = (
         <div>errorMsg</div>
       )

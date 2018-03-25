@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import {
-  authReducer,
+  userReducer,
   exchangeReducer,
   coinReducer,
   walletReducer,
@@ -16,8 +16,8 @@ import storage from 'redux-persist/lib/storage'
 let store
 
 
-const authPersistConfig = {
-  key: 'auth', // key is used to store state in localStorage
+const userPersistConfig = {
+  key: 'user', // key is used to store state in localStorage
   storage,
   blacklist: ['navigation']
 }
@@ -26,7 +26,7 @@ export default {
 
   configureStore: (history) => {
     const reducers = combineReducers({
-      auth: persistReducer(authPersistConfig, authReducer),
+      user: persistReducer(userPersistConfig, userReducer),
       exchanges: exchangeReducer,
       coinList: coinReducer,
       wallets: walletReducer,

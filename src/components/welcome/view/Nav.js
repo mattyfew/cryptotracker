@@ -3,23 +3,6 @@ import { Element, animateScroll as scroll, Link as ScrollLink } from 'react-scro
 import { Navbar, Nav, NavItem, Button, Jumbotron } from 'react-bootstrap'
 import Radium from 'radium'
 
-const STYLES = {
-  nav: {
-    backgroundColor: 'transparent',
-    width: '100%',
-    border: 'none',
-    textDecoration: 'none'
-  },
-  navText: {
-    color: 'white',
-    textDecoration: 'none',
-    ':hover': {
-      color: '#f3f3f3',
-      textDecoration: 'none !important'
-    }
-  }
-}
-
 class Navigation extends Component {
   render() {
     return (
@@ -60,5 +43,23 @@ class Navigation extends Component {
     )
   }
 }
+
+const STYLES = {
+  nav: {
+    backgroundColor: 'transparent',
+    width: '100%',
+    border: 'none',
+    textDecoration: 'none'
+  },
+  navText: {
+    color: 'white',
+    textDecoration: 'none',
+    ':hover': {
+      color: '#f3f3f3',
+      textDecoration: 'none !important'
+    }
+  }
+}
+
 
 export default Radium(Navigation)
