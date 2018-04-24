@@ -12,6 +12,8 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
+import createHistory from 'history/createBrowserHistory'
+
 
 let store
 
@@ -24,7 +26,7 @@ const userPersistConfig = {
 
 export default {
 
-  configureStore: (history) => {
+  configureStore: () => {
     const reducers = combineReducers({
       user: persistReducer(userPersistConfig, userReducer),
       exchanges: exchangeReducer,
@@ -32,6 +34,8 @@ export default {
       wallets: walletReducer,
       assets: assetReducer
     })
+
+    const history = createHistory()
 
     const reduxRouterMiddleware = routerMiddleware(history)
     const middleware = [

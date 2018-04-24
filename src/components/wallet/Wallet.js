@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import Radium from 'radium'
-import { Link } from 'react-router'
+// import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { UserActions } from '../../actions'
 const { getUserInfo } = UserActions
