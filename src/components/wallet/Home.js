@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Radium from 'radium'
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+
 
 import {
   Dashboard,
@@ -18,30 +20,32 @@ class Home extends Component {
         <BrowserRouter>
             <div>
                 <Nav bsStyle="tabs">
-                    <NavItem
-                        componentClass={Link}
-                        href="/wallet"
+                    <LinkContainer
                         to="/wallet"
                         active={location.pathname === '/wallet'}>
-                        Dashboard
-                    </NavItem>
-                    <NavItem
-                        componentClass={Link}
-                        href="/wallet/balances"
+                        <NavItem>
+                            Dashboard
+                        </NavItem>
+                    </LinkContainer>
+
+                    <LinkContainer
                         to="/wallet/balances"
                         active={location.pathname === '/wallet/balances'}>
-                        Balances
-                    </NavItem>
-                    <NavItem
-                        componentClass={Link}
-                        href="/wallet/transactions"
+                        <NavItem>
+                            Balances
+                        </NavItem>
+                    </LinkContainer>
+
+                    <LinkContainer
                         to="/wallet/transactions"
                         active={location.pathname === '/wallet/transactions'}>
-                        Transactions
-                    </NavItem>
+                        <NavItem>
+                            Transactions
+                        </NavItem>
+                    </LinkContainer>
                 </Nav>
 
-                <Route path="/wallet" component={Dashboard} />
+                <Route exact path="/wallet" component={Dashboard} />
                 <Route path="/wallet/balances" component={Balances} />
                 <Route path="/wallet/transactions" component={Transactions} />
                 <Route path="/wallet/add/wallet" component={AddWallet} />
