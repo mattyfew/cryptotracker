@@ -8,8 +8,6 @@ const cryptoBalance = require('crypto-balances')
 const Poloniex = require('poloniex-api-node')
 const binance = require('node-binance-api')
 const Kraken = require('kraken-api')
-
-// fetch = require('node-fetch')
 const request = require('request-promise')
 
 
@@ -49,10 +47,11 @@ const exchangeGetters = {
         'recvWindow': 60000
       })
 
-      binance.balance( balances => {
-
+      binance.balance((err, balances) => {
+        if (err) { console.log("yooooo something is wrong bro", err)}
         // TODO Get Trade History: API has binance.trades("SNMBTC"), .allorder("SNMBTC")
 
+        console.log(balances);
         const newObj = {}
         for (let key in balances) {
           newObj[key] = { balance: balances[key].available }
