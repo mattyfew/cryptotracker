@@ -14,8 +14,9 @@ class Navigation extends Component {
           <Navbar.Collapse style={STYLES.nav}>
             <Nav>
               <NavItem eventKey={1} href="/"><span style={STYLES.navText}>Home</span></NavItem>
-              <NavItem eventKey={2} href="#">
+              {/*<NavItem eventKey={2} href="#">*/}
                 <ScrollLink
+                  eventKey={2}
                   style={STYLES.navText}
                   className="navWhy"
                   to="navWhy"
@@ -24,7 +25,7 @@ class Navigation extends Component {
                   duration={900}>
                     Why
                   </ScrollLink>
-              </NavItem>
+              {/*</NavItem>*/}
               <NavItem eventKey={3} href="#">
                 <ScrollLink
                   style={STYLES.navText}

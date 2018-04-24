@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Element, animateScroll as scroll, Link as ScrollLink } from 'react-scroll'
 import { Button, Jumbotron } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-// import { Link } from 'react-router'
 import Radium from 'radium'
 import Navigation from './Nav'
 

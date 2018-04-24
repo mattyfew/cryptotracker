@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Radium from 'radium'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 class Profile extends Component {
     render() {

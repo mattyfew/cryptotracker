@@ -2,9 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import Radium from 'radium'
-// import { Link } from 'react-router'
-import { Link } from 'react-router-dom'
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
+import {
+  Home,
+  ManageAccounts,
+  Profile
+} from '../../routes'
 import { UserActions } from '../../actions'
 const { getUserInfo } = UserActions
 
@@ -51,7 +55,14 @@ class Wallet extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        {this.props.children}
+
+        <BrowserRouter>
+            <div>
+                <Route path="/wallet/manage-accounts" component={ManageAccounts} />
+                <Route path="/wallet/profile" component={Profile} />
+                <Route path="/wallet" component={Home} />
+            </div>
+        </BrowserRouter>
       </div>
     )
   }
